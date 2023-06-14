@@ -1,29 +1,34 @@
 interface IFieldProps {
+	className: string
 	type: string
 	name: string
 	placeholder?: string
-	accept: string
+	accept?: string
 	value?: string | number
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+	onMouseOver?: () => void
 }
 
 const Field = ({
-	type = 'text',
+	className,
+	type,
 	name,
-	placeholder = '',
-	accept = '',
+	placeholder,
+	accept,
 	value,
-	onChange
+	onChange,
+	onMouseOver
 }: IFieldProps) => {
 	return (
 		<input
-			className='field-image'
+			className={className}
 			type={type}
 			name={name}
 			placeholder={placeholder}
 			accept={accept}
 			value={value}
 			onChange={onChange}
+			onMouseOver={onMouseOver}
 		/>
 	)
 }

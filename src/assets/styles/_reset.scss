@@ -1,7 +1,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html,
@@ -85,15 +85,15 @@ time,
 mark,
 audio,
 video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  text-rendering: optimizeLegibility; // Браузер подчеркивает удобочитаемость, а не скорость рендеринга и геометрическую точность
-  -webkit-font-smoothing: antialiased;
-  text-size-adjust: none; // отключает увеличение в мобильном браузере(если есть адаптация, то ставим none)
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	text-rendering: optimizeLegibility; // Браузер подчеркивает удобочитаемость, а не скорость рендеринга и геометрическую точность
+	-webkit-font-smoothing: antialiased;
+	text-size-adjust: none; // отключает увеличение в мобильном браузере(если есть адаптация, то ставим none)
 }
 
 article,
@@ -107,38 +107,39 @@ hgroup,
 menu,
 nav,
 section {
-  display: block;
+	display: block;
 }
 body {
-  line-height: 1;
+	line-height: 1;
 }
 ol,
 ul {
-  list-style: none;
+	list-style: none;
 }
 blockquote,
 q {
-  quotes: none;
+	quotes: none;
 }
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
-  content: none;
+	content: '';
+	content: none;
 }
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 img {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 
 button,
-input {
-  font: inherit;
-  outline: none;
+input,
+textarea {
+	font: inherit;
+	outline: none;
 }

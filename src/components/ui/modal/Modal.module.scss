@@ -3,18 +3,18 @@
 .modal {
 	width: 100%;
 	height: 100vh;
-	background-color: rgba(27, 27, 27, 0.7); // ???
+	background-color: $bg-modal;
 
 	position: absolute;
 }
 
-.form {
+.wrapper {
 	width: 100%;
-	max-width: 1000px;
+	max-width: 1130px;
 
-	background-color: $bg-color;
+	background-color: #fef3f3;
 	border-radius: 1.2rem;
-	box-shadow: 3px 3px 10px $bg-color; // ????
+	// box-shadow: 3px 3px 10px $bg-color; // ????
 
 	position: absolute;
 	top: 50%;
@@ -22,18 +22,68 @@
 	transform: translate3d(-50%, -50%, 0);
 }
 
+.form {
+	display: flex;
+
+	max-width: 1130px;
+	margin: 0 auto;
+	padding: 50px;
+
+	& > div:last-child {
+		width: 100%;
+		max-width: 300px;
+		margin-left: 30px;
+	}
+}
+
 .frame {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: $white;
 
 	width: 100%;
 	max-width: 700px;
+	min-width: 400px;
 	height: 500px;
 
-	margin: 0 auto;
+	// margin: 0 auto;
 
-	border: 1px solid $white;
+	border-radius: 1.4rem;
+	box-shadow: 3px 3px 10px $bg-modal;
 
 	position: relative;
+	z-index: 1;
+
+	> img {
+		visibility: hidden;
+		max-width: 700px;
+		height: 500px;
+		object-fit: fill;
+		border-radius: 1.4rem;
+
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: -2; // чтоб иконка была сверху картинки
+	}
+
+	& ~ div {
+		max-width: 300px;
+	}
+}
+
+.field {
+	width: 100%;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 0.5rem;
+	letter-spacing: 2px;
+	color: $field-color;
+
+	&::placeholder {
+		color: $field-color;
+	}
 }

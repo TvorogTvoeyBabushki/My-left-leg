@@ -1,17 +1,15 @@
-import { useState } from 'react'
+import { useModal } from '@/hooks/useModal'
 
-import Header from '@/components/layout/header/Header'
 import Modal from '@/components/ui/modal/Modal'
 
-const Home = () => {
-	const [isModal, setIsModal] = useState(false)
+import Header from '@/components/layout/header/Header'
 
-	const showModal = () => setIsModal(true)
-	const closeModal = () => setIsModal(false)
+const Home = () => {
+	const { isModal, showModal, closeModal } = useModal()
 
 	return (
 		<>
-			{isModal && <Modal closeModal={closeModal} heading='Create post' />}
+			{isModal && <Modal closeModal={closeModal} />}
 			<div className='container'>
 				<Header />
 				Home
