@@ -1,0 +1,17 @@
+@import '@/assets/styles/variables';
+
+.button {
+	width: 100%;
+	padding: 10px 20px;
+	background-color: $white;
+	border: none;
+	border-radius: 0.5rem;
+
+	letter-spacing: 2px;
+	color: $field-color;
+	transition: color 0.3s ease-in-out;
+
+	&:hover {
+		color: darken($field-color, 30%);
+	}
+}

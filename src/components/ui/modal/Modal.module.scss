@@ -81,7 +81,7 @@
 	border: none;
 	border-radius: 0.5rem;
 	letter-spacing: 2px;
-	color: $field-color;
+	color: darken($field-color, 30%);
 
 	&::placeholder {
 		color: $field-color;

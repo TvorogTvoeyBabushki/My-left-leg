@@ -25,6 +25,7 @@ body {
 }
 
 .field-image {
+	cursor: pointer;
 	color: transparent;
 	max-width: 40px;
 	height: 40px;
@@ -34,7 +35,8 @@ body {
 	}
 }
 
-.field-image::-webkit-file-upload-button {
+.field-image::-webkit-file-upload-button,
+.field-image::file-selector-button {
 	visibility: hidden;
 }
 
@@ -64,7 +66,7 @@ body {
 	border: none;
 	border-radius: 0.5rem;
 	letter-spacing: 2px;
-	color: $field-color;
+	color: darken($field-color, 30%);
 
 	&::placeholder {
 		color: $field-color;

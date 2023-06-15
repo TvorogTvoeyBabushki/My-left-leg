@@ -6,6 +6,7 @@ import Button from '../button/Button'
 import Field from '../field/Field'
 
 import styles from './Modal.module.scss'
+import { app } from '@/services/api'
 
 interface IModalProps {
 	closeModal: () => void
@@ -17,6 +18,8 @@ const Modal = ({ closeModal }: IModalProps) => {
 	const imageRef = useRef<HTMLImageElement>(null)
 	const iconRef = useRef<HTMLDivElement>(null)
 	const divElement = iconRef.current
+
+	// const formRef = useRef<HTMLFormElement>(null)
 
 	const getImage = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const files: FileList | null = event.target.files
@@ -53,7 +56,19 @@ const Modal = ({ closeModal }: IModalProps) => {
 			<div className={styles.modal} onClick={closeModal}></div>
 
 			<div className={styles.wrapper}>
-				<form className={styles.form}>
+				<form
+					// ref={formRef}
+					// onSubmit={event => {
+					// 	event.preventDefault()
+					// 	const formElement = formRef.current
+					// 	if (formElement) {
+					// 		const formData = new FormData(formElement)
+					// 		const name = formData.get('image')
+					// 		console.log(formData)
+					// 	}
+					// }}
+					className={styles.form}
+				>
 					<div
 						className={styles.frame}
 						onMouseOver={showIcon}
@@ -79,23 +94,44 @@ const Modal = ({ closeModal }: IModalProps) => {
 							<BsPatchPlus className='get-icon-img' fontSize='34' />
 						</div>
 					</div>
-					<div>
-						<Field
-							className={styles.field}
-							name='title'
-							type='text'
-							placeholder='Post title...'
-						/>
-						<TextareaAutosize
-							placeholder='Post description...'
-							name='description'
-							maxLength={200}
-							className='text-area'
-						/>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'space-between'
+						}}
+					>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								height: '370px'
+							}}
+						>
+							<Field
+								className={styles.field}
+								name='title'
+								type='text'
+								placeholder='Post title...'
+							/>
+							<TextareaAutosize
+								placeholder='Post description...'
+								name='description'
+								maxLength={200}
+								className='text-area'
+							/>
+						</div>
 
-						<Button onClick={event => event.preventDefault()}>
-							Create post
-						</Button>
+						<div>
+							<Button
+								onClick={e => {
+									e.preventDefault()
+									app()
+								}}
+							>
+								Create post
+							</Button>
+						</div>
 					</div>
 				</form>
 			</div>
