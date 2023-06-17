@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { useRef, useState } from 'react'
+import axios from 'axios'
+import { ChangeEvent, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -9,6 +10,8 @@ import Field from '../field/Field'
 
 import styles from './Modal.module.scss'
 import PostService, { IDataService } from '@/services/post/post.service'
+import { cloudName } from '@/utils/cloudinary/cloudName.util'
+import { uploadPreset } from '@/utils/cloudinary/uploadPreset.util'
 
 interface IModalProps {
 	closeModal: () => void
@@ -21,21 +24,20 @@ const Modal = ({ closeModal }: IModalProps) => {
 	const iconRef = useRef<HTMLDivElement>(null)
 	const divElement = iconRef.current
 
-	const [pathImage, setPathImage] = useState('')
-	// const formRef = useRef<HTMLFormElement>(null)
+	const [image, setImage] = useState<any>('')
+	const [url, setUrl] = useState('')
 
-	const getImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		const files: FileList | null = event.target.files
+	const getImage = (event: any) => {
+		const fileRef: File | null = event.target.files[0]
 
-		if (files) {
-			const fileRef = files[0] || ''
+		if (fileRef) {
+			setImage(fileRef)
+
 			const reader = new FileReader()
-			// const ab: any = await fileRef.arrayBuffer()
+
 			reader.readAsDataURL(fileRef) // получаем url
 			reader.onload = (ev: any) => {
 				setPreviewImage(ev.target.result)
-
-				setPathImage(ev.target.result)
 			}
 		}
 
@@ -75,52 +77,41 @@ const Modal = ({ closeModal }: IModalProps) => {
 	interface IData {
 		title: string
 		description: string
-		img: FileList
+		img: string
 	}
 
-	const onSubmit = (data: IData) => {
-		// const formData = new FormData() as any
-		// formData.append('files', data.img[0])
-		// data = { ...data, img: data.img[0].name as any }
-		// formData.append('post', JSON.stringify(data))
-
-		const files = data.img[0]
+	const uploadImage = async () => {
 		const formData = new FormData()
-		formData.append('myFile', files)
+		formData.append('file', image)
+		formData.append('upload_preset', uploadPreset)
+		formData.append('cloud_name', cloudName)
 
-		const dataClone = {
-			title: data.title,
-			description: data.description,
-			img: formData
+		const response = await axios.post(
+			`https://api.cloudinary.com/v1_1/dvapubok9/image/upload`,
+			formData
+		)
+		if (url) {
+			setUrl('')
+		} else {
+			setUrl(response.data.url)
 		}
-		console.log(data.img[0])
-		mutate(dataClone as any)
 	}
-	// const handlerSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
-	// 	event.preventDefault()
 
-	// 	const formData = Object.fromEntries(new FormData(event.target).entries())
-	// 	const { title, description, img = pathImage } = formData
+	const onSubmit = async (data: IData) => {
+		data = { ...data, img: url }
 
-	// 	if (title && description && img) {
-	// 		// 	app(title, description, img)
-	// 		// 	// console.log(title, description, img)
-
-	// 		onSubmit(formData)
-	// 		console.log(formData)
-	// 	}
-	// }
+		mutate(data)
+		setTimeout(() => {
+			console.log(url)
+		}, 10000)
+	}
 
 	return (
 		<>
 			<div className={styles.modal} onClick={closeModal}></div>
 
 			<div className={styles.wrapper}>
-				<form
-					// ref={formRef}
-					onSubmit={handleSubmit(onSubmit)}
-					className={styles.form}
-				>
+				<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 					<div
 						className={styles.frame}
 						onMouseOver={showIcon}
@@ -178,7 +169,7 @@ const Modal = ({ closeModal }: IModalProps) => {
 						</div>
 
 						<div>
-							<Button>Create post</Button>
+							<Button onClick={uploadImage}>Create post</Button>
 						</div>
 					</div>
 				</form>
