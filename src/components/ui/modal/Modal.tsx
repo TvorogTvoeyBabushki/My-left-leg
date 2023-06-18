@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { ChangeEvent, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -24,8 +24,8 @@ const Modal = ({ closeModal }: IModalProps) => {
 	const iconRef = useRef<HTMLDivElement>(null)
 	const divElement = iconRef.current
 
+	const [url, setUrl] = useState<any>('')
 	const [image, setImage] = useState<any>('')
-	const [url, setUrl] = useState('')
 
 	const getImage = (event: any) => {
 		const fileRef: File | null = event.target.files[0]
@@ -77,33 +77,45 @@ const Modal = ({ closeModal }: IModalProps) => {
 	interface IData {
 		title: string
 		description: string
-		img: string
+		img: any
 	}
 
 	const uploadImage = async () => {
-		const formData = new FormData()
-		formData.append('file', image)
-		formData.append('upload_preset', uploadPreset)
-		formData.append('cloud_name', cloudName)
+		try {
+			const formData = new FormData()
+			formData.append('file', image)
+			formData.append('upload_preset', uploadPreset)
+			formData.append('cloud_name', cloudName)
+			const response = await axios.post(
+				`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+				formData
+			)
 
-		const response = await axios.post(
-			`https://api.cloudinary.com/v1_1/dvapubok9/image/upload`,
-			formData
-		)
-		if (url) {
-			setUrl('')
-		} else {
 			setUrl(response.data.url)
+		} catch (error) {
+			console.log('error: ', error)
 		}
 	}
 
-	const onSubmit = async (data: IData) => {
-		data = { ...data, img: url }
+	useEffect(() => {
+		if (!url) {
+			uploadImage()
+		}
 
+		console.log(url)
+		return () => {
+			setUrl('')
+		}
+	}, [image])
+
+	const onSubmit = (data: IData) => {
+		if (!url) {
+			console.log('увы')
+			return
+		}
+
+		data = { ...data, img: url }
 		mutate(data)
-		setTimeout(() => {
-			console.log(url)
-		}, 10000)
 	}
 
 	return (
@@ -169,7 +181,7 @@ const Modal = ({ closeModal }: IModalProps) => {
 						</div>
 
 						<div>
-							<Button onClick={uploadImage}>Create post</Button>
+							<Button>Create post</Button>
 						</div>
 					</div>
 				</form>

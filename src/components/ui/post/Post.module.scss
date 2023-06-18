@@ -1,0 +1,16 @@
+.wrapper {
+	display: grid;
+	grid-template-columns: 60% 40%;
+}
+
+// .odd {
+// 	max-width: 60%;
+
+// 	&:nth-child(2n) {
+// 		max-width: 40%;
+// 	}
+// }
+
+// .even {
+// 	max-width: 40%;
+// }

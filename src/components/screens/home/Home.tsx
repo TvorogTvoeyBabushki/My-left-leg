@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 
 import { useModal } from '@/hooks/useModal'
 
 import Modal from '@/components/ui/modal/Modal'
+import Post from '@/components/ui/post/Post'
 
 import Header from '@/components/layout/header/Header'
-import PostService, { IDataService } from '@/services/post/post.service'
+import PostService from '@/services/post/post.service'
 
 const Home = () => {
 	const { isModal, showModal, closeModal } = useModal()
@@ -26,17 +26,7 @@ const Home = () => {
 				<Header />
 				Home
 				<button onClick={showModal}>Create post</button>
-				{isSuccess && (
-					<div>
-						{data.map((post: IDataService) => (
-							<div key={post.id}>
-								<p>{post.title}</p>
-								<p>{post.description}</p>
-								<img src={post.img} alt='' />
-							</div>
-						))}
-					</div>
-				)}
+				{isSuccess && <Post data={data} type='odd' />}
 			</div>
 		</>
 	)
