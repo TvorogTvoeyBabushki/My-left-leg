@@ -1,7 +1,9 @@
 @import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
 
 .button {
-	width: 100%;
+	@include transition(color);
+	max-width: 100%;
 	padding: 10px 20px;
 	background-color: $white;
 	border: none;
@@ -9,9 +11,12 @@
 
 	letter-spacing: 2px;
 	color: $field-color;
-	transition: color 0.3s ease-in-out;
 
 	&:hover {
 		color: darken($field-color, 30%);
+	}
+
+	&.modal {
+		width: 100%;
 	}
 }

@@ -1,0 +1,9 @@
+@import '@/assets/styles/variables';
+
+@mixin box-shadow {
+	box-shadow: 5px 3px 10px darken($field-color, 15%);
+}
+
+@mixin transition($property: all) {
+	transition: $property 0.4s ease-in-out;
+}

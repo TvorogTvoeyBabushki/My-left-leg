@@ -181,7 +181,7 @@ const Modal = ({ closeModal }: IModalProps) => {
 						</div>
 
 						<div>
-							<Button>Create post</Button>
+							<Button type='modal'>Create post</Button>
 						</div>
 					</div>
 				</form>

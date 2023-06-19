@@ -5,7 +5,8 @@
 	height: 100vh;
 	background-color: $bg-modal;
 
-	position: absolute;
+	position: fixed;
+	z-index: 1000;
 }
 
 .wrapper {
@@ -16,10 +17,11 @@
 	border-radius: 1.2rem;
 	// box-shadow: 3px 3px 10px $bg-color; // ????
 
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate3d(-50%, -50%, 0);
+	z-index: 1000;
 }
 
 .form {

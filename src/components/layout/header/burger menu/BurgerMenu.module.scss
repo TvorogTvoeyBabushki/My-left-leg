@@ -1,0 +1,50 @@
+@import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
+
+.burger {
+	position: relative;
+	padding: 0;
+	display: flex;
+	background-color: transparent;
+	border: none;
+
+	> svg {
+		font-size: 40px;
+		animation: opacity 1s ease-in-out;
+	}
+
+	> ul {
+		text-align: start;
+		width: 200px;
+
+		position: absolute;
+		top: 250%;
+		left: 0;
+
+		> li {
+			> a {
+				@include transition(color);
+				font-size: 1.6rem;
+				color: inherit;
+				line-height: 2;
+				letter-spacing: 5px;
+				text-decoration: none;
+				text-transform: uppercase;
+			}
+
+			&:hover {
+				color: $field-color;
+			}
+		}
+	}
+}
+
+@keyframes opacity {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
