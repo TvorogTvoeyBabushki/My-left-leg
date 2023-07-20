@@ -6,8 +6,7 @@ import Modal from '@/components/ui/modal/Modal'
 import Post from '@/components/ui/post/Post'
 
 import Layout from '@/components/layout/Layout'
-import Header from '@/components/layout/header/Header'
-import PostService from '@/services/post/post.service'
+import PostService, { IDataService } from '@/services/post/post.service'
 
 const Home = () => {
 	const { isModal, closeModal } = useModal()
@@ -16,7 +15,7 @@ const Home = () => {
 		['get post'],
 		() => PostService.getPostAll(),
 		{
-			select: ({ data }) => data
+			select: ({ data }) => data as IDataService[]
 		}
 	)
 
@@ -24,7 +23,9 @@ const Home = () => {
 		<>
 			{isModal && <Modal closeModal={closeModal} />}
 			<Layout>
-				<div className='container'>{isSuccess && <Post data={data} />}</div>
+				<section>
+					<div className='container'>{isSuccess && <Post data={data} />}</div>
+				</section>
 			</Layout>
 		</>
 	)

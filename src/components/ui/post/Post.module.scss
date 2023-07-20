@@ -3,99 +3,112 @@
 
 .wrapper {
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	align-items: flex-end;
 
-	> div:first-child {
-		flex: 0 0 57%;
+	> div {
 		display: flex;
-		flex-direction: column;
-	}
-
-	> div:last-child {
-		flex: 0 0 38%;
-	}
-
-	a {
-		color: inherit;
-		text-decoration: none;
-
-		> div {
-			min-height: 850px;
-			position: relative;
-		}
-	}
-}
-
-.odd {
-	@include transition(transform);
-
-	&:first-child {
-		width: 473px;
-		align-self: flex-end;
-	}
-
-	&:nth-child(2n) {
-		max-width: 67%;
-	}
-
-	&:hover {
-		transform: translateY(-1%);
-	}
-
-	&:hover .shadow {
-		@include box-shadow;
-	}
-
-	&:hover .image {
-		filter: brightness(70%);
-	}
-}
-
-.even {
-	@include transition(transform);
-
-	&:hover {
-		transform: translateY(-1%);
-	}
-
-	&:hover .shadow {
-		@include box-shadow;
-	}
-
-	&:hover .image {
-		filter: brightness(70%);
-	}
-
-	&:nth-child(2n) {
-		transform: translateX(-50%);
+		justify-content: space-between;
+		margin-bottom: 50px;
 
 		> a {
+			color: inherit;
+			text-decoration: none;
+
 			> div {
-				display: flex;
-				min-height: 850px;
-				padding-bottom: 110px;
+				@include transition(transform);
+
 				position: relative;
 
-				@include transition(transform);
+				> div:last-child {
+					visibility: hidden;
+					display: flex;
+					flex-direction: column;
+
+					position: absolute;
+					top: 0;
+					right: 0;
+
+					> button {
+						align-self: flex-end;
+						padding-top: 10px;
+						height: 30px;
+
+						background-color: transparent;
+
+						> svg {
+							color: $white;
+							max-height: 30px;
+							font-size: 30px;
+							transition: opacity 0.2s ease-in-out;
+						}
+
+						&:hover > svg {
+							opacity: 0.6;
+						}
+
+						&:hover ~ ul {
+							display: block;
+						}
+					}
+
+					> ul {
+						display: none;
+						padding: 15px 0 10px;
+
+						&:hover {
+							display: block;
+						}
+					}
+				}
 
 				&:hover {
 					transform: translateY(-1%);
 				}
 
-				> .shadow {
-					width: 150%;
+				&:hover .shadow {
+					@include box-shadow;
 				}
 
-				> img {
-					position: absolute;
-					left: 0;
-					width: 150%;
+				&:hover .image {
+					filter: brightness(70%);
 				}
 
-				> div {
-					align-self: flex-end;
+				&:hover > div:last-child {
+					visibility: visible;
 				}
 			}
+
+			& ~ button {
+			}
+		}
+	}
+
+	> div:first-child {
+		max-width: 80%;
+
+		> a {
+			max-width: 47%;
+		}
+	}
+
+	> div:nth-child(odd):not(div:first-child) {
+		> a:first-child {
+			width: 57%;
+		}
+
+		> a:last-child {
+			width: 38%;
+		}
+	}
+
+	> div:nth-child(even) {
+		> a:first-child {
+			width: 38%;
+		}
+
+		> a:last-child {
+			width: 57%;
 		}
 	}
 }

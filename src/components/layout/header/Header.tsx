@@ -11,21 +11,23 @@ const Header = () => {
 	const { showModal } = useModal()
 
 	return (
-		<div className='container'>
-			<div className={styles.wrapper}>
-				<BurgerMenu />
+		<header>
+			<div className='container'>
+				<div className={styles.wrapper}>
+					<BurgerMenu />
 
-				<div className={styles.logo}>
-					<Link to='/'>
-						<img src='/myleftleg.svg' alt='' />
-					</Link>
+					<div className={styles.logo}>
+						<Link to='/'>
+							<img src='/myleftleg.svg' alt='' />
+						</Link>
+					</div>
+
+					<Button type='' onClick={showModal}>
+						Create post
+					</Button>
 				</div>
-
-				<Button type='' onClick={showModal}>
-					Create post
-				</Button>
 			</div>
-		</div>
+		</header>
 	)
 }
 
