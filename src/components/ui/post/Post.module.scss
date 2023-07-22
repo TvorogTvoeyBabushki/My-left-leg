@@ -10,6 +10,7 @@
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 50px;
+		width: 100%;
 
 		> a {
 			color: inherit;
@@ -20,7 +21,7 @@
 
 				position: relative;
 
-				> div:last-child {
+				> .post_menu {
 					visibility: hidden;
 					display: flex;
 					flex-direction: column;
@@ -74,12 +75,9 @@
 					filter: brightness(70%);
 				}
 
-				&:hover > div:last-child {
+				&:hover > .post_menu {
 					visibility: visible;
 				}
-			}
-
-			& ~ button {
 			}
 		}
 	}
@@ -89,6 +87,12 @@
 
 		> a {
 			max-width: 47%;
+
+			> div {
+				> img {
+					min-width: 468px;
+				}
+			}
 		}
 	}
 

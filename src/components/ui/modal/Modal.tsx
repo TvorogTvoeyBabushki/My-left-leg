@@ -15,9 +15,10 @@ import { uploadPreset } from '@/utils/cloudinary/uploadPreset.util'
 
 interface IModalProps {
 	closeModal: () => void
+	setIsPublishPost: (isPublishPost: boolean) => void
 }
 
-const Modal = ({ closeModal }: IModalProps) => {
+const Modal = ({ closeModal, setIsPublishPost }: IModalProps) => {
 	const [previewImage, setPreviewImage] = useState('')
 
 	const imageRef = useRef<HTMLImageElement>(null)
@@ -67,9 +68,9 @@ const Modal = ({ closeModal }: IModalProps) => {
 		(body: IDataService) => PostService.create(body),
 		{
 			onSuccess: () => {
-				alert('success')
 				closeModal()
 				reset()
+				setIsPublishPost(true)
 			}
 		}
 	)
@@ -86,6 +87,7 @@ const Modal = ({ closeModal }: IModalProps) => {
 			formData.append('file', image)
 			formData.append('upload_preset', uploadPreset)
 			formData.append('cloud_name', cloudName)
+
 			const response = await axios.post(
 				`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
 				formData
@@ -102,7 +104,6 @@ const Modal = ({ closeModal }: IModalProps) => {
 			uploadImage()
 		}
 
-		console.log(url)
 		return () => {
 			setUrl('')
 		}
@@ -110,7 +111,6 @@ const Modal = ({ closeModal }: IModalProps) => {
 
 	const onSubmit = (data: IData) => {
 		if (!url) {
-			console.log('увы')
 			return
 		}
 

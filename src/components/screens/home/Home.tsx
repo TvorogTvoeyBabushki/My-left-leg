@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 
 import { useModal } from '@/hooks/useModal'
 
@@ -9,22 +10,36 @@ import Layout from '@/components/layout/Layout'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 const Home = () => {
-	const { isModal, closeModal } = useModal()
+	const { isModal, closeModal, isPublishPost, setIsPublishPost } = useModal()
+	const [data, setData] = useState<IDataService[]>([])
 
-	const { data, isSuccess } = useQuery(
-		['get post'],
-		() => PostService.getPostAll(),
-		{
-			select: ({ data }) => data as IDataService[]
-		}
+	const { isSuccess, isLoading } = useQuery(['get posts'], () =>
+		PostService.getPostAll()
 	)
+
+	const fetchPosts = async () => {
+		const response = await PostService.getPostAll()
+
+		setData(response.data)
+	}
+
+	useEffect(() => {
+		fetchPosts()
+
+		return () => setIsPublishPost(false)
+	}, [isPublishPost])
 
 	return (
 		<>
-			{isModal && <Modal closeModal={closeModal} />}
+			{isModal && (
+				<Modal closeModal={closeModal} setIsPublishPost={setIsPublishPost} />
+			)}
 			<Layout>
 				<section>
-					<div className='container'>{isSuccess && <Post data={data} />}</div>
+					<div className='container'>
+						{isLoading && <div style={{ textAlign: 'center' }}>Loading...</div>}
+						{isSuccess && <Post data={data as IDataService[]} />}
+					</div>
 				</section>
 			</Layout>
 		</>

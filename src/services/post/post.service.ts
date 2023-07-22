@@ -14,6 +14,10 @@ class PostService {
 		return $axios.get(POST)
 	}
 
+	async getPost(id: number) {
+		return $axios.get(`${POST}/${id}`)
+	}
+
 	async create(body: IDataService) {
 		// если будут опять проблемы, то делаем {} body
 		return $axios.post(POST, body)
