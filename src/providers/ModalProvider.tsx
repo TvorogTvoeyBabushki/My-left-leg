@@ -5,8 +5,8 @@ interface IModalProviderProps {
 }
 
 export interface ModalContextType {
-	isPublishPost: boolean
-	setIsPublishPost: (isPublishPost: boolean) => void
+	isInteractionPost: boolean
+	setIsInteractionPost: (isInteractionPost: boolean) => void
 	isModal: boolean
 	setIsModal: (isModal: boolean) => void
 	showModal: () => void
@@ -16,7 +16,7 @@ export interface ModalContextType {
 export const ModalContext = createContext<ModalContextType | null>(null)
 
 const ModalProvider = ({ children }: IModalProviderProps) => {
-	const [isPublishPost, setIsPublishPost] = useState(false)
+	const [isInteractionPost, setIsInteractionPost] = useState(false)
 	const [isModal, setIsModal] = useState(false)
 	const showModal = () => setIsModal(true)
 	const closeModal = () => setIsModal(false)
@@ -24,8 +24,8 @@ const ModalProvider = ({ children }: IModalProviderProps) => {
 	return (
 		<ModalContext.Provider
 			value={{
-				isPublishPost,
-				setIsPublishPost,
+				isInteractionPost,
+				setIsInteractionPost,
 				isModal,
 				setIsModal,
 				showModal,

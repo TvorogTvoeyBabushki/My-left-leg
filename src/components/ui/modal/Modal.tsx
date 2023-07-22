@@ -15,10 +15,10 @@ import { uploadPreset } from '@/utils/cloudinary/uploadPreset.util'
 
 interface IModalProps {
 	closeModal: () => void
-	setIsPublishPost: (isPublishPost: boolean) => void
+	setIsInteractionPost: (isInteractionPost: boolean) => void
 }
 
-const Modal = ({ closeModal, setIsPublishPost }: IModalProps) => {
+const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const [previewImage, setPreviewImage] = useState('')
 
 	const imageRef = useRef<HTMLImageElement>(null)
@@ -70,7 +70,7 @@ const Modal = ({ closeModal, setIsPublishPost }: IModalProps) => {
 			onSuccess: () => {
 				closeModal()
 				reset()
-				setIsPublishPost(true)
+				setIsInteractionPost(true)
 			}
 		}
 	)

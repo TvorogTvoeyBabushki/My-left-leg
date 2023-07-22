@@ -1,19 +1,29 @@
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+
+import { useModal } from '@/hooks/useModal'
+
+import PostService from '@/services/post/post.service'
 
 interface IPostMenuProps {
 	styles: CSSModuleClasses
+	postId: number
 }
 
-const PostMenu = ({ styles }: IPostMenuProps) => {
-	const handleClick = (e: React.MouseEvent) => {
+const PostMenu = ({ styles, postId }: IPostMenuProps) => {
+	const { setIsInteractionPost, showModal } = useModal()
+	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
 		e.preventDefault()
+
+		if (liElement === 'Обновить') {
+			showModal()
+		}
+
+		if (liElement === 'Удалить') {
+			setIsInteractionPost(true)
+			PostService.delete(postId)
+		}
 	}
 	const liElements = ['Перейти', 'Обновить', 'Удалить']
-
-	// const deletePost = () => {
-
-	// }
 
 	return (
 		<div className={styles.post_menu}>
@@ -24,7 +34,9 @@ const PostMenu = ({ styles }: IPostMenuProps) => {
 			<ul>
 				{liElements.map((liElement, index) => (
 					<li key={index}>
-						<button>{liElement}</button>
+						<button onClick={e => handleClick(e, liElement)}>
+							{liElement}
+						</button>
 					</li>
 				))}
 			</ul>

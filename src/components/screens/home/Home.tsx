@@ -10,7 +10,8 @@ import Layout from '@/components/layout/Layout'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 const Home = () => {
-	const { isModal, closeModal, isPublishPost, setIsPublishPost } = useModal()
+	const { isModal, closeModal, isInteractionPost, setIsInteractionPost } =
+		useModal()
 	const [data, setData] = useState<IDataService[]>([])
 
 	const { isSuccess, isLoading } = useQuery(['get posts'], () =>
@@ -26,13 +27,16 @@ const Home = () => {
 	useEffect(() => {
 		fetchPosts()
 
-		return () => setIsPublishPost(false)
-	}, [isPublishPost])
+		return () => setIsInteractionPost(false)
+	}, [isInteractionPost])
 
 	return (
 		<>
 			{isModal && (
-				<Modal closeModal={closeModal} setIsPublishPost={setIsPublishPost} />
+				<Modal
+					closeModal={closeModal}
+					setIsInteractionPost={setIsInteractionPost}
+				/>
 			)}
 			<Layout>
 				<section>

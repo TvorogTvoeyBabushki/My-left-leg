@@ -36,7 +36,7 @@ const Post = (props: IPostProps) => {
 									<p>{post.description}</p>
 								</div>
 
-								<PostMenu styles={styles} />
+								<PostMenu styles={styles} postId={post.id as number} />
 							</div>
 						</a>
 					))}

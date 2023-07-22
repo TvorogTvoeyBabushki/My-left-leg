@@ -18,7 +18,8 @@ const Header = () => {
 
 					<div className={styles.logo}>
 						<Link to='/'>
-							<img src='/myleftleg.svg' alt='' />
+							{/* <img src='/myleftleg.svg' alt='' /> */}
+							Logo
 						</Link>
 					</div>
 

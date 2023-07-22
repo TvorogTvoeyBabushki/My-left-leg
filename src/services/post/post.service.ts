@@ -22,6 +22,14 @@ class PostService {
 		// если будут опять проблемы, то делаем {} body
 		return $axios.post(POST, body)
 	}
+
+	async update(id: number) {
+		return $axios.put(`${POST}/${id}`)
+	}
+
+	async delete(id: number) {
+		return $axios.delete(`${POST}/${id}`)
+	}
 }
 
 export default new PostService()
