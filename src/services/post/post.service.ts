@@ -23,8 +23,8 @@ class PostService {
 		return $axios.post(POST, body)
 	}
 
-	async update(id: number) {
-		return $axios.put(`${POST}/${id}`)
+	async update(body: IDataService, id: number) {
+		return $axios.put(`${POST}/${id}`, body)
 	}
 
 	async delete(id: number) {

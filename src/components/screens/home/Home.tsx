@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import { useModal } from '@/hooks/useModal'
+import { usePost } from '@/hooks/usePost'
 
 import Modal from '@/components/ui/modal/Modal'
 import Post from '@/components/ui/post/Post'
@@ -10,8 +11,8 @@ import Layout from '@/components/layout/Layout'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 const Home = () => {
-	const { isModal, closeModal, isInteractionPost, setIsInteractionPost } =
-		useModal()
+	const { isInteractionPost, setIsInteractionPost } = usePost()
+	const { isModal, closeModal } = useModal()
 	const [data, setData] = useState<IDataService[]>([])
 
 	const { isSuccess, isLoading } = useQuery(['get posts'], () =>

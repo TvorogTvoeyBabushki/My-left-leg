@@ -1,4 +1,5 @@
-import { ModalContext, ModalContextType } from "@/providers/ModalProvider";
-import { useContext } from "react";
+import { useContext } from 'react'
 
-export const useModal = () => useContext(ModalContext) as ModalContextType
+import { IModalContextType, ModalContext } from '@/providers/ModalProvider'
+
+export const useModal = () => useContext(ModalContext) as IModalContextType

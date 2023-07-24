@@ -8,19 +8,25 @@ interface IPostProps {
 
 const Post = (props: IPostProps) => {
 	const { data } = props
-	let newData = [] as [IDataService, IDataService][]
+	let newData = [] as IDataService[][]
 
 	data.forEach((postCollectionOne, indexOne) => {
 		if (indexOne % 2 === 0) {
 			data.forEach((postCollectionTwo, indexTwo) => {
 				if (indexOne !== indexTwo) {
 					if (indexOne + 1 === indexTwo) {
+						newData.pop()
 						newData = [...newData, [postCollectionOne, postCollectionTwo]]
+					}
+					if (indexOne + 1 !== indexTwo && indexOne - 1 === indexTwo) {
+						newData = [...newData, [postCollectionOne]]
 					}
 				}
 			})
 		}
 	})
+
+	if (data.length === 1) newData = [data]
 
 	return (
 		<div className={styles.wrapper}>
@@ -36,7 +42,7 @@ const Post = (props: IPostProps) => {
 									<p>{post.description}</p>
 								</div>
 
-								<PostMenu styles={styles} postId={post.id as number} />
+								<PostMenu styles={styles} post={post as IDataService} />
 							</div>
 						</a>
 					))}

@@ -70,6 +70,10 @@
 		bottom: 0;
 		right: 0;
 		z-index: -2; // чтоб иконка была сверху картинки
+
+		&.active {
+			visibility: visible;
+		}
 	}
 
 	& ~ div {

@@ -1,17 +1,19 @@
 interface IFieldProps {
 	register: any // ???
 	name: string
+	value?: string
 	className: string
-	ref?: any
 
 	[x: string]: any // для rest
 }
 
-const Field = ({ ref, register, name, className, ...rest }: IFieldProps) => {
+const Field = ({ register, name, value, className, ...rest }: IFieldProps) => {
 	return (
 		<input
-			ref={ref}
-			{...register(name, { required: 'required' })}
+			{...register(name, {
+				required: name === 'img' ? false : true
+			})}
+			value={value}
 			{...rest}
 			className={className}
 		/>

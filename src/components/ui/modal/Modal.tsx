@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
 import TextareaAutosize from 'react-textarea-autosize'
 
+import { usePost } from '@/hooks/usePost'
+
 import Button from '../button/Button'
 import Field from '../field/Field'
 
@@ -18,14 +20,26 @@ interface IModalProps {
 	setIsInteractionPost: (isInteractionPost: boolean) => void
 }
 
+export interface IData {
+	title: string
+	description: string
+	img: any
+}
+
 const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
+	const { post, setPost } = usePost()
+	const [isChangePost, setIsChangePost] = useState(true)
 	const [previewImage, setPreviewImage] = useState('')
+	const [fieldValue, setFieldValue] = useState('')
+	const [textareaValue, setTextareaValue] = useState('')
+	const [postId, setPostId] = useState(0)
 
 	const imageRef = useRef<HTMLImageElement>(null)
 	const iconRef = useRef<HTMLDivElement>(null)
-	const divElement = iconRef.current
+	const divElement = iconRef.current // повторение
+	const imageElement = imageRef.current // повторение
 
-	const [url, setUrl] = useState<any>('')
+	let [url, setUrl] = useState<any>('')
 	const [image, setImage] = useState<any>('')
 
 	const getImage = (event: any) => {
@@ -42,8 +56,8 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 			}
 		}
 
-		const imageElement = imageRef.current
 		const divElement = iconRef.current
+		const imageElement = imageRef.current
 
 		if (imageElement && divElement) {
 			imageElement.style.visibility = 'visible'
@@ -65,7 +79,10 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 
 	const { mutate } = useMutation(
 		['create post'],
-		(body: IDataService) => PostService.create(body),
+		(body: IDataService) =>
+			!isChangePost
+				? PostService.update(body, postId)
+				: PostService.create(body),
 		{
 			onSuccess: () => {
 				closeModal()
@@ -75,39 +92,64 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 		}
 	)
 
-	interface IData {
-		title: string
-		description: string
-		img: any
+	const uploadImage = async () => {
+		if (image) {
+			try {
+				const formData = new FormData()
+				formData.append('file', image)
+				formData.append('upload_preset', uploadPreset)
+				formData.append('cloud_name', cloudName)
+
+				const response = await axios.post(
+					`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+					formData
+				)
+
+				setUrl(response.data.url)
+			} catch (error) {
+				console.log('error: ', error)
+			}
+		}
 	}
 
-	const uploadImage = async () => {
-		try {
-			const formData = new FormData()
-			formData.append('file', image)
-			formData.append('upload_preset', uploadPreset)
-			formData.append('cloud_name', cloudName)
+	const changeFieldAndTextarea = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+		type: string
+	) => {
+		const targetValue = e.target.value
 
-			const response = await axios.post(
-				`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-				formData
-			)
+		if (type === 'field')
+			targetValue.trim() ? setFieldValue(targetValue) : setFieldValue('')
 
-			setUrl(response.data.url)
-		} catch (error) {
-			console.log('error: ', error)
-		}
+		if (type === 'textarea')
+			targetValue.trim() ? setTextareaValue(targetValue) : setTextareaValue('')
 	}
 
 	useEffect(() => {
-		if (!url) {
-			uploadImage()
-		}
+		uploadImage()
 
 		return () => {
 			setUrl('')
 		}
 	}, [image])
+
+	useEffect(() => {
+		if (post && isChangePost) {
+			setPreviewImage(post.img)
+			setFieldValue(post.title)
+			setTextareaValue(post.description)
+			setPostId(post.id as number)
+			setUrl(post.img)
+
+			setIsChangePost(false)
+		}
+
+		imageElement && imageElement?.classList.add(styles.active)
+
+		return () => {
+			setPost(null)
+		}
+	}, [post, isChangePost])
 
 	const onSubmit = (data: IData) => {
 		if (!url) {
@@ -115,6 +157,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 		}
 
 		data = { ...data, img: url }
+
 		mutate(data)
 	}
 
@@ -167,6 +210,10 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 							<Field
 								register={register}
 								name='title'
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+									changeFieldAndTextarea(e, 'field')
+								}
+								value={fieldValue}
 								type='text'
 								placeholder='Post title...'
 								className={styles.field}
@@ -177,11 +224,17 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 								name='description'
 								maxLength={200}
 								className='text-area'
+								onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+									changeFieldAndTextarea(e, 'textarea')
+								}
+								value={textareaValue}
 							/>
 						</div>
 
 						<div>
-							<Button type='modal'>Create post</Button>
+							<Button type='modal'>
+								{!isChangePost ? 'Update post' : 'Create post'}
+							</Button>
 						</div>
 					</div>
 				</form>
