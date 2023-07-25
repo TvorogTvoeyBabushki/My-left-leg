@@ -12,7 +12,7 @@
 	letter-spacing: 2px;
 	color: $field-color;
 
-	&:hover {
+	&:hover:not(&:disabled) {
 		color: darken($field-color, 30%);
 	}
 

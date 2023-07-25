@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import styles from './Post.module.scss'
 import PostMenu from './post-menu/PostMenu'
 import { IDataService } from '@/services/post/post.service'
@@ -33,7 +35,7 @@ const Post = (props: IPostProps) => {
 			{newData.map((postCollection, index) => (
 				<div key={index}>
 					{postCollection.map(post => (
-						<a key={post.id} href='/'>
+						<Link key={post.id} to={`/${post.title}/${post.id}`}>
 							<div>
 								<div className={styles.shadow} />
 								<img className={styles.image} src={post.img} alt={post.title} />
@@ -44,7 +46,7 @@ const Post = (props: IPostProps) => {
 
 								<PostMenu styles={styles} post={post as IDataService} />
 							</div>
-						</a>
+						</Link>
 					))}
 				</div>
 			))}

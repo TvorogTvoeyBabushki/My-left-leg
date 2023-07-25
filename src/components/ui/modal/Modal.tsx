@@ -9,6 +9,7 @@ import { usePost } from '@/hooks/usePost'
 
 import Button from '../button/Button'
 import Field from '../field/Field'
+import Loader from '../loader/Loader'
 
 import styles from './Modal.module.scss'
 import PostService, { IDataService } from '@/services/post/post.service'
@@ -39,8 +40,9 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const divElement = iconRef.current // повторение
 	const imageElement = imageRef.current // повторение
 
-	let [url, setUrl] = useState<any>('')
+	const [url, setUrl] = useState<any>('')
 	const [image, setImage] = useState<any>('')
+	const [isUrlLoading, setIsUrlLoading] = useState(false)
 
 	const getImage = (event: any) => {
 		const fileRef: File | null = event.target.files[0]
@@ -95,6 +97,8 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const uploadImage = async () => {
 		if (image) {
 			try {
+				setIsUrlLoading(true)
+
 				const formData = new FormData()
 				formData.append('file', image)
 				formData.append('upload_preset', uploadPreset)
@@ -108,6 +112,8 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 				setUrl(response.data.url)
 			} catch (error) {
 				console.log('error: ', error)
+			} finally {
+				setIsUrlLoading(false)
 			}
 		}
 	}
@@ -149,10 +155,10 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 		return () => {
 			setPost(null)
 		}
-	}, [post, isChangePost])
+	}, [isChangePost])
 
 	const onSubmit = (data: IData) => {
-		if (!url) {
+		if (!url && isUrlLoading) {
 			return
 		}
 
@@ -193,20 +199,8 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 							<BsPatchPlus className='get-icon-img' fontSize='34' />
 						</div>
 					</div>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'space-between'
-						}}
-					>
-						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								height: '370px'
-							}}
-						>
+					<div>
+						<div>
 							<Field
 								register={register}
 								name='title'
@@ -232,11 +226,13 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 						</div>
 
 						<div>
-							<Button type='modal'>
+							<Button type='modal' isLoading={isUrlLoading}>
 								{!isChangePost ? 'Update post' : 'Create post'}
 							</Button>
 						</div>
 					</div>
+
+					{isUrlLoading && <Loader />}
 				</form>
 			</div>
 		</>

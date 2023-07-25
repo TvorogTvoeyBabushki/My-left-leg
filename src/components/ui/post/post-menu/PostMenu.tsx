@@ -1,4 +1,6 @@
+import { useRef } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom'
 
 import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
@@ -13,8 +15,15 @@ interface IPostMenuProps {
 const PostMenu = ({ styles, post }: IPostMenuProps) => {
 	const { setIsInteractionPost, setPost } = usePost()
 	const { showModal } = useModal()
+	const navigate = useNavigate()
+	const postButtonRef = useRef<HTMLButtonElement | null>(null)
+
 	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
 		e.preventDefault()
+
+		if (liElement === 'Перейти') {
+			navigate(`/${post.title}/${post.id}`)
+		}
 
 		if (liElement === 'Обновить') {
 			showModal()
@@ -26,12 +35,25 @@ const PostMenu = ({ styles, post }: IPostMenuProps) => {
 			PostService.delete(post.id!)
 		}
 	}
+
 	const liElements = ['Перейти', 'Обновить', 'Удалить']
+
+	const handleMouseEvent = (type: string) => {
+		const postButtonElement = postButtonRef.current as HTMLButtonElement
+
+		type === 'over'
+			? postButtonElement.classList.add(styles.active)
+			: postButtonElement.classList.remove(styles.active)
+	}
 
 	return (
 		<>
-			<div className={styles.post_menu}>
-				<button onClick={handleClick}>
+			<div
+				className={styles.post_menu}
+				onMouseOver={() => handleMouseEvent('over')}
+				onMouseOut={() => handleMouseEvent('out')}
+			>
+				<button ref={postButtonRef} onClick={handleClick}>
 					<BsThreeDotsVertical />
 				</button>
 
