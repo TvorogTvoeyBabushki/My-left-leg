@@ -57,7 +57,7 @@ body {
 
 .text-area {
 	width: 100%;
-	margin-top: 30px;
+	margin: 30px 0 10px;
 	resize: vertical;
 	max-height: 300px;
 	min-height: 80px;
@@ -70,5 +70,65 @@ body {
 
 	&::placeholder {
 		color: $field-color;
+	}
+
+	&--error {
+		margin-top: 0;
+	}
+}
+
+.select {
+	&__control {
+		cursor: pointer !important;
+		border-radius: 0.5rem !important;
+		min-height: 50px !important;
+		border: none !important;
+
+		&--is-focused {
+			box-shadow: 0 0 transparent !important;
+		}
+	}
+
+	&__menu {
+		visibility: visible !important;
+		border-radius: 0.5rem !important;
+
+		&-list {
+			padding: 0 !important;
+			border-radius: 0.5rem !important;
+			color: darken($field-color, 30%) !important;
+		}
+
+		&-notice {
+			color: darken($field-color, 30%) !important;
+		}
+	}
+
+	&__placeholder {
+		color: rgba($field-color, 0.6) !important;
+		letter-spacing: 2px;
+	}
+
+	&__multi-value {
+		border-radius: 0.3rem !important;
+		background-color: #deebff !important;
+
+		&__label {
+			color: darken($field-color, 30%) !important;
+		}
+
+		&__remove:hover {
+			// background-color: #8b2557 !important;
+			// color: $white !important;
+			border-radius: 0 0.3rem 0.3rem 0;
+		}
+	}
+
+	&__input {
+		color: darken($field-color, 30%) !important;
+	}
+
+	&:invalid {
+		color: red !important;
 	}
 }

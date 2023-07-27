@@ -40,6 +40,13 @@ const Post = (props: IPostProps) => {
 								<div className={styles.shadow} />
 								<img className={styles.image} src={post.img} alt={post.title} />
 								<div className={styles.info}>
+									<div>
+										{post.categorysIds.map((category, index) => (
+											<p key={index}>
+												{index === 0 ? category : `, ${category}`}
+											</p>
+										))}
+									</div>
 									<p>{post.title}</p>
 									<p>{post.description}</p>
 								</div>

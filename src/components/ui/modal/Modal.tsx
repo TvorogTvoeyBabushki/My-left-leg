@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
+import Select from 'react-select'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import { usePost } from '@/hooks/usePost'
@@ -12,19 +14,25 @@ import Field from '../field/Field'
 import Loader from '../loader/Loader'
 
 import styles from './Modal.module.scss'
+import { cloudName } from '@/config/cloudinary/cloudName.config'
+import { uploadPreset } from '@/config/cloudinary/uploadPreset.config'
 import PostService, { IDataService } from '@/services/post/post.service'
-import { cloudName } from '@/utils/cloudinary/cloudName.util'
-import { uploadPreset } from '@/utils/cloudinary/uploadPreset.util'
 
 interface IModalProps {
 	closeModal: () => void
 	setIsInteractionPost: (isInteractionPost: boolean) => void
 }
 
-export interface IData {
+interface ICategorys {
+	value: string
+	label?: string
+}
+
+interface IData {
 	title: string
 	description: string
 	img: any
+	categorysIds: ICategorys[] | string[]
 }
 
 const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
@@ -34,6 +42,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const [fieldValue, setFieldValue] = useState('')
 	const [textareaValue, setTextareaValue] = useState('')
 	const [postId, setPostId] = useState(0)
+	const [categorys, setCategorys] = useState<ICategorys[]>([])
 
 	const imageRef = useRef<HTMLImageElement>(null)
 	const iconRef = useRef<HTMLDivElement>(null)
@@ -43,6 +52,14 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const [url, setUrl] = useState<any>('')
 	const [image, setImage] = useState<any>('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
+
+	const selectOptions = [
+		{ value: 'beauty', label: 'Beauty' },
+		{ value: 'wellness', label: 'Wellness' },
+		{ value: 'style', label: 'Style' },
+		{ value: 'home', label: 'Home' },
+		{ value: 'life', label: 'Life' }
+	]
 
 	const getImage = (event: any) => {
 		const fileRef: File | null = event.target.files[0]
@@ -75,7 +92,13 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 		if (divElement) divElement.style.visibility = 'hidden'
 	}
 
-	const { handleSubmit, register, reset } = useForm<IData>({
+	const {
+		handleSubmit,
+		register,
+		reset,
+		control,
+		formState: { errors }
+	} = useForm<IData>({
 		mode: 'onChange'
 	})
 
@@ -147,6 +170,16 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 			setPostId(post.id as number)
 			setUrl(post.img)
 
+			const categorys = selectOptions.filter(selectOption => {
+				for (const selectValue of post.categorysIds) {
+					if (selectOption.value === selectValue) {
+						return selectOption
+					}
+				}
+			})
+
+			setCategorys(categorys)
+
 			setIsChangePost(false)
 		}
 
@@ -158,13 +191,32 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	}, [isChangePost])
 
 	const onSubmit = (data: IData) => {
-		if (!url && isUrlLoading) {
+		if (!url) {
 			return
 		}
 
-		data = { ...data, img: url }
+		if (!data.title || !data.description) {
+			data.title = fieldValue
+			data.description = textareaValue
+		}
 
-		mutate(data)
+		if (!data.categorysIds) {
+			data.categorysIds = categorys
+		}
+
+		const categorysIds = data.categorysIds.map(category => {
+			const valueCategory = category as ICategorys
+
+			return valueCategory.value
+		})
+
+		data = {
+			...data,
+			img: url,
+			categorysIds
+		}
+
+		mutate(data as IDataService)
 	}
 
 	return (
@@ -204,7 +256,11 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 							<Field
 								register={register}
 								name='title'
-								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+								options={{
+									required: fieldValue.trim().length ? '' : 'Title is required'
+								}}
+								error={errors.title?.message as string}
+								onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
 									changeFieldAndTextarea(e, 'field')
 								}
 								value={fieldValue}
@@ -212,16 +268,50 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 								placeholder='Post title...'
 								className={styles.field}
 							/>
-							<TextareaAutosize
-								{...register('description', { required: 'required' })}
-								placeholder='Post description...'
-								name='description'
-								maxLength={200}
-								className='text-area'
-								onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-									changeFieldAndTextarea(e, 'textarea')
-								}
-								value={textareaValue}
+
+							<>
+								{errors.description && (
+									<div
+										style={{
+											margin: '10px 0',
+											textAlign: 'center',
+											color: 'red'
+										}}
+									>
+										{errors.description.message}
+									</div>
+								)}
+								<TextareaAutosize
+									{...register('description', {
+										required: textareaValue ? false : 'Description is required'
+									})}
+									placeholder='Post description...'
+									name='description'
+									maxLength={200}
+									className={clsx('text-area', {
+										['text-area--error']: !!errors.description
+									})}
+									onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+										changeFieldAndTextarea(e, 'textarea')
+									}
+									value={textareaValue}
+								/>
+							</>
+
+							<Controller
+								name='categorysIds'
+								control={control}
+								render={({ field: { value = categorys, onChange } }) => (
+									<Select
+										required
+										classNamePrefix='select'
+										placeholder='Categorys...'
+										options={selectOptions}
+										onChange={onChange}
+										value={value as ICategorys[]}
+										isMulti
+									/>
+								)}
 							/>
 						</div>
 

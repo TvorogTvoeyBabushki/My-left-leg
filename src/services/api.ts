@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { serverUrl } from '@/utils/serverUrl.util'
+import { serverUrl } from '@/config/serverUrl.config'
 
 const API_URL = `${serverUrl}/api`
 

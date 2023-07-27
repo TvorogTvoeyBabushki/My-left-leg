@@ -1,22 +1,45 @@
 interface IFieldProps {
 	register: any // ???
 	name: string
+	options: {
+		required: string
+	}
+	error: string
 	value?: string
 	className: string
 
 	[x: string]: any // для rest
 }
 
-const Field = ({ register, name, value, className, ...rest }: IFieldProps) => {
+const Field = ({
+	register,
+	name,
+	options,
+	error,
+	value,
+	className,
+	...rest
+}: IFieldProps) => {
 	return (
-		<input
-			{...register(name, {
-				required: name === 'img' ? false : true
-			})}
-			value={value}
-			{...rest}
-			className={className}
-		/>
+		<>
+			{error && (
+				<div
+					style={{
+						marginBottom: '10px',
+						textAlign: 'center',
+						color: 'red'
+					}}
+				>
+					{error}
+				</div>
+			)}
+			<input
+				{...register(name, options)}
+				value={value}
+				{...rest}
+				className={className}
+			/>
+		</>
 	)
 }
 

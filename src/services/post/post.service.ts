@@ -5,6 +5,7 @@ export interface IDataService {
 	title: string
 	description: string
 	img: string
+	categorysIds: string[]
 }
 
 export const POST = '/post'
