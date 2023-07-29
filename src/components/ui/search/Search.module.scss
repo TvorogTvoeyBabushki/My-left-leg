@@ -1,4 +1,43 @@
+@import '@/assets/styles/variables';
+
 .search_wrapper {
 	display: flex;
 	align-items: center;
+	margin-right: 30px;
+
+	> button {
+		font-size: 25px;
+		background-color: transparent;
+	}
+
+	> input {
+		display: none;
+		background-color: transparent;
+		padding: 10px 20px;
+		// border-radius: 0.5rem;
+		letter-spacing: 2px;
+		color: darken($field-color, 30%);
+
+		&::placeholder {
+			color: $field-color;
+		}
+	}
+
+	&.active {
+		animation: show-search 1s ease both;
+
+		> input {
+			display: block;
+		}
+	}
+}
+
+@keyframes show-search {
+	from {
+		transform: translateX(70%);
+	}
+
+	to {
+		transform: translateX(0%);
+	}
 }

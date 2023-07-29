@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { usePost } from '@/hooks/usePost'
+import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import styles from './Post.module.scss'
 import PostMenu from './post-menu/PostMenu'
@@ -12,9 +13,12 @@ interface IPostProps {
 }
 
 const Post = (props: IPostProps) => {
-	const { category } = usePost()
+	const { searchDataPost } = useSearchDataPost()
+	const { category, setPost } = usePost()
 	let { data } = props
 	let newData = [] as IDataService[][]
+
+	if (searchDataPost) data = searchDataPost
 
 	if (category) {
 		const sortPost = data.filter(post => post.categorysIds.includes(category))
@@ -45,7 +49,11 @@ const Post = (props: IPostProps) => {
 			{newData.map((postCollection, index) => (
 				<div key={index}>
 					{postCollection.map(post => (
-						<Link key={post.id} to={`/${post.title}/${post.id}`}>
+						<Link
+							key={post.id}
+							to={`/${post.title.replace(/\s/g, '-').toLowerCase()}/${post.id}`}
+							onClick={() => setPost(post)}
+						>
 							<div>
 								<div className={styles.shadow} />
 								<img className={styles.image} src={post.img} alt={post.title} />

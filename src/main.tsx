@@ -6,6 +6,7 @@ import '@/assets/styles/global.scss'
 
 import ModalProvider from './providers/ModalProvider'
 import PostProvider from './providers/PostProvider'
+import SearchDataPostProvider from './providers/SearchDataPostProvider'
 import Router from '@/routes/Routes'
 
 const queryClient = new QueryClient({
@@ -19,11 +20,13 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<PostProvider>
-				<ModalProvider>
-					<Router />
-				</ModalProvider>
-			</PostProvider>
+			<SearchDataPostProvider>
+				<PostProvider>
+					<ModalProvider>
+						<Router />
+					</ModalProvider>
+				</PostProvider>
+			</SearchDataPostProvider>
 		</QueryClientProvider>
 	</React.StrictMode>
 )

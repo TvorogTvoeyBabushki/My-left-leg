@@ -39,7 +39,7 @@ const Home = () => {
 					setIsInteractionPost={setIsInteractionPost}
 				/>
 			)}
-			<Layout>
+			<Layout data={data as IDataService[]}>
 				<section>
 					<div className='container'>
 						{isLoading && <div style={{ textAlign: 'center' }}>Loading...</div>}

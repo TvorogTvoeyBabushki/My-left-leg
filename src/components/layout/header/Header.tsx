@@ -7,8 +7,13 @@ import Search from '@/components/ui/search/Search'
 
 import styles from './Header.module.scss'
 import BurgerMenu from './burger menu/BurgerMenu'
+import { IDataService } from '@/services/post/post.service'
 
-const Header = () => {
+interface IHeaderProps {
+	data: IDataService[]
+}
+
+const Header = ({ data }: IHeaderProps) => {
 	const { showModal } = useModal()
 
 	return (
@@ -25,7 +30,7 @@ const Header = () => {
 					</div>
 
 					<div>
-						<Search />
+						<Search data={data} />
 
 						<Button type='' onClick={showModal}>
 							Create post

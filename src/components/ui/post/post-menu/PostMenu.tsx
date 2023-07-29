@@ -22,7 +22,9 @@ const PostMenu = ({ styles, post }: IPostMenuProps) => {
 		e.preventDefault()
 
 		if (liElement === 'Перейти') {
-			navigate(`/${post.title}/${post.id}`)
+			setPost(post)
+
+			navigate(`/${post.title.replace(/\s/g, '-').toLowerCase()}/${post.id}`)
 		}
 
 		if (liElement === 'Обновить') {

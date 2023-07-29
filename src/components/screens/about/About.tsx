@@ -1,10 +1,14 @@
+import { usePost } from '@/hooks/usePost'
+
 import Header from '../../layout/header/Header'
 
 const About = () => {
+	const { post } = usePost()
+	console.log(post)
 	return (
 		<div className='container'>
 			<Header />
-			About
+			<img src={post?.img} alt='' />
 		</div>
 	)
 }
