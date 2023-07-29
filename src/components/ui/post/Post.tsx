@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import { usePost } from '@/hooks/usePost'
 
 import styles from './Post.module.scss'
 import PostMenu from './post-menu/PostMenu'
@@ -9,8 +12,14 @@ interface IPostProps {
 }
 
 const Post = (props: IPostProps) => {
-	const { data } = props
+	const { category } = usePost()
+	let { data } = props
 	let newData = [] as IDataService[][]
+
+	if (category) {
+		const sortPost = data.filter(post => post.categorysIds.includes(category))
+		data = sortPost
+	}
 
 	data.forEach((postCollectionOne, indexOne) => {
 		if (indexOne % 2 === 0) {
@@ -18,6 +27,7 @@ const Post = (props: IPostProps) => {
 				if (indexOne !== indexTwo) {
 					if (indexOne + 1 === indexTwo) {
 						newData.pop()
+
 						newData = [...newData, [postCollectionOne, postCollectionTwo]]
 					}
 					if (indexOne + 1 !== indexTwo && indexOne - 1 === indexTwo) {
@@ -57,6 +67,15 @@ const Post = (props: IPostProps) => {
 					))}
 				</div>
 			))}
+			{!data.length && (
+				<div
+					style={{
+						fontSize: '30px'
+					}}
+				>
+					There are no such posts
+				</div>
+			)}
 		</div>
 	)
 }

@@ -27,7 +27,9 @@ const Field = ({
 					style={{
 						marginBottom: '10px',
 						textAlign: 'center',
-						color: 'red'
+						color: 'red',
+						position: name === 'img' ? 'absolute' : 'relative',
+						top: 0
 					}}
 				>
 					{error}

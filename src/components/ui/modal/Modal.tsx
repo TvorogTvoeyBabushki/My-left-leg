@@ -16,6 +16,7 @@ import Loader from '../loader/Loader'
 import styles from './Modal.module.scss'
 import { cloudName } from '@/config/cloudinary/cloudName.config'
 import { uploadPreset } from '@/config/cloudinary/uploadPreset.config'
+import { selectOptions } from '@/constants/selectOptions'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 interface IModalProps {
@@ -52,14 +53,6 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const [url, setUrl] = useState<any>('')
 	const [image, setImage] = useState<any>('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
-
-	const selectOptions = [
-		{ value: 'beauty', label: 'Beauty' },
-		{ value: 'wellness', label: 'Wellness' },
-		{ value: 'style', label: 'Style' },
-		{ value: 'home', label: 'Home' },
-		{ value: 'life', label: 'Life' }
-	]
 
 	const getImage = (event: any) => {
 		const fileRef: File | null = event.target.files[0]
@@ -240,9 +233,11 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 						<Field
 							register={register}
 							name='img'
+							options={{ required: previewImage ? '' : 'Image is required' }}
+							error={errors.img?.message as string}
 							type='file'
 							accept='image/*'
-							onChange={getImage}
+							onInput={getImage}
 							onMouseOver={showIcon}
 							className='field-image'
 						/>
@@ -306,7 +301,9 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 										required
 										classNamePrefix='select'
 										placeholder='Categorys...'
-										options={selectOptions}
+										options={selectOptions.filter(
+											selectOption => selectOption.value !== 'all'
+										)}
 										onChange={onChange}
 										value={value as ICategorys[]}
 										isMulti
