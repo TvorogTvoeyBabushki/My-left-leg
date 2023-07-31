@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { usePost } from '@/hooks/usePost'
@@ -52,7 +51,6 @@ const Post = (props: IPostProps) => {
 						<Link
 							key={post.id}
 							to={`/${post.title.replace(/\s/g, '-').toLowerCase()}/${post.id}`}
-							onClick={() => setPost(post)}
 						>
 							<div>
 								<div className={styles.shadow} />

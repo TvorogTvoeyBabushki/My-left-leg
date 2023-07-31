@@ -1,3 +1,5 @@
+import { IDataPost } from '@/components/screens/content-post/ContentPost'
+
 import { $axios } from '../api'
 
 export interface IDataService {
@@ -6,6 +8,7 @@ export interface IDataService {
 	description: string
 	img: string
 	categorysIds: string[]
+	postContent?: IDataPost[]
 }
 
 export const POST = '/post'

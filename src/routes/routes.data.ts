@@ -1,4 +1,4 @@
-import About from '../components/screens/about/About'
+import About from '../components/screens/content-post/ContentPost'
 import Home from '../components/screens/home/Home'
 
 interface IRoutes {

@@ -1,5 +1,7 @@
 import clsx from 'clsx'
 
+import { IDataPost } from '@/components/screens/content-post/ContentPost'
+
 import styles from './Button.module.scss'
 
 interface IButtonProps {
@@ -7,16 +9,29 @@ interface IButtonProps {
 	onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 	type: string
 	isLoading?: boolean
+	changeContent?: IDataPost
 }
 
-const Button = ({ children, onClick, type = '', isLoading }: IButtonProps) => {
+const Button = ({
+	children,
+	onClick,
+	type = '',
+	isLoading,
+	changeContent
+}: IButtonProps) => {
 	return (
 		<button
 			className={clsx(styles.button, {
-				[styles.modal]: !!type
+				[styles.modal]: type === 'modal',
+				[styles.add_content]: type === 'add content'
 			})}
 			onClick={onClick}
-			disabled={isLoading ? true : false}
+			disabled={
+				isLoading ||
+				(!(changeContent?.heading || changeContent?.mainText) && type === 'add')
+					? true
+					: false
+			}
 		>
 			{children}
 		</button>

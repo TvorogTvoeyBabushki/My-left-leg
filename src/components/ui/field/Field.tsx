@@ -4,7 +4,7 @@ interface IFieldProps {
 	options: {
 		required: string
 	}
-	error: string
+	error?: string
 	value?: string
 	className: string
 

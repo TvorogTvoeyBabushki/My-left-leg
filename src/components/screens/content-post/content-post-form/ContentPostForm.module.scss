@@ -1,0 +1,41 @@
+.form {
+	width: 100%;
+	max-width: 650px;
+	margin: 50px auto 0;
+
+	> input {
+		width: 100%;
+		margin-bottom: 30px;
+		padding: 10px 20px;
+		border-radius: 0.5rem;
+	}
+
+	> textarea {
+		width: 100%;
+		resize: vertical;
+		margin-bottom: 10px;
+		padding: 10px 20px;
+		min-height: 51px;
+		border-radius: 0.5rem 0.5rem 0 0.5rem;
+	}
+
+	> div {
+		display: flex;
+		justify-content: space-between;
+		position: relative;
+		padding-top: 40px;
+
+		> div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			color: red;
+		}
+
+		> button {
+			width: 100%;
+			width: 250px;
+			text-transform: capitalize;
+		}
+	}
+}
