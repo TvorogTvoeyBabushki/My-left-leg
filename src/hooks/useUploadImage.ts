@@ -1,0 +1,38 @@
+import axios from 'axios'
+
+import { cloudName } from '@/config/cloudinary/cloudName.config'
+import { uploadPreset } from '@/config/cloudinary/uploadPreset.config'
+
+interface IUploadImage {
+	image: any
+	setIsUrlLoading: (isUrlLoading: boolean) => void
+	setUrl: (url: string) => void
+}
+
+export const useUploadImage = async ({
+	image,
+	setIsUrlLoading,
+	setUrl
+}: IUploadImage) => {
+	if (image) {
+		try {
+			setIsUrlLoading(true)
+
+			const formData = new FormData()
+			formData.append('file', image)
+			formData.append('upload_preset', uploadPreset)
+			formData.append('cloud_name', cloudName)
+
+			const response = await axios.post(
+				`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+				formData
+			)
+
+			setUrl(response.data.url)
+		} catch (error) {
+			console.log('error: ', error)
+		} finally {
+			setIsUrlLoading(false)
+		}
+	}
+}

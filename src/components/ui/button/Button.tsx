@@ -10,6 +10,7 @@ interface IButtonProps {
 	type: string
 	isLoading?: boolean
 	changeContent?: IDataPost
+	image?: any
 }
 
 const Button = ({
@@ -17,7 +18,8 @@ const Button = ({
 	onClick,
 	type = '',
 	isLoading,
-	changeContent
+	changeContent,
+	image
 }: IButtonProps) => {
 	return (
 		<button
@@ -28,7 +30,8 @@ const Button = ({
 			onClick={onClick}
 			disabled={
 				isLoading ||
-				(!(changeContent?.heading || changeContent?.mainText) && type === 'add')
+				(!(changeContent?.heading || changeContent?.mainText || image) &&
+					type === 'add')
 					? true
 					: false
 			}

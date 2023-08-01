@@ -15,7 +15,6 @@
 
 	background-color: #fef3f3;
 	border-radius: 1.2rem;
-	// box-shadow: 3px 3px 10px $bg-color; // ????
 
 	position: fixed;
 	top: 50%;
@@ -46,49 +45,6 @@
 			flex-direction: column;
 			height: 440px;
 		}
-	}
-}
-
-.frame {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: $white;
-
-	width: 100%;
-	max-width: 700px;
-	min-width: 400px;
-	height: 500px;
-
-	// margin: 0 auto;
-
-	border-radius: 1.4rem;
-	box-shadow: 3px 3px 10px $bg-modal;
-
-	position: relative;
-	z-index: 1;
-
-	> img {
-		visibility: hidden;
-		max-width: 700px;
-		height: 500px;
-		object-fit: fill;
-		border-radius: 1.4rem;
-
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		z-index: -2; // чтоб иконка была сверху картинки
-
-		&.active {
-			visibility: visible;
-		}
-	}
-
-	& ~ div {
-		max-width: 300px;
 	}
 }
 

@@ -2,6 +2,7 @@
 	width: 100%;
 	max-width: 650px;
 	margin: 50px auto 0;
+	position: relative;
 
 	> input {
 		width: 100%;
@@ -13,13 +14,22 @@
 	> textarea {
 		width: 100%;
 		resize: vertical;
-		margin-bottom: 10px;
+		margin-bottom: 30px;
 		padding: 10px 20px;
 		min-height: 51px;
 		border-radius: 0.5rem 0.5rem 0 0.5rem;
 	}
 
-	> div {
+	> div:not(:last-child) {
+		margin-bottom: 10px;
+		border-radius: 1rem;
+
+		> img {
+			border-radius: 1rem;
+		}
+	}
+
+	> div:last-child {
 		display: flex;
 		justify-content: space-between;
 		position: relative;

@@ -5,6 +5,9 @@ import { useForm } from 'react-hook-form'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
 
+import { useImageField } from '@/components/ui/field/image-field/hooks/useImageField'
+import { useUploadImage } from '@/hooks/useUploadImage'
+
 import Button from '@/components/ui/button/Button'
 
 import styles from './ContentPost.module.scss'
@@ -15,12 +18,19 @@ import PostService, { IDataService } from '@/services/post/post.service'
 export interface IDataPost {
 	heading: string
 	mainText: string
+	img: any
 }
 
 const About = () => {
+	const { isToggleImage, setIsToggleImage } = useImageField()
+	const [image, setImage] = useState<any>('')
+	const [url, setUrl] = useState<any>('')
+	const [isUrlLoading, setIsUrlLoading] = useState(false)
+	const [previewImage, setPreviewImage] = useState('')
 	const [changeContent, setChangeContent] = useState<IDataPost>({
 		heading: '',
-		mainText: ''
+		mainText: '',
+		img: ''
 	})
 	const [indexContent, setIndexContent] = useState<number | null>(null)
 	const [isToggleForm, setIsToggleForm] = useState(false)
@@ -45,8 +55,11 @@ const About = () => {
 		)
 
 		certainContent
-			? setChangeContent(certainContent)
-			: setChangeContent({ heading: '', mainText: '' })
+			? (setChangeContent(certainContent),
+			  setPreviewImage(certainContent?.img),
+			  certainContent.img ? setIsToggleImage(true) : setIsToggleImage(false),
+			  setUrl(certainContent?.img))
+			: setChangeContent({ heading: '', mainText: '', img: '' })
 	}, [indexContent])
 
 	const { register, handleSubmit, reset } = useForm<IDataPost>({
@@ -68,17 +81,20 @@ const About = () => {
 		!isToggleForm
 			? (setIsToggleForm(true),
 			  setIndexContent(null),
+			  setPreviewImage(''),
+			  setIsToggleImage(false),
+			  setUrl(''),
 			  reset(),
-			  setChangeContent({ heading: '', mainText: '' }))
+			  setChangeContent({ heading: '', mainText: '', img: '' }))
 			: setIsToggleForm(false)
 	}
 
 	const onSubmit = (data: IDataPost) => {
 		if (isToggleForm) {
+			data = { ...data, img: url }
 			post?.postContent?.push(data)
 
-			mutate(post as IDataService)
-			setChangeContent({ heading: '', mainText: '' })
+			setChangeContent({ heading: '', mainText: '', img: '' })
 		}
 
 		if (!isToggleForm) {
@@ -86,18 +102,15 @@ const About = () => {
 				if (index === indexContent) {
 					content.heading = changeContent.heading
 					content.mainText = changeContent.mainText
+					content.img = url
 				}
 			})
 
-			const deletePostContent = post?.postContent?.filter(
-				content => content.heading || content.mainText
-			)
-			const modifiedPost = { ...post, postContent: deletePostContent }
-
-			mutate(modifiedPost as IDataService)
-			setPost(modifiedPost as IDataService)
 			setIndexContent(null)
+			setIsToggleImage(false)
 		}
+
+		mutate(post as IDataService)
 	}
 
 	const handleMouseEvent = (type: string) => {
@@ -106,16 +119,36 @@ const About = () => {
 
 	const handleEdit = (
 		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-		indexContent: number
+		indexContent: number,
+		item: string
 	) => {
 		e.preventDefault()
 
-		setIndexContent(indexContent)
-		setIsToggleForm(false)
+		item === 'редактировать' &&
+			(setIndexContent(indexContent), setIsToggleForm(false))
+
+		if (item === 'удалить') {
+			post?.postContent?.forEach((content, index) => {
+				if (index === indexContent) {
+					content.heading = ''
+					content.mainText = ''
+					content.img = ''
+				}
+			})
+
+			const deletePostContent = post?.postContent?.filter(
+				content => content.heading || content.mainText || content.img
+			)
+			const modifiedPost = { ...post, postContent: deletePostContent }
+
+			mutate(modifiedPost as IDataService)
+			setPost(modifiedPost as IDataService)
+		}
 	}
 
 	const handlerCancelClick = () => {
 		setIndexContent(null)
+		setIsToggleImage(false)
 	}
 
 	const changeFieldAndTextarea = (
@@ -128,6 +161,16 @@ const About = () => {
 			? setChangeContent({ ...changeContent!, mainText: targetEl.value })
 			: setChangeContent({ ...changeContent!, heading: targetEl.value })
 	}
+
+	useEffect(() => {
+		useUploadImage({ image, setUrl, setIsUrlLoading })
+
+		return () => {
+			setUrl('')
+		}
+	}, [image])
+
+	const itemsList = ['Редактировать', 'Удалить']
 
 	return (
 		<Layout>
@@ -156,13 +199,20 @@ const About = () => {
 					<article className={styles.article_post}>
 						{post?.postContent?.length ? (
 							<div className={styles.content_post_wrapper}>
-								{post.postContent.map((content, index) => (
-									<div key={index}>
-										<h3>{content.heading}</h3>
+								{post.postContent.map((content, indexPostContent) => (
+									<div key={indexPostContent}>
+										{content.heading && <h3>{content.heading}</h3>}
 
-										<p>{content.mainText}</p>
+										{content.mainText && <p>{content.mainText}</p>}
+
+										{content.img && (
+											<div>
+												<img src={content.img} alt='Content image' />
+											</div>
+										)}
 
 										<div
+											className={styles.menu_wrapper}
 											onMouseOver={() => handleMouseEvent('over')}
 											onMouseOut={() => handleMouseEvent('out')}
 										>
@@ -175,15 +225,26 @@ const About = () => {
 											</button>
 
 											<ul>
-												<li>
-													<a onClick={e => handleEdit(e, index)} href='#'>
-														Редактировать
-													</a>
-												</li>
+												{itemsList.map((item, indexItemList) => (
+													<li key={indexItemList}>
+														<a
+															onClick={e =>
+																handleEdit(
+																	e,
+																	indexPostContent,
+																	item.toLowerCase()
+																)
+															}
+															href='#'
+														>
+															{item}
+														</a>
+													</li>
+												))}
 											</ul>
 										</div>
 
-										{index === indexContent && (
+										{indexPostContent === indexContent && (
 											<ContentPostForm
 												changeContent={changeContent}
 												changeFieldAndTextarea={changeFieldAndTextarea}
@@ -192,6 +253,13 @@ const About = () => {
 												onSubmit={onSubmit}
 												register={register}
 												typeButton='change'
+												previewImage={previewImage}
+												setPreviewImage={setPreviewImage}
+												setImage={setImage}
+												isToggleImage={isToggleImage}
+												setIsToggleImage={setIsToggleImage}
+												isUrlLoading={isUrlLoading}
+												image={image}
 											/>
 										)}
 									</div>
@@ -219,6 +287,13 @@ const About = () => {
 									onSubmit={onSubmit}
 									register={register}
 									typeButton='add'
+									previewImage={previewImage}
+									setPreviewImage={setPreviewImage}
+									setImage={setImage}
+									isToggleImage={isToggleImage}
+									setIsToggleImage={setIsToggleImage}
+									isUrlLoading={isUrlLoading}
+									image={image}
 								/>
 							</div>
 						)}

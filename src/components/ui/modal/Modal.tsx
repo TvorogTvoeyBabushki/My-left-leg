@@ -1,21 +1,20 @@
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
 import clsx from 'clsx'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { BsPatchPlus } from 'react-icons/bs'
 import Select from 'react-select'
 import TextareaAutosize from 'react-textarea-autosize'
 
+import { useImageField } from '../field/image-field/hooks/useImageField'
 import { usePost } from '@/hooks/usePost'
+import { useUploadImage } from '@/hooks/useUploadImage'
 
 import Button from '../button/Button'
 import Field from '../field/Field'
+import ImageField from '../field/image-field/ImageField'
 import Loader from '../loader/Loader'
 
 import styles from './Modal.module.scss'
-import { cloudName } from '@/config/cloudinary/cloudName.config'
-import { uploadPreset } from '@/config/cloudinary/uploadPreset.config'
 import { selectOptions } from '@/constants/selectOptions'
 import PostService, { IDataService } from '@/services/post/post.service'
 
@@ -29,14 +28,15 @@ interface ICategorys {
 	label?: string
 }
 
-interface IData {
+export interface IData {
 	title: string
 	description: string
 	img: any
-	categorysIds: ICategorys[] | string[]
+	categorysIds?: ICategorys[] | string[]
 }
 
 const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
+	const { isToggleImage, setIsToggleImage } = useImageField()
 	const { post, setPost } = usePost()
 	const [isChangePost, setIsChangePost] = useState(true)
 	const [previewImage, setPreviewImage] = useState('')
@@ -45,45 +45,9 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const [postId, setPostId] = useState(0)
 	const [categorys, setCategorys] = useState<ICategorys[]>([])
 
-	const imageRef = useRef<HTMLImageElement>(null)
-	const iconRef = useRef<HTMLDivElement>(null)
-	const divElement = iconRef.current // повторение
-	const imageElement = imageRef.current // повторение
-
-	const [url, setUrl] = useState<any>('')
 	const [image, setImage] = useState<any>('')
+	const [url, setUrl] = useState<any>('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
-
-	const getImage = (event: any) => {
-		const fileRef: File | null = event.target.files[0]
-
-		if (fileRef) {
-			setImage(fileRef)
-
-			const reader = new FileReader()
-
-			reader.readAsDataURL(fileRef) // получаем url
-			reader.onload = (ev: any) => {
-				setPreviewImage(ev.target.result)
-			}
-		}
-
-		const divElement = iconRef.current
-		const imageElement = imageRef.current
-
-		if (imageElement && divElement) {
-			imageElement.style.visibility = 'visible'
-			divElement.style.visibility = 'hidden'
-		}
-	}
-
-	const showIcon = () => {
-		if (divElement) divElement.style.visibility = 'visible'
-	}
-
-	const closeIcon = () => {
-		if (divElement) divElement.style.visibility = 'hidden'
-	}
 
 	const {
 		handleSubmit,
@@ -110,30 +74,6 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 		}
 	)
 
-	const uploadImage = async () => {
-		if (image) {
-			try {
-				setIsUrlLoading(true)
-
-				const formData = new FormData()
-				formData.append('file', image)
-				formData.append('upload_preset', uploadPreset)
-				formData.append('cloud_name', cloudName)
-
-				const response = await axios.post(
-					`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-					formData
-				)
-
-				setUrl(response.data.url)
-			} catch (error) {
-				console.log('error: ', error)
-			} finally {
-				setIsUrlLoading(false)
-			}
-		}
-	}
-
 	const changeFieldAndTextarea = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 		type: string
@@ -148,7 +88,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	}
 
 	useEffect(() => {
-		uploadImage()
+		useUploadImage({ image, setUrl, setIsUrlLoading })
 
 		return () => {
 			setUrl('')
@@ -172,11 +112,9 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 			})
 
 			setCategorys(categorys)
-
 			setIsChangePost(false)
+			setIsToggleImage(true)
 		}
-
-		imageElement && imageElement?.classList.add(styles.active)
 
 		return () => {
 			setPost(null)
@@ -218,34 +156,17 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 
 			<div className={styles.wrapper}>
 				<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-					<div
-						className={styles.frame}
-						onMouseOver={showIcon}
-						onMouseOut={closeIcon}
-					>
-						<img
-							ref={imageRef}
-							src={previewImage}
-							alt='image-post'
-							draggable={false}
-						/>
+					<ImageField
+						type='post'
+						errors={errors}
+						previewImage={previewImage}
+						register={register}
+						setImage={setImage}
+						setPreviewImage={setPreviewImage}
+						isToggleImage={isToggleImage}
+						setIsToggleImage={setIsToggleImage}
+					/>
 
-						<Field
-							register={register}
-							name='img'
-							options={{ required: previewImage ? '' : 'Image is required' }}
-							error={errors.img?.message as string}
-							type='file'
-							accept='image/*'
-							onInput={getImage}
-							onMouseOver={showIcon}
-							className='field-image'
-						/>
-
-						<div ref={iconRef}>
-							<BsPatchPlus className='get-icon-img' fontSize='34' />
-						</div>
-					</div>
 					<div>
 						<div>
 							<Field

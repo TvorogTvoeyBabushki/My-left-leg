@@ -14,47 +14,6 @@ body {
 	padding: 0 45px;
 }
 
-.get-icon-img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate3d(-50%, -50%, 0);
-	z-index: -1;
-	cursor: pointer;
-	transition: fill 0.3s ease-in-out;
-}
-
-.field-image {
-	cursor: pointer;
-	color: transparent;
-	max-width: 40px;
-	height: 40px;
-
-	&:hover ~ div > .get-icon-img {
-		fill: $bg-modal;
-	}
-}
-
-.field-image::-webkit-file-upload-button,
-.field-image::file-selector-button {
-	visibility: hidden;
-}
-
-.field-image::before {
-	display: block;
-	content: '';
-
-	width: 34px;
-	height: 34px;
-
-	font-size: 0;
-	color: transparent;
-
-	background: transparent;
-	border: none;
-	cursor: pointer;
-}
-
 .text-area {
 	width: 100%;
 	margin: 30px 0 10px;

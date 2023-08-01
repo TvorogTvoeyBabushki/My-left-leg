@@ -3,6 +3,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 import Button from '@/components/ui/button/Button'
 import Field from '@/components/ui/field/Field'
+import ImageField from '@/components/ui/field/image-field/ImageField'
 
 import { IDataPost } from '../ContentPost'
 
@@ -19,6 +20,13 @@ interface IContentPostFormProps {
 	) => void
 	handlerCancelClick: () => void
 	typeButton: string
+	previewImage: string
+	setPreviewImage: (previewImage: string) => void
+	setImage: (image: any) => void
+	isToggleImage: boolean
+	setIsToggleImage: (isToggleImage: boolean) => void
+	isUrlLoading: boolean
+	image: any
 }
 
 const ContentPostForm = ({
@@ -28,7 +36,14 @@ const ContentPostForm = ({
 	changeContent,
 	changeFieldAndTextarea,
 	handlerCancelClick,
-	typeButton
+	typeButton,
+	previewImage,
+	setPreviewImage,
+	setImage,
+	isToggleImage,
+	setIsToggleImage,
+	isUrlLoading,
+	image
 }: IContentPostFormProps) => {
 	return (
 		<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -54,18 +69,26 @@ const ContentPostForm = ({
 				onInput={e => changeFieldAndTextarea(e, 'textarea')}
 			/>
 
+			<ImageField
+				register={register}
+				type='content'
+				previewImage={previewImage}
+				setPreviewImage={setPreviewImage}
+				setImage={setImage}
+				isToggleImage={isToggleImage}
+				setIsToggleImage={setIsToggleImage}
+				isUrlLoading={isUrlLoading}
+			/>
+
 			<div>
-				{!(changeContent.heading || changeContent.mainText) &&
+				{!(changeContent.heading || changeContent.mainText || image) &&
 					typeButton === 'add' && <div>One field must be filled</div>}
 				<Button
 					type={typeButton === 'change' ? 'change' : 'add'}
-					children={
-						typeButton === 'change' &&
-						!(changeContent.heading || changeContent.mainText)
-							? 'delete'
-							: typeButton
-					}
+					children={typeButton}
 					changeContent={changeContent}
+					isLoading={isUrlLoading}
+					image={image}
 				/>
 				{typeButton === 'change' && (
 					<Button onClick={handlerCancelClick} type='' children={'Cancel'} />

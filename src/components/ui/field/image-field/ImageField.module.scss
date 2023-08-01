@@ -1,0 +1,76 @@
+@import '@/assets/styles/variables';
+
+.frame {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: $white;
+
+	width: 100%;
+	max-width: 700px;
+	min-width: 400px;
+	height: 500px;
+
+	border-radius: 1.4rem;
+	box-shadow: 3px 3px 10px $bg-modal;
+
+	position: relative;
+	z-index: 1;
+
+	> img {
+		max-width: 700px;
+		height: 500px;
+		object-fit: fill;
+		border-radius: 1.4rem;
+
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: -2; // чтоб иконка была сверху картинки
+	}
+
+	> .field_image {
+		cursor: pointer;
+		color: transparent;
+		max-width: 40px;
+		height: 40px;
+
+		&:hover ~ div > .icon_image {
+			fill: $bg-modal;
+		}
+
+		&::-webkit-file-upload-button,
+		&::file-selector-button {
+			visibility: hidden;
+		}
+
+		&::before {
+			display: block;
+			content: '';
+
+			width: 34px;
+			height: 34px;
+
+			font-size: 0;
+			color: transparent;
+
+			background: transparent;
+			border: none;
+			cursor: pointer;
+		}
+	}
+
+	> div {
+		> .icon_image {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate3d(-50%, -50%, 0);
+			z-index: -1;
+			cursor: pointer;
+			transition: fill 0.3s ease-in-out;
+		}
+	}
+}
