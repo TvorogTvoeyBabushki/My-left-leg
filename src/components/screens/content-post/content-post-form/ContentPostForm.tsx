@@ -23,8 +23,6 @@ interface IContentPostFormProps {
 	previewImage: string
 	setPreviewImage: (previewImage: string) => void
 	setImage: (image: any) => void
-	isToggleImage: boolean
-	setIsToggleImage: (isToggleImage: boolean) => void
 	isUrlLoading: boolean
 	image: any
 }
@@ -40,8 +38,6 @@ const ContentPostForm = ({
 	previewImage,
 	setPreviewImage,
 	setImage,
-	isToggleImage,
-	setIsToggleImage,
 	isUrlLoading,
 	image
 }: IContentPostFormProps) => {
@@ -75,8 +71,6 @@ const ContentPostForm = ({
 				previewImage={previewImage}
 				setPreviewImage={setPreviewImage}
 				setImage={setImage}
-				isToggleImage={isToggleImage}
-				setIsToggleImage={setIsToggleImage}
 				isUrlLoading={isUrlLoading}
 			/>
 

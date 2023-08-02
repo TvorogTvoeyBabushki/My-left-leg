@@ -13,7 +13,7 @@ interface IPostProps {
 
 const Post = (props: IPostProps) => {
 	const { searchDataPost } = useSearchDataPost()
-	const { category, setPost } = usePost()
+	const { category } = usePost()
 	let { data } = props
 	let newData = [] as IDataService[][]
 

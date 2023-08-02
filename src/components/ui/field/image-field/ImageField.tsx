@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
 import { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
+
+import { useImageField } from '@/hooks/useImageField'
 
 import { IDataPost } from '@/components/screens/content-post/ContentPost'
 
@@ -17,9 +18,7 @@ interface IImageFieldProps {
 	setImage: (image: any) => void
 	previewImage: string
 	setPreviewImage: (previewImage: string) => void
-	isToggleImage: boolean
-	setIsToggleImage: (isToggleImage: boolean) => void
-	isUrlLoading?: boolean
+	isUrlLoading: boolean
 }
 
 const ImageField = ({
@@ -29,11 +28,10 @@ const ImageField = ({
 	setImage,
 	previewImage,
 	setPreviewImage,
-	isToggleImage,
-	setIsToggleImage,
 	isUrlLoading
 }: IImageFieldProps) => {
-	const [isToggleIcon, setIsToggleIcon] = useState(true)
+	const { setIsToggleImage, isToggleImage, isToggleIcon, setIsToggleIcon } =
+		useImageField()
 
 	const getImage = (event: any) => {
 		const fileRef: File | null = event.target.files[0]
@@ -41,11 +39,11 @@ const ImageField = ({
 		if (fileRef) {
 			setImage(fileRef)
 			setIsToggleImage(true)
-			setIsToggleIcon(false)
 
 			const reader = new FileReader()
 
 			reader.readAsDataURL(fileRef) // получаем url
+
 			reader.onload = (ev: any) => {
 				setPreviewImage(ev.target.result)
 			}
@@ -79,12 +77,12 @@ const ImageField = ({
 				onMouseOver={showIcon}
 				className={styles.field_image}
 			/>
-			{isToggleIcon && (
+			{isToggleIcon && !isUrlLoading && (
 				<div>
 					<BsPatchPlus className={styles.icon_image} fontSize='34' />
 				</div>
 			)}
-			{type === 'content' && isUrlLoading && (
+			{isUrlLoading && (
 				<div>
 					<Loader />
 				</div>

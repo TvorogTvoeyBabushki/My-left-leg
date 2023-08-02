@@ -4,15 +4,20 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
+import reactStringReplace from 'react-string-replace'
 
-import { useImageField } from '@/components/ui/field/image-field/hooks/useImageField'
+import { useImageField } from '@/hooks/useImageField'
+import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 import { useUploadImage } from '@/hooks/useUploadImage'
 
 import Button from '@/components/ui/button/Button'
 
+import NotFound from '../not-found/NotFound'
+
 import styles from './ContentPost.module.scss'
 import ContentPostForm from './content-post-form/ContentPostForm'
 import Layout from '@/components/layout/Layout'
+import { getTitle } from '@/config/seo/seo.config'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 export interface IDataPost {
@@ -22,7 +27,8 @@ export interface IDataPost {
 }
 
 const About = () => {
-	const { isToggleImage, setIsToggleImage } = useImageField()
+	const { searchTextContent } = useSearchDataPost()
+	const { setIsToggleImage, setIsToggleIcon } = useImageField()
 	const [image, setImage] = useState<any>('')
 	const [url, setUrl] = useState<any>('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
@@ -36,18 +42,38 @@ const About = () => {
 	const [isToggleForm, setIsToggleForm] = useState(false)
 	const [isToggleList, setIsToggleList] = useState(false)
 	const [post, setPost] = useState<IDataService>()
+
 	const params = useParams()
-	const postId = +params.id!
+	const postIdPath = +params.id!
+	const postNamePath = params.name!
+	const [isNotFound, setIsNotFound] = useState(false)
 
 	const fetchPost = async () => {
-		const response = await PostService.getPost(postId)
+		try {
+			const response = await PostService.getPost(postIdPath)
 
-		setPost(response.data)
+			if (
+				postNamePath !== response.data.title.replace(/\s/g, '-').toLowerCase()
+			) {
+				setIsNotFound(true)
+				return
+			}
+
+			setPost(response.data)
+		} catch (error) {
+			console.log('error: ', error)
+
+			setIsNotFound(true)
+		}
 	}
 
 	useEffect(() => {
 		fetchPost()
 	}, [])
+
+	useEffect(() => {
+		getTitle('content', post?.title as string)
+	}, [post])
 
 	useEffect(() => {
 		const certainContent = post?.postContent?.find(
@@ -57,9 +83,12 @@ const About = () => {
 		certainContent
 			? (setChangeContent(certainContent),
 			  setPreviewImage(certainContent?.img),
-			  certainContent.img ? setIsToggleImage(true) : setIsToggleImage(false),
+			  certainContent.img
+					? (setIsToggleImage(true), setIsToggleIcon(false))
+					: (setIsToggleImage(false), setIsToggleIcon(true)),
 			  setUrl(certainContent?.img))
-			: setChangeContent({ heading: '', mainText: '', img: '' })
+			: (setChangeContent({ heading: '', mainText: '', img: '' }),
+			  setIsToggleIcon(true))
 	}, [indexContent])
 
 	const { register, handleSubmit, reset } = useForm<IDataPost>({
@@ -68,7 +97,7 @@ const About = () => {
 
 	const { mutate } = useMutation(
 		['add post content'],
-		(body: IDataService) => PostService.update(body, postId),
+		(body: IDataService) => PostService.update(body, postIdPath),
 		{
 			onSuccess: () => {
 				setIsToggleForm(false)
@@ -173,134 +202,170 @@ const About = () => {
 	const itemsList = ['Редактировать', 'Удалить']
 
 	return (
-		<Layout>
-			<section>
-				<div className='container'>
-					<div className={styles.post_title_wrapper}>
-						<div>
-							<p>
-								{post?.categorysIds.map((category, index) =>
-									index === 0 ? category : `, ${category}`
-								)}
-							</p>
-
-							<h1>{post?.title}</h1>
-
-							<p>by: author</p>
-
-							<div>messengers</div>
-						</div>
-
-						<div>
-							<img src={post?.img} alt='Post image' />
-						</div>
-					</div>
-
-					<article className={styles.article_post}>
-						{post?.postContent?.length ? (
-							<div className={styles.content_post_wrapper}>
-								{post.postContent.map((content, indexPostContent) => (
-									<div key={indexPostContent}>
-										{content.heading && <h3>{content.heading}</h3>}
-
-										{content.mainText && <p>{content.mainText}</p>}
-
-										{content.img && (
-											<div>
-												<img src={content.img} alt='Content image' />
-											</div>
+		<>
+			{isNotFound ? (
+				<NotFound />
+			) : (
+				<Layout type='content' post={post as IDataService}>
+					<section>
+						<div className='container'>
+							<div className={styles.post_title_wrapper}>
+								<div>
+									<p>
+										{post?.categorysIds.map((category, index) =>
+											index === 0 ? category : `, ${category}`
 										)}
+									</p>
 
-										<div
-											className={styles.menu_wrapper}
-											onMouseOver={() => handleMouseEvent('over')}
-											onMouseOut={() => handleMouseEvent('out')}
-										>
-											<button
-												className={clsx(styles.btn, {
-													[styles.btn_active]: isToggleList
-												})}
-											>
-												<BsThreeDotsVertical />
-											</button>
+									<h1>{post?.title}</h1>
 
-											<ul>
-												{itemsList.map((item, indexItemList) => (
-													<li key={indexItemList}>
-														<a
-															onClick={e =>
-																handleEdit(
-																	e,
-																	indexPostContent,
-																	item.toLowerCase()
+									<p>by: author</p>
+
+									<div>messengers</div>
+								</div>
+
+								<div>
+									<img src={post?.img} alt='Post image' />
+								</div>
+							</div>
+
+							<article className={styles.article_post}>
+								{post?.postContent?.length ? (
+									<div className={styles.content_post_wrapper}>
+										{post.postContent.map((content, indexPostContent) => (
+											<div key={indexPostContent}>
+												{content.heading && (
+													<h3>
+														{content.heading
+															.toLowerCase()
+															.includes(searchTextContent) &&
+														searchTextContent.length ? (
+															reactStringReplace(
+																content.heading,
+																searchTextContent,
+																(match, index) => (
+																	<span key={index}>{match}</span>
 																)
-															}
-															href='#'
-														>
-															{item}
-														</a>
-													</li>
-												))}
-											</ul>
-										</div>
+															)
+														) : (
+															<>{content.heading}</>
+														)}
+													</h3>
+												)}
 
-										{indexPostContent === indexContent && (
-											<ContentPostForm
-												changeContent={changeContent}
-												changeFieldAndTextarea={changeFieldAndTextarea}
-												handleSubmit={handleSubmit}
-												handlerCancelClick={handlerCancelClick}
-												onSubmit={onSubmit}
-												register={register}
-												typeButton='change'
-												previewImage={previewImage}
-												setPreviewImage={setPreviewImage}
-												setImage={setImage}
-												isToggleImage={isToggleImage}
-												setIsToggleImage={setIsToggleImage}
-												isUrlLoading={isUrlLoading}
-												image={image}
-											/>
-										)}
+												{content.mainText && (
+													<p>
+														{content.mainText
+															.toLowerCase()
+															.includes(searchTextContent) &&
+														searchTextContent.length ? (
+															reactStringReplace(
+																content.mainText,
+																searchTextContent,
+																(match, index) => (
+																	<span key={index}>{match}</span>
+																)
+															)
+														) : (
+															<>{content.mainText}</>
+														)}
+													</p>
+												)}
+
+												{content.img && (
+													<div>
+														<img src={content.img} alt='Content image' />
+													</div>
+												)}
+
+												<div
+													className={styles.menu_wrapper}
+													onMouseOver={() => handleMouseEvent('over')}
+													onMouseOut={() => handleMouseEvent('out')}
+												>
+													<button
+														className={clsx(styles.btn, {
+															[styles.btn_active]: isToggleList
+														})}
+													>
+														<BsThreeDotsVertical />
+													</button>
+
+													<ul>
+														{itemsList.map((item, indexItemList) => (
+															<li key={indexItemList}>
+																<a
+																	onClick={e =>
+																		handleEdit(
+																			e,
+																			indexPostContent,
+																			item.toLowerCase()
+																		)
+																	}
+																	href='#'
+																>
+																	{item}
+																</a>
+															</li>
+														))}
+													</ul>
+												</div>
+
+												{indexPostContent === indexContent && (
+													<ContentPostForm
+														changeContent={changeContent}
+														changeFieldAndTextarea={changeFieldAndTextarea}
+														handleSubmit={handleSubmit}
+														handlerCancelClick={handlerCancelClick}
+														onSubmit={onSubmit}
+														register={register}
+														typeButton='change'
+														previewImage={previewImage}
+														setPreviewImage={setPreviewImage}
+														setImage={setImage}
+														isUrlLoading={isUrlLoading}
+														image={image}
+													/>
+												)}
+											</div>
+										))}
 									</div>
-								))}
-							</div>
-						) : (
-							''
-						)}
+								) : (
+									''
+								)}
 
-						<div className={styles.btn_add_wrapper}>
-							<Button
-								onClick={handleButtonClick}
-								type='add content'
-								children={'+'}
-							/>
+								<div className={styles.btn_add_wrapper}>
+									<Button
+										onClick={handleButtonClick}
+										type='add content'
+										children={'+'}
+									/>
+								</div>
+
+								{isToggleForm && (
+									<div className={styles.form_wrapper}>
+										<ContentPostForm
+											changeContent={changeContent}
+											changeFieldAndTextarea={changeFieldAndTextarea}
+											handleSubmit={handleSubmit}
+											handlerCancelClick={handlerCancelClick}
+											onSubmit={onSubmit}
+											register={register}
+											typeButton='add'
+											previewImage={previewImage}
+											setPreviewImage={setPreviewImage}
+											setImage={setImage}
+											isUrlLoading={isUrlLoading}
+											image={image}
+										/>
+									</div>
+								)}
+							</article>
 						</div>
-
-						{isToggleForm && (
-							<div className={styles.form_wrapper}>
-								<ContentPostForm
-									changeContent={changeContent}
-									changeFieldAndTextarea={changeFieldAndTextarea}
-									handleSubmit={handleSubmit}
-									handlerCancelClick={handlerCancelClick}
-									onSubmit={onSubmit}
-									register={register}
-									typeButton='add'
-									previewImage={previewImage}
-									setPreviewImage={setPreviewImage}
-									setImage={setImage}
-									isToggleImage={isToggleImage}
-									setIsToggleImage={setIsToggleImage}
-									isUrlLoading={isUrlLoading}
-									image={image}
-								/>
-							</div>
-						)}
-					</article>
-				</div>
-			</section>
-		</Layout>
+					</section>
+				</Layout>
+			)}
+		</>
 	)
 }
 

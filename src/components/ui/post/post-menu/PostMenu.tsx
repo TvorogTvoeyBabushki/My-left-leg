@@ -1,7 +1,9 @@
-import { useRef } from 'react'
+import clsx from 'clsx'
+import { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 
+import { useImageField } from '@/hooks/useImageField'
 import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
 
@@ -13,10 +15,11 @@ interface IPostMenuProps {
 }
 
 const PostMenu = ({ styles, post }: IPostMenuProps) => {
+	const [isToggleStyle, setIsToggleStyle] = useState(false)
+	const { setIsToggleIcon } = useImageField()
 	const { setIsInteractionPost, setPost } = usePost()
 	const { showModal } = useModal()
 	const navigate = useNavigate()
-	const postButtonRef = useRef<HTMLButtonElement | null>(null)
 
 	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
 		e.preventDefault()
@@ -28,6 +31,8 @@ const PostMenu = ({ styles, post }: IPostMenuProps) => {
 		if (liElement === 'Обновить') {
 			showModal()
 			setPost(post)
+
+			setIsToggleIcon(false)
 		}
 
 		if (liElement === 'Удалить') {
@@ -39,11 +44,7 @@ const PostMenu = ({ styles, post }: IPostMenuProps) => {
 	const liElements = ['Перейти', 'Обновить', 'Удалить']
 
 	const handleMouseEvent = (type: string) => {
-		const postButtonElement = postButtonRef.current as HTMLButtonElement
-
-		type === 'over'
-			? postButtonElement.classList.add(styles.active)
-			: postButtonElement.classList.remove(styles.active)
+		type === 'over' ? setIsToggleStyle(true) : setIsToggleStyle(false)
 	}
 
 	return (
@@ -53,7 +54,12 @@ const PostMenu = ({ styles, post }: IPostMenuProps) => {
 				onMouseOver={() => handleMouseEvent('over')}
 				onMouseOut={() => handleMouseEvent('out')}
 			>
-				<button ref={postButtonRef} onClick={handleClick}>
+				<button
+					className={clsx('', {
+						[styles.active]: isToggleStyle
+					})}
+					onClick={handleClick}
+				>
 					<BsThreeDotsVertical />
 				</button>
 

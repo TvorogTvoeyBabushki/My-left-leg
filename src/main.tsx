@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 
 import '@/assets/styles/global.scss'
 
+import ImageFieldProvider from './providers/ImageFieldProvider'
 import ModalProvider from './providers/ModalProvider'
 import PostProvider from './providers/PostProvider'
 import SearchDataPostProvider from './providers/SearchDataPostProvider'
@@ -23,7 +24,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 			<SearchDataPostProvider>
 				<PostProvider>
 					<ModalProvider>
-						<Router />
+						<ImageFieldProvider>
+							<Router />
+						</ImageFieldProvider>
 					</ModalProvider>
 				</PostProvider>
 			</SearchDataPostProvider>

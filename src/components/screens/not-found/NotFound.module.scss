@@ -1,0 +1,8 @@
+@import '@/assets/styles/variables';
+
+.not_found {
+	display: flex;
+	justify-content: center;
+	font-size: 50px;
+	color: darken($field-color, 10%);
+}

@@ -8,6 +8,7 @@ import Modal from '@/components/ui/modal/Modal'
 import Post from '@/components/ui/post/Post'
 
 import Layout from '@/components/layout/Layout'
+import { getTitle } from '@/config/seo/seo.config'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 const Home = () => {
@@ -27,6 +28,7 @@ const Home = () => {
 
 	useEffect(() => {
 		fetchPosts()
+		getTitle('home')
 
 		return () => setIsInteractionPost(false)
 	}, [isInteractionPost])
@@ -39,7 +41,7 @@ const Home = () => {
 					setIsInteractionPost={setIsInteractionPost}
 				/>
 			)}
-			<Layout data={data as IDataService[]}>
+			<Layout type='home' data={data as IDataService[]}>
 				<section>
 					<div className='container'>
 						{isLoading && <div style={{ textAlign: 'center' }}>Loading...</div>}

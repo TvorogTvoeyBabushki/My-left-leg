@@ -1,3 +1,13 @@
+@import '@/assets/styles/variables';
+
+.header {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	background-color: $bg-color;
+	z-index: 777;
+}
+
 .wrapper {
 	display: flex;
 	justify-content: space-between;

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 
+import { useImageField } from '@/hooks/useImageField'
 import { useModal } from '@/hooks/useModal'
 
 import Button from '@/components/ui/button/Button'
@@ -11,30 +12,46 @@ import { IDataService } from '@/services/post/post.service'
 
 interface IHeaderProps {
 	data: IDataService[]
+	type: string
+	post: IDataService
 }
 
-const Header = ({ data }: IHeaderProps) => {
+const Header = ({ data, type, post }: IHeaderProps) => {
 	const { showModal } = useModal()
+	const { setIsToggleIcon, setIsToggleImage } = useImageField()
 
 	return (
-		<header>
+		<header className={styles.header}>
 			<div className='container'>
 				<div className={styles.wrapper}>
-					<BurgerMenu />
+					<BurgerMenu type={type} />
 
-					<div className={styles.logo}>
-						<Link to='/'>
-							{/* <img src='/myleftleg.svg' alt='' /> */}
-							Logo
-						</Link>
-					</div>
+					{type !== 'not-found' && (
+						<div className={styles.logo}>
+							<Link to='/'>
+								{/* <img src='/myleftleg.svg' alt='' /> */}
+								Logo
+							</Link>
+						</div>
+					)}
 
 					<div>
-						<Search data={data} />
+						{type !== 'not-found' && (
+							<Search data={data} type={type} post={post} />
+						)}
 
-						<Button type='' onClick={showModal}>
-							Create post
-						</Button>
+						{type === 'home' && (
+							<Button
+								type=''
+								onClick={() => {
+									showModal()
+									setIsToggleIcon(true)
+									setIsToggleImage(false)
+								}}
+							>
+								Create post
+							</Button>
+						)}
 					</div>
 				</div>
 			</div>

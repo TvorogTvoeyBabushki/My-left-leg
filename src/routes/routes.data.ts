@@ -1,4 +1,4 @@
-import About from '../components/screens/content-post/ContentPost'
+import ContentPost from '../components/screens/content-post/ContentPost'
 import Home from '../components/screens/home/Home'
 
 interface IRoutes {
@@ -13,6 +13,6 @@ export const routes: IRoutes[] = [
 	},
 	{
 		path: '/:name/:id',
-		component: About
+		component: ContentPost
 	}
 ]

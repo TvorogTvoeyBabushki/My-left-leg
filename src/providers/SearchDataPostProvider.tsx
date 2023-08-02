@@ -9,6 +9,8 @@ interface ISearchDataPostProps {
 export interface ISearchDataPostContext {
 	searchDataPost: IDataService[] | null
 	setSearchDataPost: (searchDataPost: IDataService[] | null) => void
+	searchTextContent: string
+	setSearchTextContent: (searchTextContent: string) => void
 }
 
 export const SearchDataPostContext =
@@ -18,10 +20,16 @@ const SearchDataPostProvider = ({ children }: ISearchDataPostProps) => {
 	const [searchDataPost, setSearchDataPost] = useState<IDataService[] | null>(
 		null
 	)
+	const [searchTextContent, setSearchTextContent] = useState('')
 
 	return (
 		<SearchDataPostContext.Provider
-			value={{ searchDataPost, setSearchDataPost }}
+			value={{
+				searchDataPost,
+				setSearchDataPost,
+				searchTextContent,
+				setSearchTextContent
+			}}
 		>
 			{children}
 		</SearchDataPostContext.Provider>

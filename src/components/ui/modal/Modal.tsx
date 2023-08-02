@@ -5,14 +5,13 @@ import { Controller, useForm } from 'react-hook-form'
 import Select from 'react-select'
 import TextareaAutosize from 'react-textarea-autosize'
 
-import { useImageField } from '../field/image-field/hooks/useImageField'
+import { useImageField } from '@/hooks/useImageField'
 import { usePost } from '@/hooks/usePost'
 import { useUploadImage } from '@/hooks/useUploadImage'
 
 import Button from '../button/Button'
 import Field from '../field/Field'
 import ImageField from '../field/image-field/ImageField'
-import Loader from '../loader/Loader'
 
 import styles from './Modal.module.scss'
 import { selectOptions } from '@/constants/selectOptions'
@@ -36,7 +35,7 @@ export interface IData {
 }
 
 const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
-	const { isToggleImage, setIsToggleImage } = useImageField()
+	const { setIsToggleIcon, setIsToggleImage } = useImageField()
 	const { post, setPost } = usePost()
 	const [isChangePost, setIsChangePost] = useState(true)
 	const [previewImage, setPreviewImage] = useState('')
@@ -163,8 +162,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 						register={register}
 						setImage={setImage}
 						setPreviewImage={setPreviewImage}
-						isToggleImage={isToggleImage}
-						setIsToggleImage={setIsToggleImage}
+						isUrlLoading={isUrlLoading}
 					/>
 
 					<div>
@@ -239,8 +237,6 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 							</Button>
 						</div>
 					</div>
-
-					{isUrlLoading && <Loader />}
 				</form>
 			</div>
 		</>
