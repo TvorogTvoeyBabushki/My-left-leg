@@ -16,14 +16,21 @@
 	> ul {
 		text-align: start;
 		width: 200px;
+		padding-top: 31px;
 
 		position: absolute;
-		top: 250%;
+		top: 100%;
 		left: 0;
 
 		> li {
+			background-color: $bg-color;
+
 			> a {
 				@include transition(color);
+
+				display: block;
+				padding: 0 15px;
+
 				font-size: 1.6rem;
 				color: inherit;
 				line-height: 2;
@@ -34,6 +41,20 @@
 
 			&:hover {
 				color: $field-color;
+			}
+		}
+	}
+
+	@media (max-width: 600px) {
+		> svg {
+			font-size: 30px;
+		}
+
+		> ul {
+			> li {
+				> a {
+					font-size: 1.2rem;
+				}
 			}
 		}
 	}

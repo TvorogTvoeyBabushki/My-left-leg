@@ -1,0 +1,23 @@
+@import '@/assets/styles/variables';
+
+.footer {
+	background-color: darken($category, 20%);
+}
+
+.footer_wrapper {
+	> div:first-child {
+		padding: 40px 0;
+
+		> div {
+			margin-top: 35px;
+			color: $white;
+		}
+	}
+
+	> div:last-child {
+		padding-bottom: 40px;
+		text-align: center;
+		font-size: 12px;
+		color: $field-color;
+	}
+}

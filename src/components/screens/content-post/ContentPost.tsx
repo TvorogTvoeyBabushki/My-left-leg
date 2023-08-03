@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
@@ -102,6 +102,9 @@ const About = () => {
 			onSuccess: () => {
 				setIsToggleForm(false)
 				reset()
+				setIsToggleIcon(true)
+				setChangeContent({ heading: '', mainText: '', img: '' })
+				setImage('')
 			}
 		}
 	)
@@ -213,7 +216,9 @@ const About = () => {
 								<div>
 									<p>
 										{post?.categorysIds.map((category, index) =>
-											index === 0 ? category : `, ${category}`
+											index !== post?.categorysIds.length
+												? `${category} `
+												: category
 										)}
 									</p>
 
@@ -267,7 +272,18 @@ const About = () => {
 																)
 															)
 														) : (
-															<>{content.mainText}</>
+															<>
+																{reactStringReplace(
+																	content.mainText,
+																	/\n/g,
+																	(match, index) => (
+																		<>
+																			<p>{match}</p>
+																			<br />
+																		</>
+																	)
+																)}
+															</>
 														)}
 													</p>
 												)}

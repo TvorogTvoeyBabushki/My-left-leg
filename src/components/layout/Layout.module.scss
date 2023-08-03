@@ -1,3 +1,17 @@
 .layout {
 	padding-top: 120px;
+	height: 100vh;
+	justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+
+	> button {
+		background-color: transparent;
+		font-size: 50px;
+
+		position: fixed;
+		bottom: 3%;
+		right: 3%;
+		z-index: 1000;
+	}
 }

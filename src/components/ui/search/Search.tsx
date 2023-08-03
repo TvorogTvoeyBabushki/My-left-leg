@@ -14,7 +14,8 @@ interface ISearchProps {
 }
 
 const Search = ({ data, type, post }: ISearchProps) => {
-	const { setSearchDataPost, setSearchTextContent } = useSearchDataPost()
+	const { setSearchDataPost, setSearchTextContent, setIsSearchPost } =
+		useSearchDataPost()
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
 
 	const handleSearch = () => {
@@ -37,11 +38,15 @@ const Search = ({ data, type, post }: ISearchProps) => {
 		if (type === 'home') {
 			const searchDataPost = data.filter(
 				post =>
-					post.title.includes(inputEl.value) ||
-					post.description.includes(inputEl.value)
+					post.title.toLowerCase().includes(inputEl.value.toLowerCase()) ||
+					post.description.toLowerCase().includes(inputEl.value.toLowerCase())
 			)
 
 			setSearchDataPost(searchDataPost)
+
+			inputEl.value.trim().length
+				? setIsSearchPost(true)
+				: setIsSearchPost(false)
 		}
 	}
 

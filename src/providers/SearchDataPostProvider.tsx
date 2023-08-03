@@ -11,6 +11,8 @@ export interface ISearchDataPostContext {
 	setSearchDataPost: (searchDataPost: IDataService[] | null) => void
 	searchTextContent: string
 	setSearchTextContent: (searchTextContent: string) => void
+	isSearchPost: boolean
+	setIsSearchPost: (isSearchPost: boolean) => void
 }
 
 export const SearchDataPostContext =
@@ -21,6 +23,7 @@ const SearchDataPostProvider = ({ children }: ISearchDataPostProps) => {
 		null
 	)
 	const [searchTextContent, setSearchTextContent] = useState('')
+	const [isSearchPost, setIsSearchPost] = useState(false)
 
 	return (
 		<SearchDataPostContext.Provider
@@ -28,7 +31,9 @@ const SearchDataPostProvider = ({ children }: ISearchDataPostProps) => {
 				searchDataPost,
 				setSearchDataPost,
 				searchTextContent,
-				setSearchTextContent
+				setSearchTextContent,
+				isSearchPost,
+				setIsSearchPost
 			}}
 		>
 			{children}

@@ -4,6 +4,7 @@ import { VscClose, VscMenu } from 'react-icons/vsc'
 import { useNavigate } from 'react-router-dom'
 
 import { usePost } from '@/hooks/usePost'
+import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import styles from './BurgerMenu.module.scss'
 import { selectOptions } from '@/constants/selectOptions'
@@ -13,6 +14,7 @@ interface IBurgerMenu {
 }
 
 const BurgerMenu = ({ type }: IBurgerMenu) => {
+	const { setIsSearchPost } = useSearchDataPost()
 	const [isShow, seIsShow] = useState(false)
 	const { setCategory } = usePost()
 	const navigate = useNavigate()
@@ -22,8 +24,12 @@ const BurgerMenu = ({ type }: IBurgerMenu) => {
 		value: string
 	) => {
 		e.preventDefault()
+		setIsSearchPost(true)
 
-		if (value === 'all') value = ''
+		if (value === 'all') {
+			value = ''
+			setIsSearchPost(false)
+		}
 
 		setCategory(value)
 	}

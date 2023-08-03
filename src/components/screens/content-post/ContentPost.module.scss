@@ -1,4 +1,5 @@
 @import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
 
 .post_title_wrapper {
 	display: flex;
@@ -17,6 +18,10 @@
 			color: $category;
 			letter-spacing: 10px;
 			text-transform: uppercase;
+
+			@media (max-width: 660px) {
+				font-size: 10px;
+			}
 		}
 
 		> h1 {
@@ -39,9 +44,60 @@
 		width: 65%;
 
 		> img {
+			@include transition(height);
+
 			height: 800px;
 		}
 	}
+
+	@media (max-width: 960px) {
+		flex-direction: column;
+
+		> div:first-child {
+			width: 100%;
+			padding: 0;
+			text-align: start;
+			margin-bottom: 30px;
+
+			> p:first-child {
+				margin-bottom: 25px;
+			}
+
+			> h1 {
+				font-size: 30px;
+				margin-bottom: 30px;
+
+				& ~ p {
+					margin-bottom: 30px;
+				}
+			}
+		}
+
+		> div:last-child {
+			width: 100%;
+
+			> img {
+				height: 700px;
+			}
+		}
+	}
+
+	@mixin media_img($width_size, $height_size) {
+		@media (max-width: $width_size) {
+			> div:last-child {
+				> img {
+					height: $height_size;
+				}
+			}
+		}
+	}
+
+	@include media_img(960px, 800px);
+	@include media_img(800px, 700px);
+	@include media_img(700px, 600px);
+	@include media_img(500px, 500px);
+	@include media_img(400px, 400px);
+	@include media_img(320px, 320px);
 }
 
 .article_post {
@@ -77,7 +133,7 @@
 			}
 
 			> p {
-				word-wrap: break-word;
+				// word-wrap: break-word;
 				color: darken($field-color, 30%);
 
 				> span {
@@ -92,16 +148,23 @@
 				margin: 60px 0;
 
 				> img {
+					@include transition(height);
+
 					max-width: 650px;
-					max-height: 800px;
-					min-height: 730px;
+					height: 700px;
+
+					@mixin media_img($width_size, $height_size) {
+						@media (max-width: $width_size) {
+							height: $height_size;
+						}
+					}
+
+					@include media_img(960px, 600px);
+					@include media_img(660px, 500px);
+					@include media_img(500px, 400px);
+					@include media_img(460px, 300px);
 				}
 			}
-
-			// > p ~ div:not(:last-child),
-			// > h3 ~ div:not(:last-child) {
-			// 	margin: 60px 0;
-			// }
 
 			> div.menu_wrapper {
 				display: flex;
@@ -159,6 +222,14 @@
 						display: block;
 					}
 				}
+			}
+		}
+
+		@media (max-width: 960px) {
+			max-width: 100%;
+
+			> div {
+				padding: 0;
 			}
 		}
 	}

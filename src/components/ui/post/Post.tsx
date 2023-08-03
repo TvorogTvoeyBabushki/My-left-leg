@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 import { usePost } from '@/hooks/usePost'
@@ -12,7 +13,7 @@ interface IPostProps {
 }
 
 const Post = (props: IPostProps) => {
-	const { searchDataPost } = useSearchDataPost()
+	const { searchDataPost, isSearchPost } = useSearchDataPost()
 	const { category } = usePost()
 	let { data } = props
 	let newData = [] as IDataService[][]
@@ -46,40 +47,90 @@ const Post = (props: IPostProps) => {
 	return (
 		<div className={styles.wrapper}>
 			{newData.map((postCollection, index) => (
-				<div key={index}>
-					{postCollection.map(post => (
-						<Link
-							key={post.id}
-							to={`/${post.title.replace(/\s/g, '-').toLowerCase()}/${post.id}`}
-						>
+				<Fragment key={index}>
+					{index === 0 ? (
+						<div>
 							<div>
-								<div className={styles.shadow} />
-								<img className={styles.image} src={post.img} alt={post.title} />
-								<div className={styles.info}>
-									<div>
-										{post.categorysIds.map((category, index) => (
-											<p key={index}>
-												{index === 0 ? category : `, ${category}`}
-											</p>
-										))}
-									</div>
-									<p>{post.title}</p>
-									<p>{post.description}</p>
-								</div>
+								{postCollection.map(post => (
+									<Link
+										key={post.id}
+										to={`/${post.title.replace(/\s/g, '-').toLowerCase()}/${
+											post.id
+										}`}
+									>
+										<div>
+											<div className={styles.shadow} />
+											<img
+												className={styles.image}
+												src={post.img}
+												alt={post.title}
+											/>
+											<div className={styles.info}>
+												<div>
+													{post.categorysIds.map((category, index) => (
+														<p key={index}>
+															{index !== post.categorysIds.length - 1
+																? `${category},`
+																: category}
+														</p>
+													))}
+												</div>
+												<p>{post.title}</p>
+												<p>{post.description}</p>
+											</div>
 
-								<PostMenu styles={styles} post={post as IDataService} />
+											<PostMenu styles={styles} post={post as IDataService} />
+										</div>
+									</Link>
+								))}
 							</div>
-						</Link>
-					))}
-				</div>
+						</div>
+					) : (
+						<div>
+							{postCollection.map(post => (
+								<Link
+									key={post.id}
+									to={`/${post.title.replace(/\s/g, '-').toLowerCase()}/${
+										post.id
+									}`}
+								>
+									<div>
+										<div className={styles.shadow} />
+										<img
+											className={styles.image}
+											src={post.img}
+											alt={post.title}
+										/>
+										<div className={styles.info}>
+											<div>
+												{post.categorysIds.map((category, index) => (
+													<p key={index}>
+														{index !== post.categorysIds.length - 1
+															? `${category}, `
+															: category}
+													</p>
+												))}
+											</div>
+											<p>{post.title}</p>
+											<p>{post.description}</p>
+										</div>
+
+										<PostMenu styles={styles} post={post as IDataService} />
+									</div>
+								</Link>
+							))}
+						</div>
+					)}
+				</Fragment>
 			))}
 			{!data.length && (
 				<div
 					style={{
-						fontSize: '30px'
+						fontSize: '30px',
+						justifyContent: 'flex-start'
 					}}
 				>
-					There are no such posts
+					{isSearchPost ? 'There are no such posts' : 'No posts'}
 				</div>
 			)}
 		</div>

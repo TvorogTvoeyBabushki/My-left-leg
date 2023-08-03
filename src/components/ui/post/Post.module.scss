@@ -1,113 +1,141 @@
 @import '@/assets/styles/variables';
 @import '@/assets/styles/mixins';
 
+@mixin post {
+	> a {
+		@include transition(flex);
+
+		color: inherit;
+		text-decoration: none;
+
+		> div {
+			@include transition(transform);
+			animation: opacity 1s ease;
+
+			position: relative;
+
+			> .post_menu {
+				visibility: hidden;
+				display: flex;
+				flex-direction: column;
+
+				position: absolute;
+				top: 0;
+				right: 0;
+
+				> button {
+					align-self: flex-end;
+					padding-top: 10px;
+					height: 30px;
+
+					background-color: transparent;
+
+					> svg {
+						color: $white;
+						max-height: 30px;
+						font-size: 30px;
+						transition: opacity 0.2s ease-in-out;
+					}
+
+					&:hover ~ ul {
+						display: block;
+					}
+
+					&.active {
+						> svg {
+							opacity: 0.6;
+						}
+					}
+				}
+
+				> ul {
+					display: none;
+					padding: 15px 0 10px;
+
+					> li {
+						> button {
+							width: 100%;
+							padding: 5px 20px;
+							background-color: rgba($bg-color, 1);
+
+							@include transition(background-color);
+
+							&:hover {
+								background-color: rgba($bg-color, 0.8);
+							}
+						}
+					}
+
+					&:hover {
+						display: block;
+					}
+				}
+			}
+
+			&:hover {
+				transform: translateY(-1%);
+			}
+
+			&:hover .shadow {
+				@include box-shadow;
+			}
+
+			&:hover .image {
+				filter: brightness(70%);
+			}
+
+			&:hover > .post_menu {
+				visibility: visible;
+			}
+		}
+	}
+}
+
 .wrapper {
 	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
 
 	> div {
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 50px;
 		width: 100%;
+		flex-wrap: wrap;
 
-		> a {
-			color: inherit;
-			text-decoration: none;
-
-			> div {
-				@include transition(transform);
-				animation: opacity 1s ease;
-
-				position: relative;
-
-				> .post_menu {
-					visibility: hidden;
-					display: flex;
-					flex-direction: column;
-
-					position: absolute;
-					top: 0;
-					right: 0;
-
-					> button {
-						align-self: flex-end;
-						padding-top: 10px;
-						height: 30px;
-
-						background-color: transparent;
-
-						> svg {
-							color: $white;
-							max-height: 30px;
-							font-size: 30px;
-							transition: opacity 0.2s ease-in-out;
-						}
-
-						&:hover ~ ul {
-							display: block;
-						}
-
-						&.active {
-							> svg {
-								opacity: 0.6;
-							}
-						}
-					}
-
-					> ul {
-						display: none;
-						padding: 15px 0 10px;
-
-						> li {
-							> button {
-								width: 100%;
-								padding: 5px 20px;
-								background-color: rgba($bg-color, 1);
-
-								@include transition(background-color);
-
-								&:hover {
-									background-color: rgba($bg-color, 0.8);
-								}
-							}
-						}
-
-						&:hover {
-							display: block;
-						}
-					}
-				}
-
-				&:hover {
-					transform: translateY(-1%);
-				}
-
-				&:hover .shadow {
-					@include box-shadow;
-				}
-
-				&:hover .image {
-					filter: brightness(70%);
-				}
-
-				&:hover > .post_menu {
-					visibility: visible;
-				}
-			}
-		}
+		@include post;
 	}
 
 	> div:first-child {
-		max-width: 80%;
+		justify-content: flex-end;
 
-		> a {
-			max-width: 47%;
+		> div {
+			display: flex;
+			flex: 0 0 80%;
+			justify-content: space-between;
+			flex-wrap: wrap;
 
+			@include post;
+			@include transition(flex);
+
+			> a {
+				flex: 0 0 47%;
+			}
+		}
+
+		@media (max-width: 1100px) {
 			> div {
-				> img {
-					min-width: 468px;
+				flex: 0 0 100%;
+			}
+		}
+
+		@media (max-width: 770px) {
+			> div {
+				> a {
+					flex: 0 0 100%;
+				}
+
+				> a:first-child {
+					margin-bottom: 50px;
 				}
 			}
 		}
@@ -115,21 +143,57 @@
 
 	> div:nth-child(odd):not(div:first-child) {
 		> a:first-child {
-			width: 57%;
+			flex: 0 0 57%;
 		}
 
 		> a:last-child {
-			width: 38%;
+			flex: 0 0 38%;
+		}
+
+		@media (max-width: 960px) {
+			> a:first-child,
+			a:last-child {
+				flex: 0 0 47%;
+			}
+		}
+
+		@media (max-width: 770px) {
+			> a:first-child,
+			a:last-child {
+				flex: 0 0 100%;
+			}
+
+			> a:first-child {
+				margin-bottom: 50px;
+			}
 		}
 	}
 
 	> div:nth-child(even) {
 		> a:first-child {
-			width: 38%;
+			flex: 0 0 38%;
 		}
 
 		> a:last-child {
-			width: 57%;
+			flex: 0 0 57%;
+		}
+
+		@media (max-width: 960px) {
+			> a:first-child,
+			a:last-child {
+				flex: 0 0 47%;
+			}
+		}
+
+		@media (max-width: 770px) {
+			> a:first-child,
+			a:last-child {
+				flex: 0 0 100%;
+			}
+
+			> a:first-child {
+				margin-bottom: 50px;
+			}
 		}
 	}
 }
@@ -138,7 +202,11 @@
 	height: 585px;
 	object-fit: cover;
 
-	@include transition(filter);
+	@include transition(all);
+
+	@media (max-width: 550px) {
+		height: 400px;
+	}
 }
 
 .info {
@@ -147,12 +215,17 @@
 	> div {
 		display: flex;
 		margin-bottom: 10px;
+		flex-wrap: wrap;
 
 		> p {
 			font-size: 10px;
 			color: $category;
 			letter-spacing: 5px;
 			text-transform: uppercase;
+
+			@media (max-width: 550px) {
+				font-size: 8px;
+			}
 		}
 	}
 
@@ -161,6 +234,10 @@
 		font-weight: 700;
 		line-height: 1.3;
 		letter-spacing: 1.2px;
+
+		@media (max-width: 600px) {
+			font-size: 1.2rem;
+		}
 	}
 
 	> p:last-child {
@@ -169,6 +246,10 @@
 		font-size: 16px;
 		color: darken($field-color, 10%);
 		letter-spacing: 1px;
+
+		@media (max-width: 550px) {
+			font-size: 14px;
+		}
 	}
 }
 
@@ -178,7 +259,11 @@
 	position: absolute;
 	top: 0;
 	z-index: -1;
-	@include transition(box-shadow);
+	@include transition(all);
+
+	@media (max-width: 550px) {
+		height: 400px;
+	}
 }
 
 // @keyframes opacity {

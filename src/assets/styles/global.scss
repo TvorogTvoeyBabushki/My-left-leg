@@ -1,13 +1,17 @@
 @import './reset.scss';
 @import './variables';
+@import './mixins';
 
 body {
 	font: 400 normal 1.2rem/1.6 $default-font;
 	color: $black;
 	background-color: $bg-color;
+	overflow-x: hidden;
 }
 
 .container {
+	@include transition(padding);
+
 	width: 100%;
 	max-width: 1335px;
 	margin: 0 auto;
@@ -89,5 +93,11 @@ body {
 
 	&:invalid {
 		color: red !important;
+	}
+}
+
+@media (max-width: 600px) {
+	.container {
+		padding: 0 15px;
 	}
 }
