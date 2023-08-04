@@ -10,7 +10,7 @@ interface IButtonProps {
 	type: string
 	isLoading?: boolean
 	changeContent?: IDataPost
-	image?: any
+	image?: File
 }
 
 const Button = ({

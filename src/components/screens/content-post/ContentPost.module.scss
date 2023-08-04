@@ -133,8 +133,8 @@
 			}
 
 			> p {
-				// word-wrap: break-word;
 				color: darken($field-color, 30%);
+				white-space: break-spaces;
 
 				> span {
 					background-color: $bg-search;
@@ -142,7 +142,7 @@
 				}
 			}
 
-			> div:not(:last-child) {
+			> div:not(:last-child, .main_text) {
 				display: flex;
 				justify-content: center;
 				margin: 60px 0;

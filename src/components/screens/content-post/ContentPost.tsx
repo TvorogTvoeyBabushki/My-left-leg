@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Fragment, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { FieldValues, UseFormRegister, useForm } from 'react-hook-form'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
 import reactStringReplace from 'react-string-replace'
@@ -23,14 +23,14 @@ import PostService, { IDataService } from '@/services/post/post.service'
 export interface IDataPost {
 	heading: string
 	mainText: string
-	img: any
+	img: string
 }
 
 const About = () => {
 	const { searchTextContent } = useSearchDataPost()
 	const { setIsToggleImage, setIsToggleIcon } = useImageField()
-	const [image, setImage] = useState<any>('')
-	const [url, setUrl] = useState<any>('')
+	const [image, setImage] = useState<File | null>(null)
+	const [url, setUrl] = useState('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
 	const [previewImage, setPreviewImage] = useState('')
 	const [changeContent, setChangeContent] = useState<IDataPost>({
@@ -43,7 +43,7 @@ const About = () => {
 	const [isToggleList, setIsToggleList] = useState(false)
 	const [post, setPost] = useState<IDataService>()
 
-	const params = useParams()
+	const params = useParams() // забрать из {id, name}
 	const postIdPath = +params.id!
 	const postNamePath = params.name!
 	const [isNotFound, setIsNotFound] = useState(false)
@@ -91,7 +91,7 @@ const About = () => {
 			  setIsToggleIcon(true))
 	}, [indexContent])
 
-	const { register, handleSubmit, reset } = useForm<IDataPost>({
+	const { register, handleSubmit, reset } = useForm<IDataPost | FieldValues>({
 		mode: 'onChange'
 	})
 
@@ -104,7 +104,7 @@ const About = () => {
 				reset()
 				setIsToggleIcon(true)
 				setChangeContent({ heading: '', mainText: '', img: '' })
-				setImage('')
+				setImage(null)
 			}
 		}
 	)
@@ -121,10 +121,10 @@ const About = () => {
 			: setIsToggleForm(false)
 	}
 
-	const onSubmit = (data: IDataPost) => {
+	const onSubmit = (data: IDataPost | FieldValues) => {
 		if (isToggleForm) {
 			data = { ...data, img: url }
-			post?.postContent?.push(data)
+			post?.postContent?.push(data as IDataPost)
 
 			setChangeContent({ heading: '', mainText: '', img: '' })
 		}
@@ -192,10 +192,11 @@ const About = () => {
 		type === 'textarea'
 			? setChangeContent({ ...changeContent!, mainText: targetEl.value })
 			: setChangeContent({ ...changeContent!, heading: targetEl.value })
+		console.log(changeContent)
 	}
 
 	useEffect(() => {
-		useUploadImage({ image, setUrl, setIsUrlLoading })
+		image && useUploadImage({ image, setUrl, setIsUrlLoading })
 
 		return () => {
 			setUrl('')
@@ -263,28 +264,15 @@ const About = () => {
 														{content.mainText
 															.toLowerCase()
 															.includes(searchTextContent) &&
-														searchTextContent.length ? (
-															reactStringReplace(
-																content.mainText,
-																searchTextContent,
-																(match, index) => (
-																	<span key={index}>{match}</span>
-																)
-															)
-														) : (
-															<>
-																{reactStringReplace(
+														searchTextContent.length
+															? reactStringReplace(
 																	content.mainText,
-																	/\n/g,
+																	searchTextContent,
 																	(match, index) => (
-																		<>
-																			<p>{match}</p>
-																			<br />
-																		</>
+																		<span key={index}>{match}</span>
 																	)
-																)}
-															</>
-														)}
+															  )
+															: content.mainText}
 													</p>
 												)}
 
@@ -340,7 +328,7 @@ const About = () => {
 														setPreviewImage={setPreviewImage}
 														setImage={setImage}
 														isUrlLoading={isUrlLoading}
-														image={image}
+														image={image!}
 													/>
 												)}
 											</div>
@@ -372,7 +360,7 @@ const About = () => {
 											setPreviewImage={setPreviewImage}
 											setImage={setImage}
 											isUrlLoading={isUrlLoading}
-											image={image}
+											image={image!}
 										/>
 									</div>
 								)}

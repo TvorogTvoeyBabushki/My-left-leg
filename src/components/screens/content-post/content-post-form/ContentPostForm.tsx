@@ -1,4 +1,8 @@
-import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import {
+	FieldValues,
+	UseFormHandleSubmit,
+	UseFormRegister
+} from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import Button from '@/components/ui/button/Button'
@@ -10,9 +14,9 @@ import { IDataPost } from '../ContentPost'
 import styles from './ContentPostForm.module.scss'
 
 interface IContentPostFormProps {
-	handleSubmit: UseFormHandleSubmit<IDataPost, undefined>
-	onSubmit: (data: IDataPost) => void
-	register: UseFormRegister<IDataPost>
+	handleSubmit: UseFormHandleSubmit<FieldValues, undefined>
+	onSubmit: (data: IDataPost | FieldValues) => void
+	register: UseFormRegister<FieldValues>
 	changeContent: IDataPost
 	changeFieldAndTextarea: (
 		e: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -22,9 +26,9 @@ interface IContentPostFormProps {
 	typeButton: string
 	previewImage: string
 	setPreviewImage: (previewImage: string) => void
-	setImage: (image: any) => void
+	setImage: (image: File) => void
 	isUrlLoading: boolean
-	image: any
+	image: File
 }
 
 const ContentPostForm = ({

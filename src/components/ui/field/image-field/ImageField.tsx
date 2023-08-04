@@ -1,9 +1,7 @@
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
 
 import { useImageField } from '@/hooks/useImageField'
-
-import { IDataPost } from '@/components/screens/content-post/ContentPost'
 
 import Loader from '../../loader/Loader'
 import { IData } from '../../modal/Modal'
@@ -13,9 +11,9 @@ import styles from './ImageField.module.scss'
 
 interface IImageFieldProps {
 	type: string
-	register: UseFormRegister<IData> | UseFormRegister<IDataPost>
+	register: UseFormRegister<FieldValues>
 	errors?: FieldErrors<IData>
-	setImage: (image: any) => void
+	setImage: (image: File) => void
 	previewImage: string
 	setPreviewImage: (previewImage: string) => void
 	isUrlLoading: boolean
@@ -33,8 +31,9 @@ const ImageField = ({
 	const { setIsToggleImage, isToggleImage, isToggleIcon, setIsToggleIcon } =
 		useImageField()
 
-	const getImage = (event: any) => {
-		const fileRef: File | null = event.target.files[0]
+	const getImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const target = event.target as HTMLInputElement
+		const fileRef = target.files?.[0] as File
 
 		if (fileRef) {
 			setImage(fileRef)
@@ -44,8 +43,8 @@ const ImageField = ({
 
 			reader.readAsDataURL(fileRef) // получаем url
 
-			reader.onload = (ev: any) => {
-				setPreviewImage(ev.target.result)
+			reader.onload = ev => {
+				setPreviewImage(ev.target!.result as string)
 			}
 		}
 	}

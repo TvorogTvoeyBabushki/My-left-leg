@@ -12,35 +12,58 @@
 		font-size: 25px;
 		background-color: transparent;
 	}
-
-	> input {
-		display: none;
-		background-color: transparent;
-		padding: 10px 20px;
-		// border-radius: 0.5rem;
-		letter-spacing: 2px;
-		color: darken($field-color, 30%);
-
-		&::placeholder {
-			color: $field-color;
-		}
-	}
-
-	&.active {
-		animation: show-search 1s ease both;
-
-		> input {
-			display: block;
-		}
-	}
 }
 
-@keyframes show-search {
-	from {
-		transform: translateX(70%);
-	}
+.show_input {
+	width: 100%;
+	padding: 20px 0;
 
-	to {
-		transform: translateX(0%);
+	background-color: $field-color;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	> div {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		width: 100%;
+		max-width: 600px;
+		margin: 0 auto;
+		padding: 0 15px;
+
+		> div:first-child {
+			display: inline-flex;
+			align-items: center;
+			padding-bottom: 3px;
+			border-bottom: 1px solid $black;
+			width: 400px;
+
+			> svg {
+				color: darken($field-color, 30%);
+			}
+
+			> input {
+				width: 100%;
+				margin-left: 15px;
+				background-color: transparent;
+
+				letter-spacing: 2px;
+				color: darken($field-color, 30%);
+			}
+		}
+
+		> div:last-child {
+			margin-left: 10px;
+			> button {
+				background-color: transparent;
+				font-size: 30px;
+				vertical-align: top;
+
+				> svg {
+					color: darken($field-color, 30%);
+				}
+			}
+		}
 	}
 }

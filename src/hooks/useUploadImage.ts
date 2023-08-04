@@ -4,7 +4,7 @@ import { cloudName } from '@/config/cloudinary/cloudName.config'
 import { uploadPreset } from '@/config/cloudinary/uploadPreset.config'
 
 interface IUploadImage {
-	image: any
+	image: File
 	setIsUrlLoading: (isUrlLoading: boolean) => void
 	setUrl: (url: string) => void
 }

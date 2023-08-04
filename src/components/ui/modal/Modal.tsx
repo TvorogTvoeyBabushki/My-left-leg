@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FieldValues, useForm } from 'react-hook-form'
 import Select from 'react-select'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -30,12 +30,12 @@ interface ICategorys {
 export interface IData {
 	title: string
 	description: string
-	img: any
+	img: string
 	categorysIds?: ICategorys[] | string[]
 }
 
 const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
-	const { setIsToggleIcon, setIsToggleImage } = useImageField()
+	const { setIsToggleImage } = useImageField()
 	const { post, setPost } = usePost()
 	const [isChangePost, setIsChangePost] = useState(true)
 	const [previewImage, setPreviewImage] = useState('')
@@ -44,8 +44,8 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	const [postId, setPostId] = useState(0)
 	const [categorys, setCategorys] = useState<ICategorys[]>([])
 
-	const [image, setImage] = useState<any>('')
-	const [url, setUrl] = useState<any>('')
+	const [image, setImage] = useState<File | null>(null)
+	const [url, setUrl] = useState('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
 
 	const {
@@ -54,7 +54,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 		reset,
 		control,
 		formState: { errors }
-	} = useForm<IData>({
+	} = useForm<IData | FieldValues>({
 		mode: 'onChange'
 	})
 
@@ -87,7 +87,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 	}
 
 	useEffect(() => {
-		useUploadImage({ image, setUrl, setIsUrlLoading })
+		image && useUploadImage({ image, setUrl, setIsUrlLoading })
 
 		return () => {
 			setUrl('')
@@ -120,7 +120,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 		}
 	}, [isChangePost])
 
-	const onSubmit = (data: IData) => {
+	const onSubmit = (data: IData | FieldValues) => {
 		if (!url) {
 			return
 		}
@@ -134,7 +134,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 			data.categorysIds = categorys
 		}
 
-		const categorysIds = data.categorysIds.map(category => {
+		const categorysIds = data.categorysIds.map((category: ICategorys) => {
 			const valueCategory = category as ICategorys
 
 			return valueCategory.value
@@ -192,7 +192,7 @@ const Modal = ({ closeModal, setIsInteractionPost }: IModalProps) => {
 											color: 'red'
 										}}
 									>
-										{errors.description.message}
+										{errors.description.message as string}
 									</div>
 								)}
 								<TextareaAutosize

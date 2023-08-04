@@ -1,14 +1,22 @@
-interface IFieldProps {
-	register: any // ???
+import { InputHTMLAttributes } from 'react'
+import { FieldValues, UseFormRegister } from 'react-hook-form'
+
+interface IOptions {
+	[x: string]: string
+}
+
+interface IFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+	register: UseFormRegister<FieldValues>
 	name: string
-	options: {
-		required: string
-	}
+	options: IOptions
 	error?: string
 	value?: string
 	className: string
-
-	[x: string]: any // для rest
+	placeholder?: string
+	type: string
+	accept?: string
+	onMouseOver?: () => void
+	onInput?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const Field = ({
@@ -32,7 +40,7 @@ const Field = ({
 						top: 0
 					}}
 				>
-					{error}
+					{error as string}
 				</div>
 			)}
 			<input
