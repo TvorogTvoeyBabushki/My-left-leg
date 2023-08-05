@@ -16,10 +16,11 @@ interface IPostMenuProps {
 
 const PostMenu = ({ styles, post }: IPostMenuProps) => {
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
+	const navigate = useNavigate()
+
 	const { setIsToggleIcon } = useImageField()
 	const { setIsInteractionPost, setPost } = usePost()
 	const { showModal } = useModal()
-	const navigate = useNavigate()
 
 	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
 		e.preventDefault()

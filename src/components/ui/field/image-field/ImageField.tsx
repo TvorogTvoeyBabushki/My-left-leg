@@ -1,13 +1,12 @@
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
 
-import { useImageField } from '@/hooks/useImageField'
-
 import Loader from '../../loader/Loader'
 import { IData } from '../../modal/Modal'
 import Field from '../Field'
 
 import styles from './ImageField.module.scss'
+import { useImageFieldLocal } from './useImageFieldLocal'
 
 interface IImageFieldProps {
 	type: string
@@ -28,34 +27,11 @@ const ImageField = ({
 	setPreviewImage,
 	isUrlLoading
 }: IImageFieldProps) => {
-	const { setIsToggleImage, isToggleImage, isToggleIcon, setIsToggleIcon } =
-		useImageField()
-
-	const getImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const target = event.target as HTMLInputElement
-		const fileRef = target.files?.[0] as File
-
-		if (fileRef) {
-			setImage(fileRef)
-			setIsToggleImage(true)
-
-			const reader = new FileReader()
-
-			reader.readAsDataURL(fileRef) // получаем url
-
-			reader.onload = ev => {
-				setPreviewImage(ev.target!.result as string)
-			}
-		}
-	}
-
-	const showIcon = () => {
-		setIsToggleIcon(true)
-	}
-
-	const closeIcon = () => {
-		isToggleImage && setIsToggleIcon(false)
-	}
+	const { closeIcon, getImage, showIcon, isToggleIcon, isToggleImage } =
+		useImageFieldLocal({
+			setImage,
+			setPreviewImage
+		})
 
 	return (
 		<div className={styles.frame} onMouseOver={showIcon} onMouseOut={closeIcon}>

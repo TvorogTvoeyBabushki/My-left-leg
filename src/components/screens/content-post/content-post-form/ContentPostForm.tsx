@@ -1,50 +1,27 @@
-import {
-	FieldValues,
-	UseFormHandleSubmit,
-	UseFormRegister
-} from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import Button from '@/components/ui/button/Button'
 import Field from '@/components/ui/field/Field'
 import ImageField from '@/components/ui/field/image-field/ImageField'
 
-import { IDataPost } from '../ContentPost'
+import { IContentPost } from '../ContentPost'
 
 import styles from './ContentPostForm.module.scss'
 
-interface IContentPostFormProps {
-	handleSubmit: UseFormHandleSubmit<FieldValues, undefined>
-	onSubmit: (data: IDataPost | FieldValues) => void
-	register: UseFormRegister<FieldValues>
-	changeContent: IDataPost
-	changeFieldAndTextarea: (
-		e: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>,
-		type: string
-	) => void
-	handlerCancelClick: () => void
-	typeButton: string
-	previewImage: string
-	setPreviewImage: (previewImage: string) => void
-	setImage: (image: File) => void
-	isUrlLoading: boolean
-	image: File
-}
-
 const ContentPostForm = ({
+	typeButton,
 	handleSubmit,
 	onSubmit,
 	register,
 	changeContent,
 	changeFieldAndTextarea,
-	handlerCancelClick,
-	typeButton,
 	previewImage,
 	setPreviewImage,
 	setImage,
 	isUrlLoading,
-	image
-}: IContentPostFormProps) => {
+	image,
+	handlerCancelClick
+}: IContentPost) => {
 	return (
 		<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 			<Field
@@ -83,10 +60,10 @@ const ContentPostForm = ({
 					typeButton === 'add' && <div>One field must be filled</div>}
 				<Button
 					type={typeButton === 'change' ? 'change' : 'add'}
-					children={typeButton}
+					children={typeButton!}
 					changeContent={changeContent}
 					isLoading={isUrlLoading}
-					image={image}
+					image={image!}
 				/>
 				{typeButton === 'change' && (
 					<Button onClick={handlerCancelClick} type='' children={'Cancel'} />

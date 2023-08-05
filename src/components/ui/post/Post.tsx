@@ -1,11 +1,10 @@
 import { Fragment } from 'react'
-import { Link } from 'react-router-dom'
 
 import { usePost } from '@/hooks/usePost'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import styles from './Post.module.scss'
-import PostMenu from './post-menu/PostMenu'
+import PostItem from './post-item/PostItem'
 import { IDataService } from '@/services/post/post.service'
 
 interface IPostProps {
@@ -50,76 +49,10 @@ const Post = (props: IPostProps) => {
 				<Fragment key={index}>
 					{index === 0 ? (
 						<div>
-							<div>
-								{postCollection.map(post => (
-									<Link
-										key={post.id}
-										to={`/${post.title.replace(/\s/g, '-').toLowerCase()}/${
-											post.id
-										}`}
-									>
-										<div>
-											<div className={styles.shadow} />
-											<img
-												className={styles.image}
-												src={post.img}
-												alt={post.title}
-											/>
-											<div className={styles.info}>
-												<div>
-													{post.categorysIds.map((category, index) => (
-														<p key={index}>
-															{index !== post.categorysIds.length - 1
-																? `${category},`
-																: category}
-														</p>
-													))}
-												</div>
-												<p>{post.title}</p>
-												<p>{post.description}</p>
-											</div>
-
-											<PostMenu styles={styles} post={post as IDataService} />
-										</div>
-									</Link>
-								))}
-							</div>
+							<PostItem postCollection={postCollection} styles={styles} />
 						</div>
 					) : (
-						<div>
-							{postCollection.map(post => (
-								<Link
-									key={post.id}
-									to={`/${post.title.replace(/\s/g, '-').toLowerCase()}/${
-										post.id
-									}`}
-								>
-									<div>
-										<div className={styles.shadow} />
-										<img
-											className={styles.image}
-											src={post.img}
-											alt={post.title}
-										/>
-										<div className={styles.info}>
-											<div>
-												{post.categorysIds.map((category, index) => (
-													<p key={index}>
-														{index !== post.categorysIds.length - 1
-															? `${category}, `
-															: category}
-													</p>
-												))}
-											</div>
-											<p>{post.title}</p>
-											<p>{post.description}</p>
-										</div>
-
-										<PostMenu styles={styles} post={post as IDataService} />
-									</div>
-								</Link>
-							))}
-						</div>
+						<PostItem postCollection={postCollection} styles={styles} />
 					)}
 				</Fragment>
 			))}

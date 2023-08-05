@@ -1,11 +1,9 @@
 import clsx from 'clsx'
-import { useState } from 'react'
 import { LuSearch } from 'react-icons/lu'
 import { VscClose } from 'react-icons/vsc'
 
-import { useSearchDataPost } from '@/hooks/useSearchDataPost'
-
 import styles from './Search.module.scss'
+import { useSearch } from './useSearch'
 import { IDataService } from '@/services/post/post.service'
 
 interface ISearchProps {
@@ -15,49 +13,11 @@ interface ISearchProps {
 }
 
 const Search = ({ data, type, post }: ISearchProps) => {
-	const { setSearchDataPost, setSearchTextContent, setIsSearchPost } =
-		useSearchDataPost()
-	const [isToggleStyle, setIsToggleStyle] = useState(true)
-
-	const handleSearch = () => {
-		isToggleStyle ? setIsToggleStyle(false) : setIsToggleStyle(true)
-	}
-
-	const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
-		const inputEl = e.target as HTMLInputElement
-
-		if (type === 'content') {
-			post.postContent?.forEach(content => {
-				if (
-					content.heading
-						.toLowerCase()
-						.includes(inputEl.value.trim().toLowerCase()) ||
-					content.mainText
-						.toLowerCase()
-						.includes(inputEl.value.trim().toLowerCase())
-				)
-					setSearchTextContent(inputEl.value.trim().toLowerCase())
-			})
-		}
-
-		if (type === 'home') {
-			const searchDataPost = data.filter(
-				post =>
-					post.title
-						.toLowerCase()
-						.includes(inputEl.value.trim().toLowerCase()) ||
-					post.description
-						.toLowerCase()
-						.includes(inputEl.value.trim().toLowerCase())
-			)
-
-			setSearchDataPost(searchDataPost)
-
-			inputEl.value.trim().length
-				? setIsSearchPost(true)
-				: setIsSearchPost(false)
-		}
-	}
+	const { handleInput, handleSearch, isToggleStyle } = useSearch({
+		data,
+		post,
+		type
+	})
 
 	return (
 		<>
