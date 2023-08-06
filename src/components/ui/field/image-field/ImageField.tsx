@@ -59,7 +59,7 @@ const ImageField = ({
 			)}
 			{isUrlLoading && (
 				<div>
-					<Loader />
+					<Loader type='' />
 				</div>
 			)}
 		</div>

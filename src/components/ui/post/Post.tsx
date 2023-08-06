@@ -13,7 +13,7 @@ interface IPostProps {
 
 const Post = (props: IPostProps) => {
 	const { searchDataPost, isSearchPost } = useSearchDataPost()
-	const { category } = usePost()
+	const { category, isMutateLoading, postId } = usePost()
 	let { data } = props
 	let newData = [] as IDataService[][]
 
@@ -49,10 +49,20 @@ const Post = (props: IPostProps) => {
 				<Fragment key={index}>
 					{index === 0 ? (
 						<div>
-							<PostItem postCollection={postCollection} styles={styles} />
+							<PostItem
+								isMutateLoading={isMutateLoading}
+								postCollection={postCollection}
+								styles={styles}
+								postId={postId}
+							/>
 						</div>
 					) : (
-						<PostItem postCollection={postCollection} styles={styles} />
+						<PostItem
+							isMutateLoading={isMutateLoading}
+							postCollection={postCollection}
+							styles={styles}
+							postId={postId}
+						/>
 					)}
 				</Fragment>
 			))}

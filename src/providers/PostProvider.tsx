@@ -13,6 +13,10 @@ export interface IPostContextType {
 	setIsInteractionPost: (isInteractionPost: boolean) => void
 	category: string
 	setCategory: (category: string) => void
+	isMutateLoading: boolean
+	setIsMutateLoading: (isMutateLoading: boolean) => void
+	postId: number
+	setPostId: (postId: number) => void
 }
 
 export const PostContext = createContext<IPostContextType | null>(null)
@@ -21,6 +25,8 @@ const PostProvider = ({ children }: IPostProviderProps) => {
 	const [post, setPost] = useState<IDataService | null>(null)
 	const [isInteractionPost, setIsInteractionPost] = useState(false)
 	const [category, setCategory] = useState('')
+	const [isMutateLoading, setIsMutateLoading] = useState(false)
+	const [postId, setPostId] = useState(0)
 
 	return (
 		<PostContext.Provider
@@ -30,7 +36,11 @@ const PostProvider = ({ children }: IPostProviderProps) => {
 				isInteractionPost,
 				setIsInteractionPost,
 				category,
-				setCategory
+				setCategory,
+				isMutateLoading,
+				setIsMutateLoading,
+				postId,
+				setPostId
 			}}
 		>
 			{children}

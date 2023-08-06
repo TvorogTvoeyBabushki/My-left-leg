@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,14 +12,15 @@ import PostService, { IDataService } from '@/services/post/post.service'
 interface IPostMenuProps {
 	styles: CSSModuleClasses
 	post: IDataService
+	postId: number | undefined
 }
 
-const PostMenu = ({ styles, post }: IPostMenuProps) => {
+const PostMenu = ({ styles, post, postId }: IPostMenuProps) => {
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
 	const navigate = useNavigate()
 
 	const { setIsToggleIcon } = useImageField()
-	const { setIsInteractionPost, setPost } = usePost()
+	const { setIsInteractionPost, setPost, setPostId } = usePost()
 	const { showModal } = useModal()
 
 	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
@@ -33,6 +34,7 @@ const PostMenu = ({ styles, post }: IPostMenuProps) => {
 			showModal()
 			setPost(post)
 
+			setPostId(postId!)
 			setIsToggleIcon(false)
 		}
 

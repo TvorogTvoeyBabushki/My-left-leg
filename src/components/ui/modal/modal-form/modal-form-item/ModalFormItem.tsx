@@ -30,6 +30,7 @@ interface IModalFormItemProps {
 	categorys: ICategorys[]
 	isChangePost: boolean
 	isUrlLoading: boolean
+	setIsLoadImg: (isLoadImg: boolean) => void
 }
 
 const ModalFormItem = ({
@@ -42,7 +43,8 @@ const ModalFormItem = ({
 	control,
 	categorys,
 	isUrlLoading,
-	isChangePost
+	isChangePost,
+	setIsLoadImg
 }: IModalFormItemProps) => {
 	return (
 		<div>
@@ -112,7 +114,13 @@ const ModalFormItem = ({
 			</div>
 
 			<div>
-				<Button type='modal' isLoading={isUrlLoading}>
+				<Button
+					onClick={e => {
+						setIsLoadImg(true)
+					}}
+					type='modal'
+					isLoading={isUrlLoading}
+				>
 					{!isChangePost ? 'Update post' : 'Create post'}
 				</Button>
 			</div>

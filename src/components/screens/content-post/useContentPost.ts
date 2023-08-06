@@ -13,6 +13,7 @@ import PostService, { IDataService } from '@/services/post/post.service'
 export const useContentPost = () => {
 	const { setIsToggleImage, setIsToggleIcon } = useImageField()
 
+	const [isPostLoading, setIsPostLoading] = useState(false)
 	const [image, setImage] = useState<File | null>(null)
 	const [url, setUrl] = useState('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
@@ -34,6 +35,8 @@ export const useContentPost = () => {
 
 	const fetchPost = async () => {
 		try {
+			setIsPostLoading(true)
+
 			const response = await PostService.getPost(postIdPath)
 
 			if (
@@ -48,6 +51,8 @@ export const useContentPost = () => {
 			console.log('error: ', error)
 
 			setIsNotFound(true)
+		} finally {
+			setIsPostLoading(false)
 		}
 	}
 
@@ -73,13 +78,15 @@ export const useContentPost = () => {
 			  setUrl(certainContent?.img))
 			: (setChangeContent({ heading: '', mainText: '', img: '' }),
 			  setIsToggleIcon(true))
+
+		console.log(indexContent)
 	}, [indexContent])
 
 	const { register, handleSubmit, reset } = useForm<IDataPost | FieldValues>({
 		mode: 'onChange'
 	})
 
-	const { mutate } = useMutation(
+	const { mutate, isLoading: isMutateLoading } = useMutation(
 		['add post content'],
 		(body: IDataService) => PostService.update(body, postIdPath),
 		{
@@ -122,12 +129,15 @@ export const useContentPost = () => {
 				}
 			})
 
-			setIndexContent(null)
 			setIsToggleImage(false)
 		}
 
 		mutate(post as IDataService)
 	}
+
+	useEffect(() => {
+		!isMutateLoading && setIndexContent(null)
+	}, [isMutateLoading])
 
 	const handleMouseEvent = (type: string) => {
 		type === 'over' ? setIsToggleList(true) : setIsToggleList(false)
@@ -159,6 +169,8 @@ export const useContentPost = () => {
 
 			mutate(modifiedPost as IDataService)
 			setPost(modifiedPost as IDataService)
+			setIndexContent(null)
+			setIsToggleForm(false)
 		}
 	}
 
@@ -209,7 +221,9 @@ export const useContentPost = () => {
 			isUrlLoading,
 			image,
 			handleButtonClick,
-			isToggleForm
+			isToggleForm,
+			isPostLoading,
+			isMutateLoading
 		}),
 		[
 			isNotFound,
@@ -220,7 +234,9 @@ export const useContentPost = () => {
 			changeContent,
 			previewImage,
 			isUrlLoading,
-			isToggleForm
+			isToggleForm,
+			isPostLoading,
+			isMutateLoading
 		]
 	)
 }

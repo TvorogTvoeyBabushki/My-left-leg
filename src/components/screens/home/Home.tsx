@@ -1,9 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
 
+import Loader from '@/components/ui/loader/Loader'
 import Modal from '@/components/ui/modal/Modal'
 import Post from '@/components/ui/post/Post'
 
@@ -15,19 +15,24 @@ const Home = () => {
 	const { isInteractionPost, setIsInteractionPost } = usePost()
 	const { isModal, closeModal } = useModal()
 	const [data, setData] = useState<IDataService[]>([])
-
-	const { isSuccess, isLoading } = useQuery(['get posts'], () =>
-		PostService.getPostAll()
-	)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const fetchPosts = async () => {
-		const response = await PostService.getPostAll()
+		try {
+			setIsLoading(true)
+			const response = await PostService.getPostAll()
 
-		setData(response.data)
+			setData(response.data)
+		} catch (error) {
+			console.log('error: ', error)
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	useEffect(() => {
 		fetchPosts()
+
 		getTitle('home')
 
 		return () => setIsInteractionPost(false)
@@ -44,8 +49,11 @@ const Home = () => {
 			<Layout type='home' data={data as IDataService[]}>
 				<section>
 					<div className='container'>
-						{isLoading && <div style={{ textAlign: 'center' }}>Loading...</div>}
-						{isSuccess && <Post data={data as IDataService[]} />}
+						{isLoading ? (
+							<Loader type='home' />
+						) : (
+							<Post data={data as IDataService[]} />
+						)}
 					</div>
 				</section>
 			</Layout>
