@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { VscClose, VscMenu } from 'react-icons/vsc'
 import { useNavigate } from 'react-router-dom'
@@ -9,11 +9,7 @@ import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 import styles from './BurgerMenu.module.scss'
 import { selectOptions } from '@/constants/selectOptions'
 
-interface IBurgerMenu {
-	type: string
-}
-
-const BurgerMenu = ({ type }: IBurgerMenu) => {
+const BurgerMenu: FC<{ type: string }> = ({ type }) => {
 	const { setIsSearchPost } = useSearchDataPost()
 	const [isShow, seIsShow] = useState(false)
 	const { setCategory } = usePost()

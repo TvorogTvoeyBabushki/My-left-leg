@@ -28,16 +28,15 @@ export const useContentPost = () => {
 	const [isToggleList, setIsToggleList] = useState(false)
 	const [post, setPost] = useState<IDataService>()
 
-	const params = useParams() // забрать из {id, name}
-	const postIdPath = +params.id!
-	const postNamePath = params.name!
+	const { id: postIdPath, name: postNamePath } = useParams() // забрать из {id, name}
+
 	const [isNotFound, setIsNotFound] = useState(false)
 
 	const fetchPost = async () => {
 		try {
 			setIsPostLoading(true)
 
-			const response = await PostService.getPost(postIdPath)
+			const response = await PostService.getPost(+postIdPath!)
 
 			if (
 				postNamePath !== response.data.title.replace(/\s/g, '-').toLowerCase()
@@ -88,7 +87,7 @@ export const useContentPost = () => {
 
 	const { mutate, isLoading: isMutateLoading } = useMutation(
 		['add post content'],
-		(body: IDataService) => PostService.update(body, postIdPath),
+		(body: IDataService) => PostService.update(body, +postIdPath!),
 		{
 			onSuccess: () => {
 				setIsToggleForm(false)

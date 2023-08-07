@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { useEffect } from 'react'
 import { LuSearch } from 'react-icons/lu'
 import { VscClose } from 'react-icons/vsc'
 
@@ -7,21 +8,21 @@ import { useSearch } from './useSearch'
 import { IDataService } from '@/services/post/post.service'
 
 interface ISearchProps {
-	data: IDataService[]
 	type: string
 	post: IDataService
 }
 
-const Search = ({ data, type, post }: ISearchProps) => {
-	const { handleInput, handleSearch, isToggleStyle } = useSearch({
-		data,
-		post,
-		type
-	})
+const Search = ({ type, post }: ISearchProps) => {
+	const { handleInput, handleSearch, isToggleStyle, isCloseSearch } = useSearch(
+		{
+			post,
+			type
+		}
+	)
 
 	return (
 		<>
-			{isToggleStyle ? (
+			{isToggleStyle && !isCloseSearch ? (
 				<div
 					className={clsx(styles.search_wrapper, {
 						[styles.active]: isToggleStyle

@@ -1,10 +1,4 @@
-import { createContext, useState } from 'react'
-
-import { IDataService } from '@/services/post/post.service'
-
-interface IModalProviderProps {
-	children: JSX.Element
-}
+import { FC, createContext, useState } from 'react'
 
 export interface IModalContextType {
 	isModal: boolean
@@ -15,7 +9,7 @@ export interface IModalContextType {
 
 export const ModalContext = createContext<IModalContextType | null>(null)
 
-const ModalProvider = ({ children }: IModalProviderProps) => {
+const ModalProvider: FC<{ children: JSX.Element }> = ({ children }) => {
 	const [isModal, setIsModal] = useState(false)
 	const showModal = () => setIsModal(true)
 	const closeModal = () => setIsModal(false)

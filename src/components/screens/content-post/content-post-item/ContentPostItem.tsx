@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import reactStringReplace from 'react-string-replace'
 

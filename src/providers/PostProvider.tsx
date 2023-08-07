@@ -1,10 +1,6 @@
-import { createContext, useState } from 'react'
+import { FC, createContext, useState } from 'react'
 
 import { IDataService } from '@/services/post/post.service'
-
-interface IPostProviderProps {
-	children: JSX.Element
-}
 
 export interface IPostContextType {
 	post: IDataService | null
@@ -21,7 +17,7 @@ export interface IPostContextType {
 
 export const PostContext = createContext<IPostContextType | null>(null)
 
-const PostProvider = ({ children }: IPostProviderProps) => {
+const PostProvider: FC<{ children: JSX.Element }> = ({ children }) => {
 	const [post, setPost] = useState<IDataService | null>(null)
 	const [isInteractionPost, setIsInteractionPost] = useState(false)
 	const [category, setCategory] = useState('')

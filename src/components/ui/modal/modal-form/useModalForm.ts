@@ -55,8 +55,7 @@ export const useModalForm = ({
 			}
 		}
 	)
-	useEffect(() => console.log(isLoadImg), [isLoadImg])
-	// разобраться с обновлением img у поста, добавить load при создания поста
+
 	const changeFieldAndTextarea = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 		type: string
@@ -77,13 +76,14 @@ export const useModalForm = ({
 	}, [isMutateLoading])
 
 	useEffect(() => {
-		image && isLoadImg && useUploadImage({ image, setUrl, setIsUrlLoading })
+		// image && isLoadImg && useUploadImage({ image, setUrl, setIsUrlLoading })
+		image && useUploadImage({ image, setUrl, setIsUrlLoading })
 
 		return () => {
 			setUrl('')
 			setIsLoadImg(false)
 		}
-	}, [isLoadImg])
+	}, [image /*isLoadImg */])
 
 	useEffect(() => {
 		if (post && isChangePost) {

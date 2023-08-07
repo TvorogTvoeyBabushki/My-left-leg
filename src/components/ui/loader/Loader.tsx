@@ -1,12 +1,9 @@
 import clsx from 'clsx'
+import { FC } from 'react'
 
 import styles from './Loader.module.scss'
 
-interface ILoaderProps {
-	type: string
-}
-
-const Loader = ({ type }: ILoaderProps) => {
+const Loader: FC<{ type: string }> = ({ type }) => {
 	return (
 		<img
 			className={clsx(styles.loader, {

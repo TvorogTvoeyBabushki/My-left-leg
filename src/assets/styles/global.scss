@@ -20,7 +20,7 @@ body {
 
 .text-area {
 	width: 100%;
-	margin: 30px 0 10px;
+	margin-bottom: 10px;
 	resize: vertical;
 	max-height: 300px;
 	min-height: 80px;
@@ -33,10 +33,6 @@ body {
 
 	&::placeholder {
 		color: $field-color;
-	}
-
-	&--error {
-		margin-top: 0;
 	}
 }
 

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 
@@ -18,7 +18,6 @@ interface IPostMenuProps {
 const PostMenu = ({ styles, post, postId }: IPostMenuProps) => {
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
 	const navigate = useNavigate()
-
 	const { setIsToggleIcon } = useImageField()
 	const { setIsInteractionPost, setPost, setPostId } = usePost()
 	const { showModal } = useModal()
@@ -41,6 +40,7 @@ const PostMenu = ({ styles, post, postId }: IPostMenuProps) => {
 		if (liElement === 'Удалить') {
 			setIsInteractionPost(true)
 			PostService.delete(post.id!)
+			setPostId(postId!)
 		}
 	}
 

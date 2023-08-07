@@ -1,14 +1,12 @@
 import { InputHTMLAttributes } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
-interface IOptions {
-	[x: string]: string
-}
-
 interface IFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 	register: UseFormRegister<FieldValues>
 	name: string
-	options: IOptions
+	options: {
+		[x: string]: string
+	}
 	error?: string
 	value?: string
 	className: string

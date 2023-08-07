@@ -69,7 +69,7 @@ const ModalFormItem = ({
 					{errors.description && (
 						<div
 							style={{
-								margin: '10px 0',
+								margin: '10px 0 0',
 								textAlign: 'center',
 								color: 'red'
 							}}
@@ -77,6 +77,11 @@ const ModalFormItem = ({
 							{errors.description.message as string}
 						</div>
 					)}
+					<div
+						className={clsx(styles!.counter, {
+							[styles!.max_amount]: textareaValue.length === 200
+						})}
+					>{`${textareaValue.length}/200`}</div>
 					<TextareaAutosize
 						{...register('description', {
 							required: textareaValue ? false : 'Description is required'
@@ -84,9 +89,7 @@ const ModalFormItem = ({
 						placeholder='Post description...'
 						name='description'
 						maxLength={200}
-						className={clsx('text-area', {
-							['text-area--error']: !!errors.description
-						})}
+						className='text-area'
 						onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
 							changeFieldAndTextarea(e, 'textarea')
 						}
@@ -115,7 +118,7 @@ const ModalFormItem = ({
 
 			<div>
 				<Button
-					onClick={e => {
+					onClick={() => {
 						setIsLoadImg(true)
 					}}
 					type='modal'

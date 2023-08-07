@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
@@ -7,18 +7,27 @@ import { IDataService } from '@/services/post/post.service'
 interface IUseSearchProps {
 	type: string
 	post: IDataService
-	data: IDataService[]
 }
 
-export const useSearch = ({ type, post, data }: IUseSearchProps) => {
-	const { setSearchDataPost, setSearchTextContent, setIsSearchPost } =
-		useSearchDataPost()
+export const useSearch = ({ type, post }: IUseSearchProps) => {
+	const {
+		setSearchDataPost,
+		setSearchTextContent,
+		setIsSearchPost,
+		searchDataPost: data,
+		isCloseSearch,
+		setIsCloseSearch
+	} = useSearchDataPost()
 	const [isToggleStyle, setIsToggleStyle] = useState(true)
 
 	const handleSearch = () => {
 		isToggleStyle
-			? setIsToggleStyle(false)
-			: (setIsToggleStyle(true), setSearchTextContent(''))
+			? (setIsToggleStyle(false), setIsCloseSearch(true))
+			: (setIsToggleStyle(true),
+			  setSearchTextContent(''),
+			  setIsSearchPost(false),
+			  setSearchDataPost(data),
+			  setIsCloseSearch(false))
 	}
 
 	const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -39,7 +48,7 @@ export const useSearch = ({ type, post, data }: IUseSearchProps) => {
 		}
 
 		if (type === 'home') {
-			const searchDataPost = data.filter(
+			const searchDataPost = data!.filter(
 				post =>
 					post.title
 						.toLowerCase()
@@ -58,7 +67,12 @@ export const useSearch = ({ type, post, data }: IUseSearchProps) => {
 	}
 
 	return useMemo(
-		() => ({ handleSearch, handleInput, isToggleStyle }),
-		[isToggleStyle]
+		() => ({
+			handleSearch,
+			handleInput,
+			isToggleStyle,
+			isCloseSearch
+		}),
+		[isToggleStyle, isCloseSearch]
 	)
 }

@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { FC, Fragment } from 'react'
 
 import { usePost } from '@/hooks/usePost'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
@@ -7,17 +7,12 @@ import styles from './Post.module.scss'
 import PostItem from './post-item/PostItem'
 import { IDataService } from '@/services/post/post.service'
 
-interface IPostProps {
+const Post: FC<{
 	data: IDataService[]
-}
-
-const Post = (props: IPostProps) => {
-	const { searchDataPost, isSearchPost } = useSearchDataPost()
+}> = ({ data }) => {
+	// const {  isSearchPost } = useSearchDataPost()
 	const { category, isMutateLoading, postId } = usePost()
-	let { data } = props
 	let newData = [] as IDataService[][]
-
-	if (searchDataPost) data = searchDataPost
 
 	if (category) {
 		const sortPost = data.filter(post => post.categorysIds.includes(category))
@@ -45,9 +40,9 @@ const Post = (props: IPostProps) => {
 
 	return (
 		<div className={styles.wrapper}>
-			{newData.map((postCollection, index) => (
-				<Fragment key={index}>
-					{index === 0 ? (
+			{newData.map((postCollection, indexNewData) => (
+				<Fragment key={indexNewData}>
+					{indexNewData === 0 ? (
 						<div>
 							<PostItem
 								isMutateLoading={isMutateLoading}
@@ -73,7 +68,7 @@ const Post = (props: IPostProps) => {
 						justifyContent: 'flex-start'
 					}}
 				>
-					{isSearchPost ? 'There are no such posts' : 'No posts'}
+					{/* {isSearchPost ? 'There are no such posts' : 'No posts'} */}
 				</div>
 			)}
 		</div>

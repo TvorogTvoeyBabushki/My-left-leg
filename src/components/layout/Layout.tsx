@@ -8,12 +8,12 @@ import { IDataService } from '@/services/post/post.service'
 
 interface IModalProviderProps {
 	children: React.ReactNode
-	data?: IDataService[]
+
 	type: string
 	post?: IDataService
 }
 
-const Layout = ({ children, data, type, post }: IModalProviderProps) => {
+const Layout = ({ children, type, post }: IModalProviderProps) => {
 	const [scroll, setScroll] = useState(0)
 
 	const handleScrollTo = () => {
@@ -29,11 +29,7 @@ const Layout = ({ children, data, type, post }: IModalProviderProps) => {
 
 	return (
 		<section className={styles.layout}>
-			<Header
-				post={post as IDataService}
-				type={type}
-				data={data as IDataService[]}
-			/>
+			<Header post={post as IDataService} type={type} />
 
 			{children}
 

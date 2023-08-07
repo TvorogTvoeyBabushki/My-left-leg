@@ -1,8 +1,4 @@
-import { createContext, useState } from 'react'
-
-interface IImageFieldProviderProps {
-	children: JSX.Element
-}
+import { FC, createContext, useState } from 'react'
 
 export interface IImageFieldContext {
 	isToggleImage: boolean
@@ -13,7 +9,7 @@ export interface IImageFieldContext {
 
 export const ImageFieldContext = createContext<IImageFieldContext | null>(null)
 
-const ImageFieldProvider = ({ children }: IImageFieldProviderProps) => {
+const ImageFieldProvider: FC<{ children: JSX.Element }> = ({ children }) => {
 	const [isToggleImage, setIsToggleImage] = useState(false)
 	const [isToggleIcon, setIsToggleIcon] = useState(false)
 
