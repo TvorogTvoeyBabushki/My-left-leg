@@ -10,7 +10,7 @@ import { IDataService } from '@/services/post/post.service'
 const Post: FC<{
 	data: IDataService[]
 }> = ({ data }) => {
-	// const {  isSearchPost } = useSearchDataPost()
+	const { isSearchPost } = useSearchDataPost()
 	const { category, isMutateLoading, postId } = usePost()
 	let newData = [] as IDataService[][]
 

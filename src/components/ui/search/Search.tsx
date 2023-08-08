@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect } from 'react'
+import { IoIosArrowDown } from 'react-icons/io'
 import { LuSearch } from 'react-icons/lu'
 import { VscClose } from 'react-icons/vsc'
 
@@ -13,16 +13,23 @@ interface ISearchProps {
 }
 
 const Search = ({ type, post }: ISearchProps) => {
-	const { handleInput, handleSearch, isToggleStyle, isCloseSearch } = useSearch(
-		{
-			post,
-			type
-		}
-	)
+	const {
+		handleInput,
+		handleSearch,
+		isToggleStyle,
+		handleSearchClickUp,
+		handleSearchClickDown,
+		amountSearchEls,
+		counterClick
+	} = useSearch({
+		post,
+		type,
+		styles
+	})
 
 	return (
 		<>
-			{isToggleStyle && !isCloseSearch ? (
+			{isToggleStyle ? (
 				<div
 					className={clsx(styles.search_wrapper, {
 						[styles.active]: isToggleStyle
@@ -36,14 +43,34 @@ const Search = ({ type, post }: ISearchProps) => {
 				<div className={styles.show_input}>
 					<div>
 						<div>
-							<LuSearch />
-							<input
-								onInput={handleInput}
-								type='text'
-								placeholder='Search...'
-								name='search'
-								autoFocus
-							/>
+							<div>
+								<LuSearch />
+								<input
+									onInput={handleInput}
+									type='text'
+									placeholder='Search...'
+									name='search'
+									autoFocus
+								/>
+							</div>
+
+							<div>
+								<button onClick={handleSearchClickUp}>
+									<IoIosArrowDown />
+								</button>
+
+								<button onClick={handleSearchClickDown}>
+									<IoIosArrowDown />
+								</button>
+							</div>
+
+							{amountSearchEls ? (
+								<span>
+									{counterClick + 1}/{amountSearchEls}
+								</span>
+							) : (
+								''
+							)}
 						</div>
 
 						<div>

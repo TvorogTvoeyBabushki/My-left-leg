@@ -17,14 +17,14 @@ const Home = () => {
 	const { isModal, closeModal } = useModal()
 	const [data, setData] = useState<IDataService[]>([])
 	const [isLoading, setIsLoading] = useState(false)
-	const { searchDataPost, setSearchDataPost } = useSearchDataPost()
+	const { searchDataPost, setGetDataPost } = useSearchDataPost()
 	const fetchPosts = async () => {
 		try {
 			setIsLoading(true)
 			const response = await PostService.getPostAll()
 
 			setData(response.data)
-			setSearchDataPost(response.data)
+			setGetDataPost(response.data)
 		} catch (error) {
 			console.log('error: ', error)
 		} finally {

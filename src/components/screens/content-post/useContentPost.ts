@@ -77,8 +77,6 @@ export const useContentPost = () => {
 			  setUrl(certainContent?.img))
 			: (setChangeContent({ heading: '', mainText: '', img: '' }),
 			  setIsToggleIcon(true))
-
-		console.log(indexContent)
 	}, [indexContent])
 
 	const { register, handleSubmit, reset } = useForm<IDataPost | FieldValues>({
@@ -190,7 +188,13 @@ export const useContentPost = () => {
 	}
 
 	useEffect(() => {
-		image && useUploadImage({ image, setUrl, setIsUrlLoading })
+		image &&
+			useUploadImage({
+				image,
+				setUrl,
+				setIsUrlLoading,
+				nameFolder: post?.title!
+			})
 
 		return () => {
 			setUrl('')

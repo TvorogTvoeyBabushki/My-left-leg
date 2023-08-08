@@ -33,23 +33,53 @@
 		padding: 0 15px;
 
 		> div:first-child {
-			display: inline-flex;
-			align-items: center;
-			padding-bottom: 3px;
-			border-bottom: 1px solid $black;
-			width: 400px;
+			display: flex;
+			align-items: baseline;
+			max-width: 650px;
+			width: 100%;
 
-			> svg {
-				color: darken($field-color, 30%);
+			> div:first-child {
+				display: inline-flex;
+				align-items: center;
+				padding-bottom: 3px;
+				border-bottom: 1px solid $black;
+				max-width: 400px;
+				width: 100%;
+
+				> svg {
+					color: darken($field-color, 30%);
+				}
+
+				> input {
+					width: 100%;
+					margin-left: 15px;
+					background-color: transparent;
+
+					letter-spacing: 2px;
+					color: darken($field-color, 30%);
+				}
 			}
 
-			> input {
-				width: 100%;
+			> div:first-child ~ div {
+				display: flex;
+				flex-direction: column;
 				margin-left: 15px;
-				background-color: transparent;
 
-				letter-spacing: 2px;
-				color: darken($field-color, 30%);
+				> button {
+					background-color: transparent;
+					height: 20px;
+
+					&:first-child {
+						> svg {
+							transform: rotate(180deg);
+						}
+					}
+				}
+			}
+
+			> span {
+				align-self: center;
+				margin-left: 10px;
 			}
 		}
 

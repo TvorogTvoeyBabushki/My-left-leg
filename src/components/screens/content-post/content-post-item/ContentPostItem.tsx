@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { useRef } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import reactStringReplace from 'react-string-replace'
 
@@ -35,16 +34,6 @@ const ContentPostItem = ({
 	isMutateLoading
 }: IContentPost) => {
 	const { searchTextContent } = useSearchDataPost()
-	const spanRef = useRef<HTMLElement | null>(null)
-
-	// useEffect(() => {
-	// 	const spanEl = spanRef.current
-	// 	if (spanEl) {
-	// 		const { x, y } = spanEl?.getBoundingClientRect()!
-	// 		window.scrollTo(0, y - 100)
-
-	// 	}
-	// }, [searchTextContent.length])
 
 	return (
 		<article className={styles!.article_post}>
@@ -68,7 +57,7 @@ const ContentPostItem = ({
 														content.heading,
 														searchTextContent,
 														(match, index) => (
-															<span ref={spanRef} key={index}>
+															<span key={index} className='search_word'>
 																{match}
 															</span>
 														)
@@ -85,7 +74,7 @@ const ContentPostItem = ({
 														content.mainText,
 														searchTextContent,
 														(match, index) => (
-															<span ref={spanRef} key={index}>
+															<span key={index} className='search_word'>
 																{match}
 															</span>
 														)

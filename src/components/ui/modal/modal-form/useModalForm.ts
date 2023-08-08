@@ -77,7 +77,8 @@ export const useModalForm = ({
 
 	useEffect(() => {
 		// image && isLoadImg && useUploadImage({ image, setUrl, setIsUrlLoading })
-		image && useUploadImage({ image, setUrl, setIsUrlLoading })
+		image &&
+			useUploadImage({ image, setUrl, setIsUrlLoading, nameFolder: fieldValue })
 
 		return () => {
 			setUrl('')
