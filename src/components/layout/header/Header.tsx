@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 
 import { useImageField } from '@/hooks/useImageField'
 import { useModal } from '@/hooks/useModal'
-import { usePost } from '@/hooks/usePost'
 
 import Button from '@/components/ui/button/Button'
 import Search from '@/components/ui/search/Search'
@@ -19,7 +18,6 @@ interface IHeaderProps {
 const Header = ({ type, post }: IHeaderProps) => {
 	const { showModal } = useModal()
 	const { setIsToggleIcon, setIsToggleImage } = useImageField()
-	const { setPostId } = usePost()
 
 	return (
 		<header className={styles.header}>
@@ -46,7 +44,6 @@ const Header = ({ type, post }: IHeaderProps) => {
 									showModal()
 									setIsToggleIcon(true)
 									setIsToggleImage(false)
-									setPostId(0)
 								}}
 							>
 								Create post

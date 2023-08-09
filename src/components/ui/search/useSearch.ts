@@ -2,15 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
-import { IDataService } from '@/services/post/post.service'
+import { ISearchProps } from './Search'
 
-interface IUseSearchProps {
-	type: string
-	post: IDataService
-	styles: CSSModuleClasses
-}
-
-export const useSearch = ({ type, post, styles }: IUseSearchProps) => {
+export const useSearch = ({ type, post }: ISearchProps) => {
 	const {
 		setSearchDataPost,
 		setSearchTextContent,

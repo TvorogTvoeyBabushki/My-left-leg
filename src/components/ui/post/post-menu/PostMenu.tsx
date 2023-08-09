@@ -12,14 +12,13 @@ import PostService, { IDataService } from '@/services/post/post.service'
 interface IPostMenuProps {
 	styles: CSSModuleClasses
 	post: IDataService
-	postId: number | undefined
 }
 
-const PostMenu = ({ styles, post, postId }: IPostMenuProps) => {
+const PostMenu = ({ styles, post }: IPostMenuProps) => {
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
 	const navigate = useNavigate()
 	const { setIsToggleIcon } = useImageField()
-	const { setIsInteractionPost, setPost, setPostId } = usePost()
+	const { setIsInteractionPost, setPost } = usePost()
 	const { showModal } = useModal()
 
 	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
@@ -33,14 +32,12 @@ const PostMenu = ({ styles, post, postId }: IPostMenuProps) => {
 			showModal()
 			setPost(post)
 
-			setPostId(postId!)
 			setIsToggleIcon(false)
 		}
 
 		if (liElement === 'Удалить') {
 			setIsInteractionPost(true)
 			PostService.delete(post.id!)
-			setPostId(postId!)
 		}
 	}
 

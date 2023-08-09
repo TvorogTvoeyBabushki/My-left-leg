@@ -1,4 +1,4 @@
-import { IDataPost } from '@/components/screens/content-post/ContentPost'
+import { IDataPost } from '@/components/screens/content-post/ContentPost.interface'
 
 import { $axios } from '../api'
 

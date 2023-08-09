@@ -16,7 +16,7 @@ export const useModalForm = ({
 	setIsInteractionPost
 }: IModalProps) => {
 	const { setIsToggleImage } = useImageField()
-	const { post, setPost, setIsMutateLoading } = usePost()
+	const { post, setPost } = usePost()
 
 	const [isChangePost, setIsChangePost] = useState(true)
 	const [previewImage, setPreviewImage] = useState('')
@@ -29,8 +29,6 @@ export const useModalForm = ({
 	const [url, setUrl] = useState('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
 
-	const [isLoadImg, setIsLoadImg] = useState(false)
-
 	const {
 		handleSubmit,
 		register,
@@ -41,7 +39,7 @@ export const useModalForm = ({
 		mode: 'onChange'
 	})
 
-	const { mutate, isLoading: isMutateLoading } = useMutation(
+	const { mutate } = useMutation(
 		['create post'],
 		(body: IDataService) =>
 			!isChangePost
@@ -70,21 +68,12 @@ export const useModalForm = ({
 	}
 
 	useEffect(() => {
-		setIsMutateLoading(isMutateLoading)
-
-		return () => setIsMutateLoading(false)
-	}, [isMutateLoading])
-
-	useEffect(() => {
-		// image && isLoadImg && useUploadImage({ image, setUrl, setIsUrlLoading })
-		image &&
-			useUploadImage({ image, setUrl, setIsUrlLoading, nameFolder: fieldValue })
+		image && useUploadImage({ image, setUrl, setIsUrlLoading })
 
 		return () => {
 			setUrl('')
-			setIsLoadImg(false)
 		}
-	}, [image /*isLoadImg */])
+	}, [image])
 
 	useEffect(() => {
 		if (post && isChangePost) {
@@ -156,9 +145,7 @@ export const useModalForm = ({
 			fieldValue,
 			categorys,
 			isChangePost,
-			textareaValue,
-			setIsLoadImg,
-			isLoadImg
+			textareaValue
 		}),
 		[
 			previewImage,
@@ -168,8 +155,7 @@ export const useModalForm = ({
 			fieldValue,
 			categorys,
 			isChangePost,
-			textareaValue,
-			isLoadImg
+			textareaValue
 		]
 	)
 }

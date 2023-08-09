@@ -4,7 +4,7 @@ import Button from '@/components/ui/button/Button'
 import Field from '@/components/ui/field/Field'
 import ImageField from '@/components/ui/field/image-field/ImageField'
 
-import { IContentPost } from '../ContentPost'
+import { IContentPost } from '../ContentPost.interface'
 
 import styles from './ContentPostForm.module.scss'
 

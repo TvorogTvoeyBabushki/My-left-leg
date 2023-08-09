@@ -8,7 +8,6 @@ import { IDataService } from '@/services/post/post.service'
 
 interface IModalProviderProps {
 	children: React.ReactNode
-
 	type: string
 	post?: IDataService
 }

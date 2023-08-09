@@ -13,7 +13,7 @@ import { getTitle } from '@/config/seo/seo.config'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 const Home = () => {
-	const { isInteractionPost, setIsInteractionPost, postId } = usePost()
+	const { isInteractionPost, setIsInteractionPost } = usePost()
 	const { isModal, closeModal } = useModal()
 	const [data, setData] = useState<IDataService[]>([])
 	const [isLoading, setIsLoading] = useState(false)
@@ -45,7 +45,7 @@ const Home = () => {
 	}, [isInteractionPost])
 
 	useEffect(() => {
-		setData(searchDataPost!)
+		searchDataPost && setData(searchDataPost!)
 	}, [searchDataPost])
 
 	return (
@@ -60,7 +60,7 @@ const Home = () => {
 			<Layout type='home'>
 				<section>
 					<div className='container'>
-						{isLoading && !postId ? (
+						{isLoading ? (
 							<Loader type='home' />
 						) : (
 							<Post data={data as IDataService[]} />

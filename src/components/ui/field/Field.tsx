@@ -1,7 +1,6 @@
-import { InputHTMLAttributes } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
-interface IFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+interface IFieldProps {
 	register: UseFormRegister<FieldValues>
 	name: string
 	options: {

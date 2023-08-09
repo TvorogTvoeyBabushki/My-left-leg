@@ -1,37 +1,15 @@
 import clsx from 'clsx'
-import {
-	Control,
-	Controller,
-	FieldErrors,
-	FieldValues,
-	UseFormRegister
-} from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import Select from 'react-select'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import Button from '@/components/ui/button/Button'
 import Field from '@/components/ui/field/Field'
 
-import { ICategorys, IData } from '../../Modal'
+import { ICategorys } from '../../Modal'
 
+import { IModalFormItemProps } from './ModalFormItem.interface'
 import { selectOptions } from '@/constants/selectOptions'
-
-interface IModalFormItemProps {
-	register: UseFormRegister<FieldValues | IData>
-	fieldValue: string
-	errors: FieldErrors<FieldValues | IData>
-	changeFieldAndTextarea: (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-		type: string
-	) => void
-	styles: CSSModuleClasses | undefined
-	textareaValue: string
-	control: Control<IData | FieldValues, any>
-	categorys: ICategorys[]
-	isChangePost: boolean
-	isUrlLoading: boolean
-	setIsLoadImg: (isLoadImg: boolean) => void
-}
 
 const ModalFormItem = ({
 	register,
@@ -43,8 +21,7 @@ const ModalFormItem = ({
 	control,
 	categorys,
 	isUrlLoading,
-	isChangePost,
-	setIsLoadImg
+	isChangePost
 }: IModalFormItemProps) => {
 	return (
 		<div>
@@ -117,13 +94,7 @@ const ModalFormItem = ({
 			</div>
 
 			<div>
-				<Button
-					onClick={() => {
-						setIsLoadImg(true)
-					}}
-					type='modal'
-					isLoading={isUrlLoading}
-				>
+				<Button type='modal' isLoading={isUrlLoading}>
 					{!isChangePost ? 'Update post' : 'Create post'}
 				</Button>
 			</div>

@@ -11,7 +11,7 @@ const Post: FC<{
 	data: IDataService[]
 }> = ({ data }) => {
 	const { isSearchPost } = useSearchDataPost()
-	const { category, isMutateLoading, postId } = usePost()
+	const { category } = usePost()
 	let newData = [] as IDataService[][]
 
 	if (category) {
@@ -44,20 +44,10 @@ const Post: FC<{
 				<Fragment key={indexNewData}>
 					{indexNewData === 0 ? (
 						<div>
-							<PostItem
-								isMutateLoading={isMutateLoading}
-								postCollection={postCollection}
-								styles={styles}
-								postId={postId}
-							/>
+							<PostItem postCollection={postCollection} styles={styles} />
 						</div>
 					) : (
-						<PostItem
-							isMutateLoading={isMutateLoading}
-							postCollection={postCollection}
-							styles={styles}
-							postId={postId}
-						/>
+						<PostItem postCollection={postCollection} styles={styles} />
 					)}
 				</Fragment>
 			))}

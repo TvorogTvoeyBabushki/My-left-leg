@@ -1,14 +1,10 @@
-import clsx from 'clsx'
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import reactStringReplace from 'react-string-replace'
-
-import { useSearchDataPost } from '@/hooks/useSearchDataPost'
-
 import Button from '@/components/ui/button/Button'
 import Loader from '@/components/ui/loader/Loader'
 
-import { IContentPost } from '../ContentPost'
+import { IContentPost } from '../ContentPost.interface'
 import ContentPostForm from '../content-post-form/ContentPostForm'
+
+import ContentPostItemPublishPart from './ContentPostItemPublishPart'
 
 const ContentPostItem = ({
 	styles,
@@ -33,8 +29,6 @@ const ContentPostItem = ({
 	handleEdit,
 	isMutateLoading
 }: IContentPost) => {
-	const { searchTextContent } = useSearchDataPost()
-
 	return (
 		<article className={styles!.article_post}>
 			{post?.postContent?.length ? (
@@ -47,95 +41,27 @@ const ContentPostItem = ({
 								isToggleForm) ? (
 								<Loader type='' />
 							) : (
-								<>
-									{content.heading && (
-										<h3>
-											{content.heading
-												.toLowerCase()
-												.includes(searchTextContent) && searchTextContent.length
-												? reactStringReplace(
-														content.heading,
-														searchTextContent,
-														(match, index) => (
-															<span key={index} className='search_word'>
-																{match}
-															</span>
-														)
-												  )
-												: content.heading}
-										</h3>
-									)}
-									{content.mainText && (
-										<p>
-											{content.mainText
-												.toLowerCase()
-												.includes(searchTextContent) && searchTextContent.length
-												? reactStringReplace(
-														content.mainText,
-														searchTextContent,
-														(match, index) => (
-															<span key={index} className='search_word'>
-																{match}
-															</span>
-														)
-												  )
-												: content.mainText}
-										</p>
-									)}
-									{content.img && (
-										<div>
-											<img src={content.img} alt='Content image' />
-										</div>
-									)}
-									<div
-										className={styles!.menu_wrapper}
-										onMouseOver={() => handleMouseEvent!('over')}
-										onMouseOut={() => handleMouseEvent!('out')}
-									>
-										<button
-											className={clsx(styles!.btn, {
-												[styles!.btn_active]: isToggleList
-											})}
-										>
-											<BsThreeDotsVertical />
-										</button>
-
-										<ul>
-											{itemsList!.map((item, indexItemList) => (
-												<li key={indexItemList}>
-													<a
-														onClick={e =>
-															handleEdit!(
-																e,
-																indexPostContent,
-																item.toLowerCase()
-															)
-														}
-														href='#'
-													>
-														{item}
-													</a>
-												</li>
-											))}
-										</ul>
-									</div>
-									{indexPostContent === indexContent && (
-										<ContentPostForm
-											handleSubmit={handleSubmit}
-											onSubmit={onSubmit}
-											register={register}
-											changeContent={changeContent}
-											changeFieldAndTextarea={changeFieldAndTextarea}
-											previewImage={previewImage}
-											setPreviewImage={setPreviewImage}
-											setImage={setImage}
-											isUrlLoading={isUrlLoading}
-											image={image}
-											handlerCancelClick={handlerCancelClick}
-											typeButton='change'
-										/>
-									)}
-								</>
+								<ContentPostItemPublishPart
+									content={content}
+									handleEdit={handleEdit}
+									handleMouseEvent={handleMouseEvent}
+									indexPostContent={indexPostContent}
+									isToggleList={isToggleList}
+									itemsList={itemsList}
+									styles={styles}
+									indexContent={indexContent}
+									handleSubmit={handleSubmit}
+									onSubmit={onSubmit}
+									register={register}
+									changeContent={changeContent}
+									changeFieldAndTextarea={changeFieldAndTextarea}
+									previewImage={previewImage}
+									setPreviewImage={setPreviewImage}
+									setImage={setImage}
+									isUrlLoading={isUrlLoading}
+									image={image}
+									handlerCancelClick={handlerCancelClick}
+								/>
 							)}
 						</div>
 					))}

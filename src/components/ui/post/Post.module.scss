@@ -15,6 +15,17 @@
 			position: relative;
 			min-height: 585px;
 
+			> img {
+				height: 585px;
+				object-fit: cover;
+
+				@include transition(all);
+
+				@media (max-width: 550px) {
+					height: 400px;
+				}
+			}
+
 			> .post_menu {
 				visibility: hidden;
 				display: flex;
@@ -81,7 +92,7 @@
 				@include box-shadow;
 			}
 
-			&:hover .image {
+			&:hover > img {
 				filter: brightness(70%);
 			}
 
@@ -196,17 +207,6 @@
 				margin-bottom: 50px;
 			}
 		}
-	}
-}
-
-.image {
-	height: 585px;
-	object-fit: cover;
-
-	@include transition(all);
-
-	@media (max-width: 550px) {
-		height: 400px;
 	}
 }
 

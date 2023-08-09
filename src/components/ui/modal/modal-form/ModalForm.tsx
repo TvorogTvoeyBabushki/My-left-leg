@@ -23,8 +23,7 @@ const ModalForm = ({
 		categorys,
 		fieldValue,
 		isChangePost,
-		textareaValue,
-		setIsLoadImg
+		textareaValue
 	} = useModalForm({ closeModal, setIsInteractionPost })
 
 	return (
@@ -50,7 +49,6 @@ const ModalForm = ({
 				register={register}
 				styles={styles}
 				textareaValue={textareaValue}
-				setIsLoadImg={setIsLoadImg}
 			/>
 		</form>
 	)

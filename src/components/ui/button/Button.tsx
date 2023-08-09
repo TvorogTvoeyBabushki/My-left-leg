@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-import { IDataPost } from '@/components/screens/content-post/ContentPost'
+import { IDataPost } from '@/components/screens/content-post/ContentPost.interface'
 
 import styles from './Button.module.scss'
 

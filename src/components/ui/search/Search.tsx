@@ -7,7 +7,7 @@ import styles from './Search.module.scss'
 import { useSearch } from './useSearch'
 import { IDataService } from '@/services/post/post.service'
 
-interface ISearchProps {
+export interface ISearchProps {
 	type: string
 	post: IDataService
 }
@@ -23,8 +23,7 @@ const Search = ({ type, post }: ISearchProps) => {
 		counterClick
 	} = useSearch({
 		post,
-		type,
-		styles
+		type
 	})
 
 	return (

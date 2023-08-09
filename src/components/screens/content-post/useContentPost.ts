@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { useImageField } from '@/hooks/useImageField'
 import { useUploadImage } from '@/hooks/useUploadImage'
 
-import { IDataPost } from './ContentPost'
+import { IDataPost } from './ContentPost.interface'
 import { getTitle } from '@/config/seo/seo.config'
 import PostService, { IDataService } from '@/services/post/post.service'
 
@@ -192,8 +192,7 @@ export const useContentPost = () => {
 			useUploadImage({
 				image,
 				setUrl,
-				setIsUrlLoading,
-				nameFolder: post?.title!
+				setIsUrlLoading
 			})
 
 		return () => {
