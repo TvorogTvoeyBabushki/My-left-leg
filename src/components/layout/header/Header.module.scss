@@ -16,9 +16,15 @@
 
 	> div:last-child {
 		display: flex;
+		align-items: end;
+
+		> button:not(:last-child) {
+			margin-right: 20px;
+		}
 
 		@media (max-width: 550px) {
-			> button {
+			> button:not(:first-child, :last-child) {
+				height: 40px;
 				font-size: 0;
 				letter-spacing: 0;
 				line-height: 0;

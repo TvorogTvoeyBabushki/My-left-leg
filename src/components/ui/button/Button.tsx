@@ -25,7 +25,8 @@ const Button = ({
 		<button
 			className={clsx(styles.button, {
 				[styles.modal]: type === 'modal',
-				[styles.add_content]: type === 'add content'
+				[styles.add_content]: type === 'add content',
+				[styles.login]: type === 'login'
 			})}
 			onClick={onClick}
 			disabled={

@@ -6,7 +6,7 @@ export interface IDataService {
 	id?: number
 	title: string
 	description: string
-	img: string
+	img: string & string[]
 	categorysIds: string[]
 	postContent?: IDataPost[]
 }

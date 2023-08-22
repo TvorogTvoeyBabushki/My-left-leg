@@ -2,10 +2,13 @@ import { AdvancedImage, placeholder } from '@cloudinary/react'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { Link } from 'react-router-dom'
 
+import { useAdmin } from '@/hooks/useAdmin'
+
 import PostMenu from '../post-menu/PostMenu'
 
 import { cloudName } from '@/config/cloudinary/cloudName.config'
 import { IDataService } from '@/services/post/post.service'
+import { publicID } from '@/utils/cloudinary/publicID'
 
 interface IPostItemProps {
 	postCollection: IDataService[]
@@ -13,6 +16,8 @@ interface IPostItemProps {
 }
 
 const PostItem = ({ postCollection, styles }: IPostItemProps) => {
+	const { isAdmin } = useAdmin()
+
 	return (
 		<div>
 			{postCollection.map(post => (
@@ -22,26 +27,13 @@ const PostItem = ({ postCollection, styles }: IPostItemProps) => {
 				>
 					<div>
 						<div className={styles.shadow} />
-						{/* сокротить код внизу */}
 						<AdvancedImage
 							cldImg={new Cloudinary({
 								cloud: { cloudName: cloudName }
-							}).image(
-								post.img
-									.join('')
-									.split('')
-									.reverse()
-									.join('')
-									.replace(/\/.+/, '')
-									.replace('gpj.', '')
-									.split('')
-									.reverse()
-									.join('')
-							)}
+							}).image(publicID(post.img))}
 							plugins={[placeholder({ mode: 'blur' })]}
 						/>
 
-						{/* <img className={styles.image} src={post.img} alt={post.title} /> */}
 						<div className={styles.info}>
 							<div>
 								{post.categorysIds.map((category, categoryIndex) => (
@@ -56,7 +48,9 @@ const PostItem = ({ postCollection, styles }: IPostItemProps) => {
 							<p>{post.description}</p>
 						</div>
 
-						<PostMenu styles={styles} post={post as IDataService} />
+						{isAdmin && (
+							<PostMenu styles={styles} post={post as IDataService} />
+						)}
 					</div>
 				</Link>
 			))}

@@ -29,15 +29,9 @@ const Search = ({ type, post }: ISearchProps) => {
 	return (
 		<>
 			{isToggleStyle ? (
-				<div
-					className={clsx(styles.search_wrapper, {
-						[styles.active]: isToggleStyle
-					})}
-				>
-					<button onClick={handleSearch}>
-						<LuSearch />
-					</button>
-				</div>
+				<button className={styles.search} onClick={handleSearch}>
+					<LuSearch />
+				</button>
 			) : (
 				<div className={styles.show_input}>
 					<div>

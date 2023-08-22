@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 
 import '@/assets/styles/global.scss'
 
+import AdminProvider from './providers/AdminProvider'
 import ImageFieldProvider from './providers/ImageFieldProvider'
 import ModalProvider from './providers/ModalProvider'
 import PostProvider from './providers/PostProvider'
@@ -21,15 +22,17 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<SearchDataPostProvider>
-				<PostProvider>
-					<ModalProvider>
-						<ImageFieldProvider>
-							<Router />
-						</ImageFieldProvider>
-					</ModalProvider>
-				</PostProvider>
-			</SearchDataPostProvider>
+			<AdminProvider>
+				<SearchDataPostProvider>
+					<PostProvider>
+						<ModalProvider>
+							<ImageFieldProvider>
+								<Router />
+							</ImageFieldProvider>
+						</ModalProvider>
+					</PostProvider>
+				</SearchDataPostProvider>
+			</AdminProvider>
 		</QueryClientProvider>
 	</React.StrictMode>
 )

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 
+import { useAdmin } from '@/hooks/useAdmin'
 import { useImageField } from '@/hooks/useImageField'
 import { useModal } from '@/hooks/useModal'
 
 import Button from '@/components/ui/button/Button'
+import Exit from '@/components/ui/exit/Exit'
 import Search from '@/components/ui/search/Search'
 
 import styles from './Header.module.scss'
@@ -16,6 +18,7 @@ interface IHeaderProps {
 }
 
 const Header = ({ type, post }: IHeaderProps) => {
+	const { isAdmin } = useAdmin()
 	const { showModal } = useModal()
 	const { setIsToggleIcon, setIsToggleImage } = useImageField()
 
@@ -37,7 +40,7 @@ const Header = ({ type, post }: IHeaderProps) => {
 					<div>
 						{type !== 'not-found' && <Search type={type} post={post} />}
 
-						{type === 'home' && (
+						{type === 'home' && isAdmin && (
 							<Button
 								type=''
 								onClick={() => {
@@ -49,6 +52,8 @@ const Header = ({ type, post }: IHeaderProps) => {
 								Create post
 							</Button>
 						)}
+
+						{isAdmin && <Exit />}
 					</div>
 				</div>
 			</div>

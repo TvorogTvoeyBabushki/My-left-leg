@@ -1,3 +1,5 @@
+import { useAdmin } from '@/hooks/useAdmin'
+
 import Button from '@/components/ui/button/Button'
 import Loader from '@/components/ui/loader/Loader'
 
@@ -29,6 +31,8 @@ const ContentPostItem = ({
 	handleEdit,
 	isMutateLoading
 }: IContentPost) => {
+	const { isAdmin } = useAdmin()
+
 	return (
 		<article className={styles!.article_post}>
 			{post?.postContent?.length ? (
@@ -70,9 +74,15 @@ const ContentPostItem = ({
 				''
 			)}
 
-			<div className={styles!.btn_add_wrapper}>
-				<Button onClick={handleButtonClick} type='add content' children={'+'} />
-			</div>
+			{isAdmin && (
+				<div className={styles!.btn_add_wrapper}>
+					<Button
+						onClick={handleButtonClick}
+						type='add content'
+						children={'+'}
+					/>
+				</div>
+			)}
 
 			{isToggleForm && (
 				<div className={styles!.form_wrapper}>

@@ -1,10 +1,20 @@
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
+interface IPatterProps {
+	value: RegExp
+	message: string
+}
+
+interface IMinLength {
+	value: number
+	message: string
+}
+
 interface IFieldProps {
 	register: UseFormRegister<FieldValues>
 	name: string
 	options: {
-		[x: string]: string
+		[x: string]: string | IPatterProps | IMinLength
 	}
 	error?: string
 	value?: string
@@ -30,8 +40,10 @@ const Field = ({
 			{error && (
 				<div
 					style={{
-						marginBottom: '10px',
-						textAlign: 'center',
+						marginBottom:
+							name === 'email' || name === 'password' ? '20px' : '10px',
+						textAlign:
+							name === 'email' || name === 'password' ? 'start' : 'center',
 						color: 'red',
 						position: name === 'img' ? 'absolute' : 'relative',
 						top: 0

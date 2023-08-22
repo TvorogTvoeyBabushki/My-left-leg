@@ -1,17 +1,8 @@
 @import '@/assets/styles/variables';
 
-.search_wrapper {
-	display: flex;
-	align-items: center;
-
-	& ~ button {
-		margin-left: 30px;
-	}
-
-	> button {
-		font-size: 25px;
-		background-color: transparent;
-	}
+.search {
+	font-size: 25px;
+	background-color: transparent;
 }
 
 .show_input {

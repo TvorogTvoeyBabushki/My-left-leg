@@ -1,0 +1,15 @@
+@import '@/assets/styles/variables';
+
+.field {
+	width: 100%;
+	min-height: 50px;
+	padding: 0px 10px;
+	border: none;
+	border-radius: 0.5rem;
+	letter-spacing: 2px;
+	color: darken($field-color, 30%);
+
+	&::placeholder {
+		color: $field-color;
+	}
+}
