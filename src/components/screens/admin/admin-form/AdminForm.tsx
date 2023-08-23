@@ -6,7 +6,11 @@ import Field from '@/components/ui/field/Field'
 import { useAdminFrom } from './useAdminForm'
 import { validEmail } from '@/utils/regex'
 
-const AdminForm: FC<{ styles: CSSModuleClasses }> = ({ styles }) => {
+interface IAdminForm {
+	styles: CSSModuleClasses
+}
+
+const AdminForm: FC<IAdminForm> = ({ styles }) => {
 	const { fieldErrors, errorResponse, handleSubmit, onHandleSubmit, register } =
 		useAdminFrom()
 

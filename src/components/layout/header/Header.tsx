@@ -37,24 +37,28 @@ const Header = ({ type, post }: IHeaderProps) => {
 						</div>
 					)}
 
-					<div>
-						{type !== 'not-found' && <Search type={type} post={post} />}
+					{type !== 'admin-login' ? (
+						<div>
+							{type !== 'not-found' && <Search type={type} post={post} />}
 
-						{type === 'home' && isAdmin && (
-							<Button
-								type=''
-								onClick={() => {
-									showModal()
-									setIsToggleIcon(true)
-									setIsToggleImage(false)
-								}}
-							>
-								Create post
-							</Button>
-						)}
+							{type === 'home' && isAdmin && (
+								<Button
+									type=''
+									onClick={() => {
+										showModal()
+										setIsToggleIcon(true)
+										setIsToggleImage(false)
+									}}
+								>
+									Create post
+								</Button>
+							)}
 
-						{isAdmin && <Exit />}
-					</div>
+							{isAdmin && <Exit />}
+						</div>
+					) : (
+						<div></div>
+					)}
 				</div>
 			</div>
 		</header>

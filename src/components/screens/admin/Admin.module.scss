@@ -1,16 +1,11 @@
 @import '@/assets/styles/variables';
 
 .wrapper {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-
 	width: 100%;
-	height: 100vh;
 	max-width: 600px;
 	margin: 0 auto;
-	padding: 0 20px;
+	padding: 70px 0;
+	height: 100%;
 
 	> h1 {
 		align-self: flex-start;
@@ -46,6 +41,18 @@
 				margin-left: 15px;
 				color: red;
 			}
+		}
+	}
+
+	> div {
+		width: 100%;
+		max-width: 300px;
+
+		> h3 {
+			margin-bottom: 20px;
+
+			font-size: 20.5px;
+			font-weight: 400;
 		}
 	}
 }
