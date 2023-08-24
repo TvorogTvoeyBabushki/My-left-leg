@@ -3,6 +3,11 @@
 .search {
 	font-size: 25px;
 	background-color: transparent;
+
+	@media (max-width: 960px) {
+		height: 40px;
+		font-size: 30px;
+	}
 }
 
 .show_input {

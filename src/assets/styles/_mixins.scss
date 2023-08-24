@@ -7,3 +7,17 @@
 @mixin transition($property: all) {
 	transition: $property 0.4s ease-in-out;
 }
+
+@mixin animation-opacity {
+	animation: opacity 1s ease-in-out;
+}
+
+@keyframes opacity {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

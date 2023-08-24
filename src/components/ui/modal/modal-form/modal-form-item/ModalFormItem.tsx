@@ -83,7 +83,7 @@ const ModalFormItem = ({
 							classNamePrefix='select'
 							placeholder='Categorys...'
 							options={selectOptions.filter(
-								selectOption => selectOption.value !== 'all'
+								selectOption => selectOption.value !== 'всё'
 							)}
 							onChange={onChange}
 							value={value as ICategorys[]}

@@ -1,67 +1,23 @@
-import { FC, useState } from 'react'
-import { BiArrowBack } from 'react-icons/bi'
+import { FC } from 'react'
 import { VscClose, VscMenu } from 'react-icons/vsc'
-import { useNavigate } from 'react-router-dom'
-
-import { usePost } from '@/hooks/usePost'
-import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import styles from './BurgerMenu.module.scss'
-import { selectOptions } from '@/constants/selectOptions'
+import { useBurgerMenu } from './useBurgerMenu'
 
-const BurgerMenu: FC<{ type: string }> = ({ type }) => {
-	const { setIsSearchPost } = useSearchDataPost()
-	const [isShow, seIsShow] = useState(false)
-	const { setCategory } = usePost()
-	const navigate = useNavigate()
-
-	const sortPost = (
-		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-		value: string
-	) => {
-		e.preventDefault()
-		setIsSearchPost(true)
-
-		if (value === 'all') {
-			value = ''
-			setIsSearchPost(false)
-		}
-
-		setCategory(value)
-	}
-
+const BurgerMenu: FC<{
+	type: string
+	isShowNavList: boolean
+	setIsShowNavList: (isShowNavList: boolean) => void
+}> = ({ type, isShowNavList, setIsShowNavList }) => {
+	const { clientWidth, isShow, handleClick } = useBurgerMenu(
+		isShowNavList,
+		setIsShowNavList
+	)
 	return (
-		<button
-			onClick={() => {
-				seIsShow(!isShow)
-				type !== 'home' && navigate('/')
-			}}
-			className={styles.burger}
-		>
-			{type === 'home' ? (
-				isShow ? (
-					<>
-						<VscClose />
-
-						<ul>
-							{selectOptions.map((selectOption, index) => (
-								<li key={index}>
-									<a
-										onClick={e => sortPost(e, selectOption.label.toLowerCase())}
-										href='#'
-									>
-										{selectOption.label}
-									</a>
-								</li>
-							))}
-						</ul>
-					</>
-				) : (
-					<VscMenu />
-				)
-			) : (
-				<BiArrowBack />
-			)}
+		<button onClick={handleClick} className={styles.burger}>
+			{(type === 'home' || type === 'content') &&
+				clientWidth < 960 &&
+				(isShow ? <VscClose /> : <VscMenu />)}
 		</button>
 	)
 }

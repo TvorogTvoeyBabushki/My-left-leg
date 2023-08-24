@@ -24,6 +24,7 @@ const Button = ({
 	return (
 		<button
 			className={clsx(styles.button, {
+				[styles.create_post]: type === 'create-post',
 				[styles.modal]: type === 'modal',
 				[styles.add_content]: type === 'add content',
 				[styles.login]: type === 'login'

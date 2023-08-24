@@ -58,7 +58,7 @@ const Post: FC<{
 						justifyContent: 'flex-start'
 					}}
 				>
-					{/* {isSearchPost ? 'There are no such posts' : 'No posts'} */}
+					{isSearchPost ? 'There are no such posts' : 'No posts'}
 				</div>
 			)}
 		</div>

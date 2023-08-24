@@ -4,13 +4,13 @@
 .burger {
 	position: relative;
 	padding: 0;
-	display: flex;
+	display: none;
 	background-color: transparent;
 	border: none;
 
 	> svg {
+		@include animation-opacity;
 		font-size: 40px;
-		animation: opacity 1s ease-in-out;
 	}
 
 	> ul {
@@ -45,27 +45,13 @@
 		}
 	}
 
+	@media (max-width: 960px) {
+		display: flex;
+	}
+
 	@media (max-width: 600px) {
 		> svg {
 			font-size: 30px;
 		}
-
-		> ul {
-			> li {
-				> a {
-					font-size: 1.2rem;
-				}
-			}
-		}
-	}
-}
-
-@keyframes opacity {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
 	}
 }

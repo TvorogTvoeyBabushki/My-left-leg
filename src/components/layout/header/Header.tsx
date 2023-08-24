@@ -1,63 +1,45 @@
-import { Link } from 'react-router-dom'
-
-import { useAdmin } from '@/hooks/useAdmin'
-import { useImageField } from '@/hooks/useImageField'
-import { useModal } from '@/hooks/useModal'
-
-import Button from '@/components/ui/button/Button'
-import Exit from '@/components/ui/exit/Exit'
-import Search from '@/components/ui/search/Search'
+import clsx from 'clsx'
+import { BiArrowBack } from 'react-icons/bi'
+import { Link, useNavigate } from 'react-router-dom'
 
 import styles from './Header.module.scss'
-import BurgerMenu from './burger menu/BurgerMenu'
+import NavMenu from './nav-menu/NavMenu'
 import { IDataService } from '@/services/post/post.service'
 
-interface IHeaderProps {
+export interface IHeaderProps {
 	type: string
 	post: IDataService
 }
 
 const Header = ({ type, post }: IHeaderProps) => {
-	const { isAdmin } = useAdmin()
-	const { showModal } = useModal()
-	const { setIsToggleIcon, setIsToggleImage } = useImageField()
+	const navigate = useNavigate()
 
 	return (
 		<header className={styles.header}>
 			<div className='container'>
-				<div className={styles.wrapper}>
-					<BurgerMenu type={type} />
+				<div
+					className={clsx(styles.wrapper, {
+						[styles.content]: type === 'content',
+						[styles.admin_login]: type === 'admin-login'
+					})}
+				>
+					{type !== 'home' && (
+						<button onClick={() => navigate('/')}>
+							<BiArrowBack />
+						</button>
+					)}
 
 					{type !== 'not-found' && (
 						<div className={styles.logo}>
 							<Link to='/'>
 								{/* <img src='/myleftleg.svg' alt='' /> */}
-								Logo
+								<h1>my left leg</h1>
 							</Link>
 						</div>
 					)}
 
-					{type !== 'admin-login' ? (
-						<div>
-							{type !== 'not-found' && <Search type={type} post={post} />}
-
-							{type === 'home' && isAdmin && (
-								<Button
-									type=''
-									onClick={() => {
-										showModal()
-										setIsToggleIcon(true)
-										setIsToggleImage(false)
-									}}
-								>
-									Create post
-								</Button>
-							)}
-
-							{isAdmin && <Exit />}
-						</div>
-					) : (
-						<div></div>
+					{(type === 'home' || type === 'content') && (
+						<NavMenu type={type} post={post} />
 					)}
 				</div>
 			</div>

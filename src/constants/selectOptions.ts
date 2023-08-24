@@ -1,8 +1,9 @@
 export const selectOptions = [
-	{ value: 'all', label: 'all' },
-	{ value: 'beauty', label: 'Beauty' },
-	{ value: 'wellness', label: 'Wellness' },
-	{ value: 'style', label: 'Style' },
-	{ value: 'home', label: 'Home' },
-	{ value: 'life', label: 'Life' }
+	{ value: 'всё', label: 'всё' },
+	{ value: 'красота', label: 'красота' },
+	{ value: 'велнес', label: 'велнес' },
+	{ value: 'вог', label: 'вог' },
+	{ value: 'еда', label: 'еда' },
+	{ value: 'кейф', label: 'кейф' },
+	{ value: 'занимательное', label: 'занимательное' }
 ]
