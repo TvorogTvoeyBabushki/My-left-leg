@@ -8,16 +8,19 @@ import Loader from '@/components/ui/loader/Loader'
 import Modal from '@/components/ui/modal/Modal'
 import Post from '@/components/ui/post/Post'
 
+import styles from './Home.module.scss'
 import Layout from '@/components/layout/Layout'
 import { getTitle } from '@/config/seo/seo.config'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 const Home = () => {
-	const { isInteractionPost, setIsInteractionPost } = usePost()
-	const { isModal, closeModal } = useModal()
 	const [data, setData] = useState<IDataService[]>([])
 	const [isLoading, setIsLoading] = useState(false)
+
+	const { isInteractionPost, setIsInteractionPost } = usePost()
+	const { isModal, closeModal } = useModal()
 	const { searchDataPost, setGetDataPost } = useSearchDataPost()
+
 	const fetchPosts = async () => {
 		try {
 			setIsLoading(true)
@@ -58,7 +61,7 @@ const Home = () => {
 			)}
 
 			<Layout type='home'>
-				<section>
+				<section className={styles.home}>
 					<div className='container'>
 						{isLoading ? (
 							<Loader type='home' />

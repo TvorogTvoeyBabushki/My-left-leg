@@ -48,10 +48,4 @@
 	@media (max-width: 960px) {
 		display: flex;
 	}
-
-	@media (max-width: 600px) {
-		> svg {
-			font-size: 30px;
-		}
-	}
 }

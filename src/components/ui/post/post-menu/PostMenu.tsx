@@ -7,14 +7,14 @@ import { useImageField } from '@/hooks/useImageField'
 import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
 
+import styles from './PostMenu.module.scss'
 import PostService, { IDataService } from '@/services/post/post.service'
 
 interface IPostMenuProps {
-	styles: CSSModuleClasses
 	post: IDataService
 }
 
-const PostMenu = ({ styles, post }: IPostMenuProps) => {
+const PostMenu = ({ post }: IPostMenuProps) => {
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
 	const navigate = useNavigate()
 	const { setIsToggleIcon } = useImageField()
@@ -48,32 +48,30 @@ const PostMenu = ({ styles, post }: IPostMenuProps) => {
 	}
 
 	return (
-		<>
-			<div
-				className={styles.post_menu}
-				onMouseOver={() => handleMouseEvent('over')}
-				onMouseOut={() => handleMouseEvent('out')}
+		<div
+			className={styles.post_menu}
+			onMouseOver={() => handleMouseEvent('over')}
+			onMouseOut={() => handleMouseEvent('out')}
+		>
+			<button
+				className={clsx('', {
+					[styles.active]: isToggleStyle
+				})}
+				onClick={handleClick}
 			>
-				<button
-					className={clsx('', {
-						[styles.active]: isToggleStyle
-					})}
-					onClick={handleClick}
-				>
-					<BsThreeDotsVertical />
-				</button>
+				<BsThreeDotsVertical />
+			</button>
 
-				<ul>
-					{liElements.map((liElement, index) => (
-						<li key={index}>
-							<button onClick={e => handleClick(e, liElement)}>
-								{liElement}
-							</button>
-						</li>
-					))}
-				</ul>
-			</div>
-		</>
+			<ul>
+				{liElements.map((liElement, index) => (
+					<li key={index}>
+						<button onClick={e => handleClick(e, liElement)}>
+							{liElement}
+						</button>
+					</li>
+				))}
+			</ul>
+		</div>
 	)
 }
 

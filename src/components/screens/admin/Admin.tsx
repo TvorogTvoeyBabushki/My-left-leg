@@ -12,20 +12,20 @@ import Layout from '@/components/layout/Layout'
 
 const Admin: FC = () => {
 	const { isAdmin, setIsAdmin } = useAdmin()
-	const [transitionIn, setTransitionIn] = useState(false)
+	const [isTransitionIn, setIsTransitionIn] = useState(false)
 
 	const handleClick = () => {
-		setTransitionIn(false)
+		setIsTransitionIn(false)
 		setIsAdmin(false)
 
 		Cookies.remove('admin')
 	}
 
 	useEffect(() => {
-		setTransitionIn(true)
+		setIsTransitionIn(true)
 
-		return () => setTransitionIn(false)
-	}, [transitionIn])
+		return () => setIsTransitionIn(false)
+	}, [isTransitionIn])
 
 	return (
 		<Layout type='admin-login'>
@@ -42,7 +42,7 @@ const Admin: FC = () => {
 							</div>
 						) : (
 							<CSSTransition
-								in={transitionIn}
+								in={isTransitionIn}
 								timeout={300}
 								classNames='admin-form'
 							>

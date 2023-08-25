@@ -1,4 +1,5 @@
 @import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
 
 .footer {
 	background-color: darken($category, 20%);
@@ -7,6 +8,33 @@
 .footer_wrapper {
 	> div:first-child {
 		padding: 40px 0;
+		text-align: center;
+
+		> nav {
+			display: flex;
+			justify-content: center;
+
+			> ul {
+				display: flex;
+				width: 300px;
+				justify-content: space-between;
+
+				> li {
+					> a {
+						@include transition(color);
+
+						font-size: 1rem;
+						color: $field-color;
+						text-decoration: none;
+						text-transform: uppercase;
+
+						&:hover {
+							color: $white;
+						}
+					}
+				}
+			}
+		}
 
 		> div {
 			margin-top: 35px;

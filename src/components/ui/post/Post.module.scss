@@ -1,87 +1,29 @@
 @import '@/assets/styles/variables';
 @import '@/assets/styles/mixins';
 
-@mixin post {
+.wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 65px;
+
 	> a {
-		@include transition(flex);
+		margin-bottom: 50px;
+		width: 30%;
+		flex-grow: 0;
 
 		color: inherit;
 		text-decoration: none;
 
 		> div {
 			@include transition(transform);
-			animation: opacity 1s ease;
 
 			position: relative;
-			min-height: 585px;
 
 			> img {
-				height: 585px;
+				height: 300px;
 				object-fit: cover;
 
 				@include transition(all);
-
-				@media (max-width: 550px) {
-					height: 400px;
-				}
-			}
-
-			> .post_menu {
-				visibility: hidden;
-				display: flex;
-				flex-direction: column;
-
-				position: absolute;
-				top: 0;
-				right: 0;
-
-				> button {
-					align-self: flex-end;
-					padding-top: 10px;
-					height: 30px;
-
-					background-color: transparent;
-
-					> svg {
-						color: $white;
-						max-height: 30px;
-						font-size: 30px;
-						transition: opacity 0.2s ease-in-out;
-					}
-
-					&:hover ~ ul {
-						display: block;
-					}
-
-					&.active {
-						> svg {
-							opacity: 0.6;
-						}
-					}
-				}
-
-				> ul {
-					display: none;
-					padding: 15px 0 10px;
-
-					> li {
-						> button {
-							width: 100%;
-							padding: 5px 20px;
-							background-color: rgba($bg-color, 1);
-
-							@include transition(background-color);
-
-							&:hover {
-								background-color: rgba($bg-color, 0.8);
-							}
-						}
-					}
-
-					&:hover {
-						display: block;
-					}
-				}
 			}
 
 			&:hover {
@@ -96,183 +38,86 @@
 				filter: brightness(70%);
 			}
 
-			&:hover > .post_menu {
+			&:hover > div:last-child {
 				visibility: visible;
 			}
 		}
+
+		@media (max-width: 1389px) {
+			flex-grow: 1;
+
+			&:last-child {
+				flex-grow: 0;
+				width: 47%;
+			}
+		}
+
+		@media (max-width: 700px) {
+			width: 100%;
+
+			> div {
+				> img {
+					height: 400px;
+				}
+			}
+
+			&:last-child {
+				width: 100%;
+			}
+		}
 	}
-}
 
-.wrapper {
-	display: flex;
-	flex-direction: column;
-
-	> div {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 50px;
-		width: 100%;
-		flex-wrap: wrap;
-
-		@include post;
-	}
-
-	> div:first-child {
-		justify-content: flex-end;
+	.info {
+		margin-top: 20px;
 
 		> div {
 			display: flex;
-			flex: 0 0 80%;
-			justify-content: space-between;
+			margin-bottom: 10px;
 			flex-wrap: wrap;
 
-			@include post;
-			@include transition(flex);
+			> p {
+				font-size: 10px;
+				color: $category;
+				letter-spacing: 5px;
+				text-transform: uppercase;
 
-			> a {
-				flex: 0 0 47%;
-			}
-		}
-
-		@media (max-width: 1100px) {
-			> div {
-				flex: 0 0 100%;
-			}
-		}
-
-		@media (max-width: 770px) {
-			> div {
-				> a {
-					flex: 0 0 100%;
-				}
-
-				> a:first-child {
-					margin-bottom: 50px;
+				@media (max-width: 550px) {
+					font-size: 8px;
 				}
 			}
 		}
-	}
 
-	> div:nth-child(odd):not(div:first-child) {
-		> a:first-child {
-			flex: 0 0 57%;
-		}
+		> div:first-child ~ p:not(p:last-child) {
+			font-size: 1.6rem;
+			font-weight: 700;
+			line-height: 1.3;
+			letter-spacing: 1.2px;
 
-		> a:last-child {
-			flex: 0 0 38%;
-		}
-
-		@media (max-width: 960px) {
-			> a:first-child,
-			a:last-child {
-				flex: 0 0 47%;
+			@media (max-width: 600px) {
+				font-size: 1.2rem;
 			}
 		}
 
-		@media (max-width: 770px) {
-			> a:first-child,
-			a:last-child {
-				flex: 0 0 100%;
-			}
+		> p:last-child {
+			margin-top: 15px;
 
-			> a:first-child {
-				margin-bottom: 50px;
-			}
-		}
-	}
-
-	> div:nth-child(even) {
-		> a:first-child {
-			flex: 0 0 38%;
-		}
-
-		> a:last-child {
-			flex: 0 0 57%;
-		}
-
-		@media (max-width: 960px) {
-			> a:first-child,
-			a:last-child {
-				flex: 0 0 47%;
-			}
-		}
-
-		@media (max-width: 770px) {
-			> a:first-child,
-			a:last-child {
-				flex: 0 0 100%;
-			}
-
-			> a:first-child {
-				margin-bottom: 50px;
-			}
-		}
-	}
-}
-
-.info {
-	margin-top: 20px;
-
-	> div {
-		display: flex;
-		margin-bottom: 10px;
-		flex-wrap: wrap;
-
-		> p {
-			font-size: 10px;
-			color: $category;
-			letter-spacing: 5px;
-			text-transform: uppercase;
+			font-size: 16px;
+			color: darken($field-color, 10%);
+			letter-spacing: 1px;
 
 			@media (max-width: 550px) {
-				font-size: 8px;
+				font-size: 14px;
 			}
 		}
 	}
 
-	> div:first-child ~ p:not(p:last-child) {
-		font-size: 1.6rem;
-		font-weight: 700;
-		line-height: 1.3;
-		letter-spacing: 1.2px;
+	.shadow {
+		@include transition(all);
 
-		@media (max-width: 600px) {
-			font-size: 1.2rem;
-		}
-	}
-
-	> p:last-child {
-		margin-top: 15px;
-
-		font-size: 16px;
-		color: darken($field-color, 10%);
-		letter-spacing: 1px;
-
-		@media (max-width: 550px) {
-			font-size: 14px;
-		}
+		width: 100%;
+		height: 300px;
+		position: absolute;
+		top: 0;
+		z-index: -1;
 	}
 }
-
-.shadow {
-	width: 100%;
-	height: 585px;
-	position: absolute;
-	top: 0;
-	z-index: -1;
-	@include transition(all);
-
-	@media (max-width: 550px) {
-		height: 400px;
-	}
-}
-
-// @keyframes opacity {
-// 	from {
-// 		opacity: 0;
-// 	}
-
-// 	to {
-// 		opacity: 1;
-// 	}
-// }

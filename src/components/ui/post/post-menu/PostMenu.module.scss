@@ -1,0 +1,60 @@
+@import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
+
+.post_menu {
+	visibility: hidden;
+	display: flex;
+	flex-direction: column;
+
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	> button {
+		align-self: flex-end;
+		padding-top: 10px;
+		height: 30px;
+
+		background-color: transparent;
+
+		> svg {
+			color: $white;
+			max-height: 30px;
+			font-size: 30px;
+			transition: opacity 0.2s ease-in-out;
+		}
+
+		&:hover ~ ul {
+			display: block;
+		}
+
+		&.active {
+			> svg {
+				opacity: 0.6;
+			}
+		}
+	}
+
+	> ul {
+		display: none;
+		padding: 15px 0 10px;
+
+		> li {
+			> button {
+				width: 100%;
+				padding: 5px 20px;
+				background-color: rgba($bg-color, 1);
+
+				@include transition(background-color);
+
+				&:hover {
+					background-color: rgba($bg-color, 0.8);
+				}
+			}
+		}
+
+		&:hover {
+			display: block;
+		}
+	}
+}

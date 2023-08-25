@@ -1,3 +1,5 @@
+import { AdvancedImage, placeholder } from '@cloudinary/react'
+import { Cloudinary } from '@cloudinary/url-gen'
 import clsx from 'clsx'
 import { FC } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -7,6 +9,9 @@ import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import { IContentPost } from '../ContentPost.interface'
 import ContentPostForm from '../content-post-form/ContentPostForm'
+
+import { cloudName } from '@/config/cloudinary/cloudName.config'
+import { publicID } from '@/utils/cloudinary/publicID'
 
 const ContentPostItemPublishPart: FC<IContentPost> = ({
 	content,
@@ -67,7 +72,14 @@ const ContentPostItemPublishPart: FC<IContentPost> = ({
 			)}
 			{content!.img && (
 				<div>
-					<img src={content!.img} alt='Content image' />
+					{content?.img && (
+						<AdvancedImage
+							cldImg={new Cloudinary({
+								cloud: { cloudName: cloudName }
+							}).image(publicID(content.img.split('')))}
+							plugins={[placeholder({ mode: 'blur' })]}
+						/>
+					)}
 				</div>
 			)}
 			<div

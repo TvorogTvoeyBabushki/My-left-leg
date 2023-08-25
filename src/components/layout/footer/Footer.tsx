@@ -1,7 +1,24 @@
+import { useNavigate } from 'react-router-dom'
+
 import styles from './Footer.module.scss'
 
 const Footer = () => {
 	const year = new Date().getFullYear()
+	const liData = ['о проекте', 'контакты']
+	const navigate = useNavigate()
+
+	const handleClickLink = (
+		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+	) => {
+		e.preventDefault()
+
+		const targetEl = e.target as HTMLAnchorElement
+
+		targetEl.textContent === 'о проекте'
+			? navigate('/about')
+			: navigate('/contacts')
+	}
+
 	return (
 		<footer className={styles.footer}>
 			<div className='container'>
@@ -9,9 +26,13 @@ const Footer = () => {
 					<div>
 						<nav>
 							<ul>
-								<li>
-									<a href='#'>info</a>
-								</li>
+								{liData.map((item, index) => (
+									<li key={index}>
+										<a onClick={handleClickLink} href='#'>
+											{item}
+										</a>
+									</li>
+								))}
 							</ul>
 						</nav>
 

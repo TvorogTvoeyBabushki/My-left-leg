@@ -1,3 +1,6 @@
+import { AdvancedImage, placeholder } from '@cloudinary/react'
+import { Cloudinary } from '@cloudinary/url-gen'
+
 import Loader from '@/components/ui/loader/Loader'
 
 import NotFound from '../not-found/NotFound'
@@ -6,7 +9,9 @@ import styles from './ContentPost.module.scss'
 import ContentPostItem from './content-post-item/ContentPostItem'
 import { useContentPost } from './useContentPost'
 import Layout from '@/components/layout/Layout'
+import { cloudName } from '@/config/cloudinary/cloudName.config'
 import { IDataService } from '@/services/post/post.service'
+import { publicID } from '@/utils/cloudinary/publicID'
 
 const About = () => {
 	const {
@@ -40,7 +45,11 @@ const About = () => {
 				<NotFound />
 			) : (
 				<Layout type='content' post={post as IDataService}>
-					<section>
+					<section
+						style={{
+							marginTop: '20px'
+						}}
+					>
 						<div className='container'>
 							{isPostLoading ? (
 								<Loader type='content' />
@@ -64,7 +73,14 @@ const About = () => {
 										</div>
 
 										<div>
-											<img src={post?.img} alt='Post image' />
+											{post?.img && (
+												<AdvancedImage
+													cldImg={new Cloudinary({
+														cloud: { cloudName: cloudName }
+													}).image(publicID(post.img))}
+													plugins={[placeholder({ mode: 'blur' })]}
+												/>
+											)}
 										</div>
 									</div>
 

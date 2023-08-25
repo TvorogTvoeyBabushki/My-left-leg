@@ -16,7 +16,7 @@ const BurgerMenu: FC<{
 	return (
 		<button onClick={handleClick} className={styles.burger}>
 			{(type === 'home' || type === 'content') &&
-				clientWidth < 960 &&
+				clientWidth <= 960 &&
 				(isShow ? <VscClose /> : <VscMenu />)}
 		</button>
 	)

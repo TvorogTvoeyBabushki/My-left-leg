@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { usePost } from '@/hooks/usePost'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
@@ -12,46 +12,26 @@ const Post: FC<{
 }> = ({ data }) => {
 	const { isSearchPost } = useSearchDataPost()
 	const { category } = usePost()
-	let newData = [] as IDataService[][]
+	const [sortPost, setSortPost] = useState<IDataService[]>(data)
 
-	if (category) {
-		const sortPost = data.filter(post => post.categorysIds.includes(category))
-		data = sortPost
-	}
-
-	data.forEach((postCollectionOne, indexOne) => {
-		if (indexOne % 2 === 0) {
-			data.forEach((postCollectionTwo, indexTwo) => {
-				if (indexOne !== indexTwo) {
-					if (indexOne + 1 === indexTwo) {
-						newData.pop()
-
-						newData = [...newData, [postCollectionOne, postCollectionTwo]]
-					}
-					if (indexOne + 1 !== indexTwo && indexOne - 1 === indexTwo) {
-						newData = [...newData, [postCollectionOne]]
-					}
-				}
-			})
+	useEffect(() => {
+		if (category) {
+			const newSortPost = data.filter(post =>
+				post.categorysIds.includes(category)
+			)
+			setSortPost(newSortPost)
+		} else {
+			setSortPost(data)
 		}
-	})
-
-	if (data.length === 1) newData = [data]
+	}, [category])
 
 	return (
 		<div className={styles.wrapper}>
-			{newData.map((postCollection, indexNewData) => (
-				<Fragment key={indexNewData}>
-					{indexNewData === 0 ? (
-						<div>
-							<PostItem postCollection={postCollection} styles={styles} />
-						</div>
-					) : (
-						<PostItem postCollection={postCollection} styles={styles} />
-					)}
-				</Fragment>
+			{sortPost!.map(post => (
+				<PostItem key={post.id} post={post} styles={styles} />
 			))}
-			{!data.length && (
+
+			{!sortPost!.length && (
 				<div
 					style={{
 						fontSize: '30px',
