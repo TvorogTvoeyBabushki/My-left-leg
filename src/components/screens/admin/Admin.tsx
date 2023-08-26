@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 
 import { useAdmin } from '@/hooks/useAdmin'
@@ -13,6 +13,7 @@ import Layout from '@/components/layout/Layout'
 const Admin: FC = () => {
 	const { isAdmin, setIsAdmin } = useAdmin()
 	const [isTransitionIn, setIsTransitionIn] = useState(false)
+	const formRef = useRef(null)
 
 	const handleClick = () => {
 		setIsTransitionIn(false)
@@ -43,10 +44,11 @@ const Admin: FC = () => {
 						) : (
 							<CSSTransition
 								in={isTransitionIn}
+								nodeRef={formRef}
 								timeout={300}
 								classNames='admin-form'
 							>
-								<AdminForm styles={styles} />
+								<AdminForm ref={formRef} styles={styles} />
 							</CSSTransition>
 						)}
 					</div>

@@ -9,7 +9,7 @@ const Loader: FC<{ type: string }> = ({ type }) => {
 			className={clsx(styles.loader, {
 				[styles.home]: type === 'home' || type === 'content'
 			})}
-			src='/public/loader.svg'
+			src='/loader.svg'
 			alt='loader'
 		/>
 	)

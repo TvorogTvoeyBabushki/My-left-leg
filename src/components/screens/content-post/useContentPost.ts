@@ -60,6 +60,9 @@ export const useContentPost = () => {
 	}, [])
 
 	useEffect(() => {
+		const amountVisits = post?.countVisits! + 1
+
+		post && mutate({ ...post, countVisits: amountVisits })
 		getTitle('content', post?.title as string)
 	}, [post])
 

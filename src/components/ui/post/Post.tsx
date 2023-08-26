@@ -1,9 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 
 import { usePost } from '@/hooks/usePost'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import styles from './Post.module.scss'
+import PopularHashTags from './popular-hashtags/PopularHashTags'
+import PopularPost from './popular-post/PopularPost'
 import PostItem from './post-item/PostItem'
 import { IDataService } from '@/services/post/post.service'
 
@@ -27,8 +29,12 @@ const Post: FC<{
 
 	return (
 		<div className={styles.wrapper}>
-			{sortPost!.map(post => (
-				<PostItem key={post.id} post={post} styles={styles} />
+			{sortPost!.map((post, index) => (
+				<Fragment key={post.id}>
+					<PostItem post={post} styles={styles} />
+					{index === 5 && <PopularPost data={data} />}
+					{index === 8 && <PopularHashTags data={data} />}
+				</Fragment>
 			))}
 
 			{!sortPost!.length && (

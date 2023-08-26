@@ -9,6 +9,7 @@ export interface IDataService {
 	img: string & string[]
 	categorysIds: string[]
 	postContent?: IDataPost[]
+	countVisits?: number
 }
 
 export const POST = '/post'

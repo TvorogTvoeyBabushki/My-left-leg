@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, forwardRef } from 'react'
 
 import Button from '@/components/ui/button/Button'
 import Field from '@/components/ui/field/Field'
@@ -10,12 +10,12 @@ interface IAdminForm {
 	styles: CSSModuleClasses
 }
 
-const AdminForm: FC<IAdminForm> = ({ styles }) => {
+const AdminForm = forwardRef<HTMLFormElement, IAdminForm>(({ styles }, ref) => {
 	const { fieldErrors, errorResponse, handleSubmit, onHandleSubmit, register } =
 		useAdminFrom()
 
 	return (
-		<form onSubmit={handleSubmit(onHandleSubmit)}>
+		<form ref={ref} onSubmit={handleSubmit(onHandleSubmit)}>
 			<Field
 				register={register}
 				name='email'
@@ -52,6 +52,6 @@ const AdminForm: FC<IAdminForm> = ({ styles }) => {
 			</div>
 		</form>
 	)
-}
+})
 
 export default AdminForm

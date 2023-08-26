@@ -6,7 +6,7 @@
 	flex-wrap: wrap;
 	gap: 0 65px;
 
-	> a {
+	& > a {
 		margin-bottom: 50px;
 		width: 30%;
 		flex-grow: 0;
@@ -18,6 +18,16 @@
 			@include transition(transform);
 
 			position: relative;
+
+			.shadow {
+				@include transition(all);
+
+				width: 100%;
+				height: 300px;
+				position: absolute;
+				top: 0;
+				z-index: -1;
+			}
 
 			> img {
 				height: 300px;
@@ -40,6 +50,29 @@
 
 			&:hover > div:last-child {
 				visibility: visible;
+			}
+		}
+
+		&:is(
+				:nth-child(4),
+				:nth-child(5),
+				:nth-child(6),
+				:nth-child(12),
+				:nth-child(13),
+				:nth-child(14)
+			) {
+			width: 18.4%;
+
+			&:nth-child(2n + 1) {
+				> div {
+					> .shadow {
+						height: 350px;
+					}
+
+					> img {
+						height: 350px;
+					}
+				}
 			}
 		}
 
@@ -109,15 +142,5 @@
 				font-size: 14px;
 			}
 		}
-	}
-
-	.shadow {
-		@include transition(all);
-
-		width: 100%;
-		height: 300px;
-		position: absolute;
-		top: 0;
-		z-index: -1;
 	}
 }
