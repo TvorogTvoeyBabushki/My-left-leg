@@ -1,5 +1,3 @@
-import { AdvancedImage, placeholder } from '@cloudinary/react'
-import { Cloudinary } from '@cloudinary/url-gen'
 import clsx from 'clsx'
 import { FC } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -10,29 +8,11 @@ import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 import { IContentPost } from '../ContentPost.interface'
 import ContentPostForm from '../content-post-form/ContentPostForm'
 
-import { cloudName } from '@/config/cloudinary/cloudName.config'
-import { publicID } from '@/utils/cloudinary/publicID'
-
 const ContentPostItemPublishPart: FC<IContentPost> = ({
 	content,
-	handleEdit,
-	handleMouseEvent,
 	indexPostContent,
-	isToggleList,
-	itemsList,
 	styles,
-	indexContent,
-	handleSubmit,
-	onSubmit,
-	register,
-	changeContent,
-	changeFieldAndTextarea,
-	previewImage,
-	setPreviewImage,
-	setImage,
-	isUrlLoading,
-	image,
-	handlerCancelClick
+	...contentProps
 }) => {
 	const { searchTextContent } = useSearchDataPost()
 
@@ -72,35 +52,32 @@ const ContentPostItemPublishPart: FC<IContentPost> = ({
 			)}
 			{content!.img && (
 				<div>
-					{content?.img && (
-						<AdvancedImage
-							cldImg={new Cloudinary({
-								cloud: { cloudName: cloudName }
-							}).image(publicID(content.img.split('')))}
-							plugins={[placeholder({ mode: 'blur' })]}
-						/>
-					)}
+					{content?.img && <img src={content.img} alt={content.heading} />}
 				</div>
 			)}
 			<div
 				className={styles!.menu_wrapper}
-				onMouseOver={() => handleMouseEvent!('over')}
-				onMouseOut={() => handleMouseEvent!('out')}
+				onMouseOver={() => contentProps.handleMouseEvent!('over')}
+				onMouseOut={() => contentProps.handleMouseEvent!('out')}
 			>
 				<button
 					className={clsx(styles!.btn, {
-						[styles!.btn_active]: isToggleList
+						[styles!.btn_active]: contentProps.isToggleList
 					})}
 				>
 					<BsThreeDotsVertical />
 				</button>
 
 				<ul>
-					{itemsList!.map((item, indexItemList) => (
+					{contentProps.itemsList!.map((item, indexItemList) => (
 						<li key={indexItemList}>
 							<a
 								onClick={e =>
-									handleEdit!(e, indexPostContent!, item.toLowerCase())
+									contentProps.handleEdit!(
+										e,
+										indexPostContent!,
+										item.toLowerCase()
+									)
 								}
 								href='#'
 							>
@@ -110,21 +87,8 @@ const ContentPostItemPublishPart: FC<IContentPost> = ({
 					))}
 				</ul>
 			</div>
-			{indexPostContent === indexContent && (
-				<ContentPostForm
-					handleSubmit={handleSubmit}
-					onSubmit={onSubmit}
-					register={register}
-					changeContent={changeContent}
-					changeFieldAndTextarea={changeFieldAndTextarea}
-					previewImage={previewImage}
-					setPreviewImage={setPreviewImage}
-					setImage={setImage}
-					isUrlLoading={isUrlLoading}
-					image={image}
-					handlerCancelClick={handlerCancelClick}
-					typeButton='change'
-				/>
+			{indexPostContent === contentProps.indexContent && (
+				<ContentPostForm typeButton='change' {...contentProps} />
 			)}
 		</>
 	)

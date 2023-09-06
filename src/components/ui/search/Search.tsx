@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { IoIosArrowDown } from 'react-icons/io'
 import { LuSearch } from 'react-icons/lu'
 import { VscClose } from 'react-icons/vsc'
@@ -36,7 +35,7 @@ const Search = ({ type, post }: ISearchProps) => {
 				<div className={styles.show_input}>
 					<div>
 						<div>
-							<div>
+							<label>
 								<LuSearch />
 								<input
 									onInput={handleInput}
@@ -45,17 +44,19 @@ const Search = ({ type, post }: ISearchProps) => {
 									name='search'
 									autoFocus
 								/>
-							</div>
+							</label>
 
-							<div>
-								<button onClick={handleSearchClickUp}>
-									<IoIosArrowDown />
-								</button>
+							{post && (
+								<div>
+									<button onClick={handleSearchClickUp}>
+										<IoIosArrowDown />
+									</button>
 
-								<button onClick={handleSearchClickDown}>
-									<IoIosArrowDown />
-								</button>
-							</div>
+									<button onClick={handleSearchClickDown}>
+										<IoIosArrowDown />
+									</button>
+								</div>
+							)}
 
 							{amountSearchEls ? (
 								<span>

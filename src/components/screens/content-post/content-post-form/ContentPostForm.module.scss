@@ -55,11 +55,12 @@
 		}
 
 		> button {
+			@include transition(all);
+
 			width: 100%;
 			max-width: 250px;
 			text-transform: capitalize;
 
-			@include transition(max-width);
 			@media (max-width: 720px) {
 				max-width: 100%;
 

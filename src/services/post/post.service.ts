@@ -15,8 +15,8 @@ export interface IDataService {
 export const POST = '/post'
 
 class PostService {
-	async getPostAll() {
-		return $axios.get(POST)
+	async getPosts() {
+		return $axios.get(`${POST}`)
 	}
 
 	async getPost(id: number) {

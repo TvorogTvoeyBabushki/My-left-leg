@@ -1,22 +1,29 @@
 import { useEffect, useMemo, useState } from 'react'
 
+import { useDebounce } from '@/hooks/useDebounce'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import { ISearchProps } from './Search'
 
 export const useSearch = ({ type, post }: ISearchProps) => {
 	const {
-		setSearchDataPost,
+		setSearchPost,
+		searchTextContent,
 		setSearchTextContent,
-		setIsSearchPost,
-		getDataPost: data,
-		searchTextContent
+		setIsSearchPost
 	} = useSearchDataPost()
+
 	const [isToggleStyle, setIsToggleStyle] = useState(true)
 	const [amountSearchEls, setAmountSearchEls] = useState(0)
 	const [counterClick, setCounterClick] = useState(0)
+	const [searchFieldValue, setSearchFieldValue] = useState('')
 
 	const searchEls = document.querySelectorAll('.search_word')
+	const debounceSearch = useDebounce(searchFieldValue, 500)
+
+	useEffect(() => {
+		debounceSearch && setSearchPost(debounceSearch)
+	}, [debounceSearch])
 
 	useEffect(() => {
 		const searchEls = document.querySelectorAll('.search_word')
@@ -44,7 +51,7 @@ export const useSearch = ({ type, post }: ISearchProps) => {
 			: (setIsToggleStyle(true),
 			  setSearchTextContent(''),
 			  setIsSearchPost(false),
-			  setSearchDataPost(data))
+			  setSearchPost(''))
 	}
 
 	const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -68,21 +75,11 @@ export const useSearch = ({ type, post }: ISearchProps) => {
 		}
 
 		if (type === 'home') {
-			const searchDataPost = data!.filter(
-				post =>
-					post.title
-						.toLowerCase()
-						.includes(inputEl.value.trim().toLowerCase()) ||
-					post.description
-						.toLowerCase()
-						.includes(inputEl.value.trim().toLowerCase())
-			)
-
-			setSearchDataPost(searchDataPost)
+			setSearchFieldValue(inputEl.value)
 
 			inputEl.value.trim().length
 				? setIsSearchPost(true)
-				: setIsSearchPost(false)
+				: (setIsSearchPost(false), setSearchPost(''))
 		}
 	}
 

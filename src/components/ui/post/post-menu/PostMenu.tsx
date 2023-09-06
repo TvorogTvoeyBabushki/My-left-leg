@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import { useImageField } from '@/hooks/useImageField'
 import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
+import { useSearchDataPost } from '@/hooks/useSearchDataPost'
+
+import { useSearch } from '../../search/useSearch'
 
 import styles from './PostMenu.module.scss'
 import PostService, { IDataService } from '@/services/post/post.service'
@@ -20,6 +23,7 @@ const PostMenu = ({ post }: IPostMenuProps) => {
 	const { setIsToggleIcon } = useImageField()
 	const { setIsInteractionPost, setPost } = usePost()
 	const { showModal } = useModal()
+	const { setSearchPost } = useSearchDataPost()
 
 	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
 		e.preventDefault()
@@ -38,6 +42,7 @@ const PostMenu = ({ post }: IPostMenuProps) => {
 		if (liElement === 'Удалить') {
 			setIsInteractionPost(true)
 			PostService.delete(post.id!)
+			setSearchPost('')
 		}
 	}
 

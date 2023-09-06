@@ -3,10 +3,8 @@ import { FC, createContext, useState } from 'react'
 import { IDataService } from '@/services/post/post.service'
 
 export interface ISearchDataPostContext {
-	getDataPost: IDataService[] | null
-	setGetDataPost: (searchDataPost: IDataService[] | null) => void
-	searchDataPost: IDataService[] | null
-	setSearchDataPost: (searchDataPost: IDataService[] | null) => void
+	searchPost: string
+	setSearchPost: (searchDataPost: string) => void
 	searchTextContent: string
 	setSearchTextContent: (searchTextContent: string) => void
 	isSearchPost: boolean
@@ -19,20 +17,15 @@ export const SearchDataPostContext =
 const SearchDataPostProvider: FC<{ children: JSX.Element }> = ({
 	children
 }) => {
-	const [getDataPost, setGetDataPost] = useState<IDataService[] | null>(null)
-	const [searchDataPost, setSearchDataPost] = useState<IDataService[] | null>(
-		null
-	)
+	const [searchPost, setSearchPost] = useState('')
 	const [searchTextContent, setSearchTextContent] = useState('')
 	const [isSearchPost, setIsSearchPost] = useState(false)
 
 	return (
 		<SearchDataPostContext.Provider
 			value={{
-				getDataPost,
-				setGetDataPost,
-				searchDataPost,
-				setSearchDataPost,
+				searchPost,
+				setSearchPost,
 				searchTextContent,
 				setSearchTextContent,
 				isSearchPost,

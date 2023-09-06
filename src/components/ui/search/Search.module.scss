@@ -1,4 +1,5 @@
 @import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
 
 .search {
 	font-size: 25px;
@@ -11,14 +12,18 @@
 }
 
 .show_input {
+	@include animation-opacity(0.6s);
+
 	width: 100%;
-	padding: 20px 0;
+	padding: 20px 0 10px;
 
 	background-color: $field-color;
 
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
+	z-index: 10;
+
 	> div {
 		display: flex;
 		align-items: baseline;
@@ -34,13 +39,14 @@
 			max-width: 650px;
 			width: 100%;
 
-			> div:first-child {
+			> label {
 				display: inline-flex;
 				align-items: center;
 				padding-bottom: 3px;
 				border-bottom: 1px solid $black;
 				max-width: 400px;
 				width: 100%;
+				cursor: pointer;
 
 				> svg {
 					color: darken($field-color, 30%);
@@ -56,7 +62,7 @@
 				}
 			}
 
-			> div:first-child ~ div {
+			> label ~ div {
 				display: flex;
 				flex-direction: column;
 				margin-left: 15px;

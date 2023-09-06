@@ -11,7 +11,7 @@ const Exit: FC = () => {
 	const { setIsAdmin } = useAdmin()
 	const navigate = useNavigate()
 
-	const handleExit = () => {
+	const handleExit = (): void => {
 		setIsAdmin(false)
 		navigate('/manage/login')
 

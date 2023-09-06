@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
-import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import Loader from '@/components/ui/loader/Loader'
 import Modal from '@/components/ui/modal/Modal'
@@ -19,15 +18,14 @@ const Home = () => {
 
 	const { isInteractionPost, setIsInteractionPost } = usePost()
 	const { isModal, closeModal } = useModal()
-	const { searchDataPost, setGetDataPost } = useSearchDataPost()
 
 	const fetchPosts = async () => {
 		try {
 			setIsLoading(true)
-			const response = await PostService.getPostAll()
+
+			const response = await PostService.getPosts()
 
 			setData(response.data)
-			setGetDataPost(response.data)
 		} catch (error) {
 			console.log('error: ', error)
 		} finally {
@@ -36,20 +34,11 @@ const Home = () => {
 	}
 
 	useEffect(() => {
-		setIsLoading(false)
-	}, [])
-
-	useEffect(() => {
 		fetchPosts()
-
 		getTitle('home')
 
 		return () => setIsInteractionPost(false)
 	}, [isInteractionPost])
-
-	useEffect(() => {
-		searchDataPost && setData(searchDataPost!)
-	}, [searchDataPost])
 
 	return (
 		<>

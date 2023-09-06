@@ -8,8 +8,8 @@
 	transition: $property 0.4s ease-in-out;
 }
 
-@mixin animation-opacity {
-	animation: opacity 1s ease-in-out;
+@mixin animation-opacity($duration: 1s) {
+	animation: opacity $duration ease-in-out;
 }
 
 @keyframes opacity {

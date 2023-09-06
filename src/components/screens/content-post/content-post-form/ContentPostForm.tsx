@@ -8,65 +8,63 @@ import { IContentPost } from '../ContentPost.interface'
 
 import styles from './ContentPostForm.module.scss'
 
-const ContentPostForm = ({
-	typeButton,
-	handleSubmit,
-	onSubmit,
-	register,
-	changeContent,
-	changeFieldAndTextarea,
-	previewImage,
-	setPreviewImage,
-	setImage,
-	isUrlLoading,
-	image,
-	handlerCancelClick
-}: IContentPost) => {
+const ContentPostForm = ({ typeButton, ...contentProps }: IContentPost) => {
 	return (
-		<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className={styles.form}
+			onSubmit={contentProps.handleSubmit(contentProps.onSubmit)}
+		>
 			<Field
-				register={register}
+				register={contentProps.register}
 				name='heading'
 				options={{ required: '' }}
 				type='text'
 				placeholder='Post heading...'
 				className={styles.field_heading}
-				value={changeContent?.heading}
+				value={contentProps.changeContent?.heading}
 				onInput={(e: React.FormEvent<HTMLInputElement>) =>
-					changeFieldAndTextarea(e, 'field')
+					contentProps.changeFieldAndTextarea(e, 'field')
 				}
 			/>
 
 			<TextareaAutosize
-				{...register('mainText', { required: '' })}
+				{...contentProps.register('mainText', { required: '' })}
 				name='mainText'
 				placeholder='Main text...'
 				className={styles.main_text}
-				value={changeContent?.mainText}
-				onInput={e => changeFieldAndTextarea(e, 'textarea')}
+				value={contentProps.changeContent?.mainText}
+				onInput={e => contentProps.changeFieldAndTextarea(e, 'textarea')}
 			/>
 
 			<ImageField
-				register={register}
+				register={contentProps.register}
 				type='content'
-				previewImage={previewImage}
-				setPreviewImage={setPreviewImage}
-				setImage={setImage}
-				isUrlLoading={isUrlLoading}
+				previewImage={contentProps.previewImage}
+				setPreviewImage={contentProps.setPreviewImage}
+				setImage={contentProps.setImage}
+				isUrlLoading={contentProps.isUrlLoading}
 			/>
 
 			<div>
-				{!(changeContent.heading || changeContent.mainText || image) &&
+				{!(
+					contentProps.changeContent.heading ||
+					contentProps.changeContent.mainText ||
+					contentProps.image
+				) &&
 					typeButton === 'add' && <div>One field must be filled</div>}
 				<Button
 					type={typeButton === 'change' ? 'change' : 'add'}
 					children={typeButton!}
-					changeContent={changeContent}
-					isLoading={isUrlLoading}
-					image={image!}
+					changeContent={contentProps.changeContent}
+					isLoading={contentProps.isUrlLoading}
+					image={contentProps.image!}
 				/>
 				{typeButton === 'change' && (
-					<Button onClick={handlerCancelClick} type='' children={'Cancel'} />
+					<Button
+						onClick={contentProps.handlerCancelClick}
+						type=''
+						children={'Cancel'}
+					/>
 				)}
 			</div>
 		</form>

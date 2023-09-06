@@ -4,7 +4,7 @@ import { usePost } from '@/hooks/usePost'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import styles from './Post.module.scss'
-import PopularHashTags from './popular-hashtags/PopularHashTags'
+import PopularHashTags from './popular-hashtags/PopularHashtags'
 import PopularPost from './popular-post/PopularPost'
 import PostItem from './post-item/PostItem'
 import { IDataService } from '@/services/post/post.service'
@@ -12,7 +12,7 @@ import { IDataService } from '@/services/post/post.service'
 const Post: FC<{
 	data: IDataService[]
 }> = ({ data }) => {
-	const { isSearchPost } = useSearchDataPost()
+	const { isSearchPost, searchPost } = useSearchDataPost()
 	const { category } = usePost()
 	const [sortPost, setSortPost] = useState<IDataService[]>(data)
 
@@ -26,6 +26,20 @@ const Post: FC<{
 			setSortPost(data)
 		}
 	}, [category])
+
+	useEffect(() => {
+		const newSortSearchPost = data.filter(
+			sortPost =>
+				sortPost.title
+					.toLowerCase()
+					.includes(searchPost.trim().toLowerCase()) ||
+				sortPost.description
+					.toLowerCase()
+					.includes(searchPost.trim().toLowerCase())
+		)
+
+		setSortPost(newSortSearchPost)
+	}, [searchPost])
 
 	return (
 		<div className={styles.wrapper}>
