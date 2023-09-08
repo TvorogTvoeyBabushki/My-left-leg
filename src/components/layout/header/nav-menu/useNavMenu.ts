@@ -6,7 +6,7 @@ import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 export const useNavMenu = () => {
 	const { setIsSearchPost, setSearchPost } = useSearchDataPost()
-	const { setCategory } = usePost()
+	const { setCategory, setPostHashtag } = usePost()
 
 	const [isShowNavList, setIsShowNavList] = useState(false)
 	const [clientWidth, setClientWidth] = useState(
@@ -28,6 +28,7 @@ export const useNavMenu = () => {
 		if (value === 'всё') {
 			value = ''
 			setIsSearchPost(false)
+			setPostHashtag('')
 		}
 
 		setCategory(value)

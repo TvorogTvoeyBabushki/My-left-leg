@@ -9,6 +9,8 @@ export interface IPostContextType {
 	setIsInteractionPost: (isInteractionPost: boolean) => void
 	category: string
 	setCategory: (category: string) => void
+	postHashtag: string
+	setPostHashtag: (postHashtag: string) => void
 }
 
 export const PostContext = createContext<IPostContextType | null>(null)
@@ -17,6 +19,7 @@ const PostProvider: FC<{ children: JSX.Element }> = ({ children }) => {
 	const [post, setPost] = useState<IDataService | null>(null)
 	const [isInteractionPost, setIsInteractionPost] = useState(false)
 	const [category, setCategory] = useState('')
+	const [postHashtag, setPostHashtag] = useState('')
 
 	return (
 		<PostContext.Provider
@@ -26,7 +29,9 @@ const PostProvider: FC<{ children: JSX.Element }> = ({ children }) => {
 				isInteractionPost,
 				setIsInteractionPost,
 				category,
-				setCategory
+				setCategory,
+				postHashtag,
+				setPostHashtag
 			}}
 		>
 			{children}

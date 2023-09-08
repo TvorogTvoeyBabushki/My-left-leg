@@ -16,7 +16,7 @@ export interface IHeaderProps {
 
 const Header = ({ type, post }: IHeaderProps) => {
 	const { setSearchPost } = useSearchDataPost()
-	const { setCategory } = usePost()
+	const { setCategory, setPostHashtag } = usePost()
 	const navigate = useNavigate()
 
 	return (
@@ -41,8 +41,13 @@ const Header = ({ type, post }: IHeaderProps) => {
 
 					{type !== 'not-found' && (
 						<div className={styles.logo}>
-							<Link to='/' onClick={() => setSearchPost('')}>
-								{/* <img src='/myleftleg.svg' alt='' /> */}
+							<Link
+								to='/'
+								onClick={() => {
+									setSearchPost('')
+									setPostHashtag('')
+								}}
+							>
 								<h1>my left leg</h1>
 							</Link>
 						</div>
