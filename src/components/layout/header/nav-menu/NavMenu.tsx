@@ -34,7 +34,9 @@ const NavMenu: FunctionComponent<IHeaderProps> = ({ type, post }) => {
 					{selectOptions.map((navItem, index) => (
 						<li key={index}>
 							<a
-								onClick={e => sortPost(e, navItem.label.toLowerCase())}
+								onClick={e => {
+									sortPost(e, navItem.label.toLowerCase())
+								}}
 								href='#'
 							>
 								{navItem.label}

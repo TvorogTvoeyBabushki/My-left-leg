@@ -29,6 +29,7 @@ export const useSearch = ({ type, post }: ISearchProps) => {
 		const searchEls = document.querySelectorAll('.search_word')
 
 		searchTextContent &&
+			searchEls[counterClick] &&
 			(searchEls[counterClick].scrollIntoView({
 				behavior: 'smooth',
 				block: 'center',
@@ -47,11 +48,10 @@ export const useSearch = ({ type, post }: ISearchProps) => {
 
 	const handleSearch = () => {
 		isToggleStyle
-			? (setIsToggleStyle(false), setAmountSearchEls(0), setCounterClick(0))
+			? (setIsToggleStyle(false), setSearchTextContent(''))
 			: (setIsToggleStyle(true),
-			  setSearchTextContent(''),
 			  setIsSearchPost(false),
-			  setSearchPost(''))
+			  setSearchTextContent(''))
 	}
 
 	const handleInput = (e: React.FormEvent<HTMLInputElement>) => {

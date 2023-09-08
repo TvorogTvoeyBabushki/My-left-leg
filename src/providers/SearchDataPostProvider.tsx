@@ -1,7 +1,5 @@
 import { FC, createContext, useState } from 'react'
 
-import { IDataService } from '@/services/post/post.service'
-
 export interface ISearchDataPostContext {
 	searchPost: string
 	setSearchPost: (searchDataPost: string) => void

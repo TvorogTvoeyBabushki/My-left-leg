@@ -5,7 +5,7 @@ import { usePost } from '@/hooks/usePost'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 export const useNavMenu = () => {
-	const { setIsSearchPost } = useSearchDataPost()
+	const { setIsSearchPost, setSearchPost } = useSearchDataPost()
 	const { setCategory } = usePost()
 
 	const [isShowNavList, setIsShowNavList] = useState(false)
@@ -21,6 +21,7 @@ export const useNavMenu = () => {
 	) => {
 		e.preventDefault()
 		setIsSearchPost(true)
+		setSearchPost('')
 
 		pathname !== '/' && navigate('/')
 

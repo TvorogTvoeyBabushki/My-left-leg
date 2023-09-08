@@ -49,7 +49,12 @@ const PopularHashTags: FunctionComponent<{ data: IDataService[] }> = ({
 		}
 	}, [])
 
-	const handleLinkClick = () => {}
+	const handleLinkClick = (
+		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+	) => {
+		e.preventDefault()
+		console.log(data)
+	}
 
 	return (
 		<div className={styles.popular_hashtags}>

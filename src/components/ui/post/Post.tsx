@@ -28,17 +28,21 @@ const Post: FC<{
 	}, [category])
 
 	useEffect(() => {
-		const newSortSearchPost = data.filter(
-			sortPost =>
-				sortPost.title
-					.toLowerCase()
-					.includes(searchPost.trim().toLowerCase()) ||
-				sortPost.description
-					.toLowerCase()
-					.includes(searchPost.trim().toLowerCase())
-		)
+		if (searchPost) {
+			const newSortSearchPost = data.filter(
+				sortPost =>
+					sortPost.title
+						.toLowerCase()
+						.includes(searchPost.trim().toLowerCase()) ||
+					sortPost.description
+						.toLowerCase()
+						.includes(searchPost.trim().toLowerCase())
+			)
 
-		setSortPost(newSortSearchPost)
+			setSortPost(newSortSearchPost)
+		}
+
+		if (!searchPost && !isSearchPost) setSortPost(data)
 	}, [searchPost])
 
 	return (
