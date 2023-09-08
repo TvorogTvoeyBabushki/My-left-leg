@@ -74,9 +74,42 @@
 					}
 				}
 			}
+
+			@media (max-width: 1396px) {
+				width: 47.5%;
+				flex-grow: 0;
+
+				&:nth-child(2n + 1) {
+					> div {
+						> .shadow {
+							height: 300px;
+						}
+
+						> img {
+							height: 300px;
+						}
+					}
+				}
+			}
+
+			@media (max-width: 700px) {
+				width: 100%;
+
+				&:nth-child(2n + 1) {
+					> div {
+						> .shadow {
+							height: 400px;
+						}
+
+						> img {
+							height: 400px;
+						}
+					}
+				}
+			}
 		}
 
-		@media (max-width: 1389px) {
+		@media (max-width: 1396px) {
 			flex-grow: 1;
 
 			&:last-child {
