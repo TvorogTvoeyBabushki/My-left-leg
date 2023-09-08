@@ -55,13 +55,14 @@
 	}
 
 	@media (max-width: 1396px) {
-		height: 300px;
+		width: 45%;
+		flex-grow: 0;
+		height: 400px;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 740px) {
 		width: 100%;
 		margin-bottom: 50px;
-		height: 300px;
 	}
 
 	@media (max-width: 600px) {

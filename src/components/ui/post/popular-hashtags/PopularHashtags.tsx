@@ -14,7 +14,7 @@ const PopularHashTags: FunctionComponent<{ data: IDataService[] }> = ({
 			<h3>популярные тэги</h3>
 			<nav>
 				<ul>
-					{words.slice(0, 17).map((liItem, index) => (
+					{words.slice(0, 15).map((liItem, index) => (
 						<li key={index}>
 							<a onClick={handleLinkClick} href='#'>
 								{liItem}

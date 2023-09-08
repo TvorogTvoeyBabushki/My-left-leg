@@ -76,7 +76,7 @@
 			}
 
 			@media (max-width: 1396px) {
-				width: 47.5%;
+				width: 45%;
 				flex-grow: 0;
 
 				&:nth-child(2n + 1) {
@@ -92,7 +92,7 @@
 				}
 			}
 
-			@media (max-width: 700px) {
+			@media (max-width: 740px) {
 				width: 100%;
 
 				&:nth-child(2n + 1) {
@@ -110,15 +110,11 @@
 		}
 
 		@media (max-width: 1396px) {
-			flex-grow: 1;
-
-			&:last-child {
-				flex-grow: 0;
-				width: 47%;
-			}
+			flex-grow: 0;
+			width: 45%;
 		}
 
-		@media (max-width: 700px) {
+		@media (max-width: 740px) {
 			width: 100%;
 
 			> div {
