@@ -17,9 +17,7 @@ const Post: FC<{
 	const [sortPost, setSortPost] = useState<IDataService[]>(data)
 
 	useEffect(() => {
-		data.length &&
-			(!category || !searchPost || !postHashtag) &&
-			(setSortPost(data), console.log(data))
+		!(category && searchPost && postHashtag) && setSortPost(data)
 	}, [data, category, searchPost, postHashtag])
 
 	useEffect(() => {

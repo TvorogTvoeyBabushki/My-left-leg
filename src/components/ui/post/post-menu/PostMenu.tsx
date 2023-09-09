@@ -19,7 +19,7 @@ const PostMenu = ({ post }: IPostMenuProps) => {
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
 	const navigate = useNavigate()
 	const { setIsToggleIcon } = useImageField()
-	const { setIsInteractionPost, setPost } = usePost()
+	const { setIsInteractionPost, setPost, setCategory } = usePost()
 	const { showModal } = useModal()
 	const { setSearchPost } = useSearchDataPost()
 
@@ -40,6 +40,7 @@ const PostMenu = ({ post }: IPostMenuProps) => {
 		if (liElement === 'Удалить') {
 			setIsInteractionPost(true)
 			PostService.delete(post.id!)
+			setCategory('')
 		}
 	}
 
