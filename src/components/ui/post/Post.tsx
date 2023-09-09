@@ -17,13 +17,18 @@ const Post: FC<{
 	const [sortPost, setSortPost] = useState<IDataService[]>(data)
 
 	useEffect(() => {
+		data.length &&
+			(!category || !searchPost || !postHashtag) &&
+			(setSortPost(data), console.log(data))
+	}, [data, category, searchPost, postHashtag])
+
+	useEffect(() => {
 		if (category) {
 			const newSortPost = data.filter(post =>
 				post.categorysIds.includes(category)
 			)
+
 			setSortPost(newSortPost)
-		} else {
-			setSortPost(data)
 		}
 	}, [category])
 
@@ -41,8 +46,6 @@ const Post: FC<{
 
 			setSortPost(newSortSearchPost)
 		}
-
-		if (!searchPost && !isSearchPost) setSortPost(data)
 	}, [searchPost])
 
 	useEffect(() => {
@@ -57,9 +60,8 @@ const Post: FC<{
 							content.mainText.toLowerCase().includes(postHashtag)
 					)!.length
 			)
+
 			setSortPost(sortPostsHash)
-		} else {
-			setSortPost(data)
 		}
 	}, [postHashtag])
 

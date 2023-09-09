@@ -24,7 +24,6 @@ const Home = () => {
 			setIsLoading(true)
 
 			const response = await PostService.getPosts()
-
 			setData(response.data)
 		} catch (error) {
 			console.log('error: ', error)

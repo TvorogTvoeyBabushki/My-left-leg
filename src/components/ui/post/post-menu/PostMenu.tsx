@@ -8,8 +8,6 @@ import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
 import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
-import { useSearch } from '../../search/useSearch'
-
 import styles from './PostMenu.module.scss'
 import PostService, { IDataService } from '@/services/post/post.service'
 
@@ -42,7 +40,6 @@ const PostMenu = ({ post }: IPostMenuProps) => {
 		if (liElement === 'Удалить') {
 			setIsInteractionPost(true)
 			PostService.delete(post.id!)
-			setSearchPost('')
 		}
 	}
 
