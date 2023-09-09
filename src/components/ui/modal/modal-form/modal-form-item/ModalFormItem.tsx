@@ -21,7 +21,9 @@ const ModalFormItem = ({
 	control,
 	categorys,
 	isUrlLoading,
-	isChangePost
+	isChangePost,
+	handleUploadImage,
+	isUploadImage
 }: IModalFormItemProps) => {
 	return (
 		<div>
@@ -94,7 +96,19 @@ const ModalFormItem = ({
 			</div>
 
 			<div>
-				<Button type='modal' isLoading={isUrlLoading}>
+				<Button
+					onClick={handleUploadImage}
+					type='upload'
+					isLoading={isUrlLoading}
+					isUploadImage={isUploadImage}
+				>
+					Upload image
+				</Button>
+				<Button
+					type='create post'
+					isLoading={isUrlLoading}
+					isUploadImage={isUploadImage}
+				>
 					{!isChangePost ? 'Update post' : 'Create post'}
 				</Button>
 			</div>

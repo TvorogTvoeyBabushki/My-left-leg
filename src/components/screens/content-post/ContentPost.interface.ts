@@ -45,4 +45,9 @@ export interface IContentPost {
 	isMutateLoading?: boolean
 	content?: IDataPost
 	indexPostContent?: number
+	handleUploadImage: (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => void
+	isUploadImage: boolean
+	setIsUploadImage: (isUploadImage: boolean) => void
 }

@@ -5,11 +5,15 @@ import { useImageField } from '@/hooks/useImageField'
 interface IUseImageFieldProps {
 	setImage: (image: File) => void
 	setPreviewImage: (previewImage: string) => void
+	setIsUploadImage: (isUploadImage: boolean) => void
+	type: string
 }
 
 export const useImageFieldLocal = ({
 	setImage,
-	setPreviewImage
+	setPreviewImage,
+	setIsUploadImage,
+	type
 }: IUseImageFieldProps) => {
 	const { setIsToggleImage, isToggleImage, isToggleIcon, setIsToggleIcon } =
 		useImageField()
@@ -21,6 +25,7 @@ export const useImageFieldLocal = ({
 		if (fileRef) {
 			setImage(fileRef)
 			setIsToggleImage(true)
+			type === 'content' ? setIsUploadImage(true) : setIsUploadImage(false)
 
 			const reader = new FileReader()
 

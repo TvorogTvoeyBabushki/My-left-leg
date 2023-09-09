@@ -7,12 +7,18 @@ interface IUploadImage {
 	image: File
 	setIsUrlLoading: (isUrlLoading: boolean) => void
 	setUrl: (url: string) => void
+	nameFolder: string
+	setIsUploadImage: (isUploadImage: boolean) => void
+	type?: string
 }
 
 export const useUploadImage = async ({
 	image,
 	setIsUrlLoading,
-	setUrl
+	setUrl,
+	nameFolder,
+	setIsUploadImage,
+	type = ''
 }: IUploadImage) => {
 	if (image) {
 		try {
@@ -20,7 +26,7 @@ export const useUploadImage = async ({
 
 			const formData = new FormData()
 			formData.append('file', image)
-
+			formData.append('folder', nameFolder)
 			formData.append('upload_preset', uploadPreset)
 			formData.append('cloud_name', cloudName)
 
@@ -34,6 +40,7 @@ export const useUploadImage = async ({
 			console.log('error: ', error)
 		} finally {
 			setIsUrlLoading(false)
+			type === 'content' ? setIsUploadImage(false) : setIsUploadImage(true)
 		}
 	}
 }

@@ -24,6 +24,7 @@ const ModalForm = ({
 				setImage={modalProps.setImage}
 				setPreviewImage={modalProps.setPreviewImage}
 				isUrlLoading={modalProps.isUrlLoading}
+				setIsUploadImage={modalProps.setIsUploadImage}
 			/>
 
 			<ModalFormItem
@@ -37,6 +38,8 @@ const ModalForm = ({
 				register={modalProps.register}
 				styles={styles}
 				textareaValue={modalProps.textareaValue}
+				handleUploadImage={modalProps.handleUploadImage}
+				isUploadImage={modalProps.isUploadImage}
 			/>
 		</form>
 	)

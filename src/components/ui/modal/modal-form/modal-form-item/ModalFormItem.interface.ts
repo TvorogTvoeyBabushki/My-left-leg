@@ -21,4 +21,8 @@ export interface IModalFormItemProps {
 	categorys: ICategorys[]
 	isChangePost: boolean
 	isUrlLoading: boolean
+	handleUploadImage: (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => void
+	isUploadImage: boolean
 }

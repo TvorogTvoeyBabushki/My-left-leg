@@ -31,6 +31,7 @@ export const useContentPost = () => {
 	const { id: postIdPath, name: postNamePath } = useParams() // забрать из {id, name}
 
 	const [isNotFound, setIsNotFound] = useState(false)
+	const [isUploadImage, setIsUploadImage] = useState(false)
 
 	const fetchPost = async () => {
 		try {
@@ -108,7 +109,8 @@ export const useContentPost = () => {
 			  setIsToggleImage(false),
 			  setUrl(''),
 			  reset(),
-			  setChangeContent({ heading: '', mainText: '', img: '' }))
+			  setChangeContent({ heading: '', mainText: '', img: '' }),
+			  setIsUploadImage(false))
 			: setIsToggleForm(false)
 	}
 
@@ -190,18 +192,35 @@ export const useContentPost = () => {
 			: setChangeContent({ ...changeContent!, heading: targetEl.value })
 	}
 
-	useEffect(() => {
+	// useEffect(() => {
+	// 	image &&
+	// 		useUploadImage({
+	// 			image,
+	// 			setUrl,
+	// 			setIsUrlLoading,
+	// 			nameFolder: post?.title!
+	// 		})
+
+	// 	return () => {
+	// 		setUrl('')
+	// 	}
+	// }, [image])
+
+	const handleUploadImage = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		e.preventDefault()
+
 		image &&
 			useUploadImage({
 				image,
 				setUrl,
-				setIsUrlLoading
+				setIsUrlLoading,
+				nameFolder: post?.title!,
+				setIsUploadImage,
+				type: 'content'
 			})
-
-		return () => {
-			setUrl('')
-		}
-	}, [image])
+	}
 
 	const itemsList = ['Редактировать', 'Удалить']
 
@@ -228,7 +247,10 @@ export const useContentPost = () => {
 			handleButtonClick,
 			isToggleForm,
 			isPostLoading,
-			isMutateLoading
+			isMutateLoading,
+			handleUploadImage,
+			isUploadImage,
+			setIsUploadImage
 		}),
 		[
 			isNotFound,
@@ -241,7 +263,8 @@ export const useContentPost = () => {
 			isUrlLoading,
 			isToggleForm,
 			isPostLoading,
-			isMutateLoading
+			isMutateLoading,
+			isUploadImage
 		]
 	)
 }

@@ -43,6 +43,7 @@ const ContentPostForm = ({ typeButton, ...contentProps }: IContentPost) => {
 				setPreviewImage={contentProps.setPreviewImage}
 				setImage={contentProps.setImage}
 				isUrlLoading={contentProps.isUrlLoading}
+				setIsUploadImage={contentProps.setIsUploadImage}
 			/>
 
 			<div>
@@ -53,11 +54,19 @@ const ContentPostForm = ({ typeButton, ...contentProps }: IContentPost) => {
 				) &&
 					typeButton === 'add' && <div>One field must be filled</div>}
 				<Button
+					type='upload content'
+					children='upload image'
+					isLoading={contentProps.isUrlLoading}
+					isUploadImage={contentProps.isUploadImage}
+					onClick={contentProps.handleUploadImage}
+				/>
+				<Button
 					type={typeButton === 'change' ? 'change' : 'add'}
 					children={typeButton!}
 					changeContent={contentProps.changeContent}
 					isLoading={contentProps.isUrlLoading}
 					image={contentProps.image!}
+					isUploadImage={contentProps.isUploadImage}
 				/>
 				{typeButton === 'change' && (
 					<Button

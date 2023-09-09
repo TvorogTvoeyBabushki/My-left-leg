@@ -11,6 +11,7 @@ interface IButtonProps {
 	isLoading?: boolean
 	changeContent?: IDataPost
 	image?: File
+	isUploadImage?: boolean
 }
 
 const Button = ({
@@ -19,13 +20,14 @@ const Button = ({
 	type = '',
 	isLoading,
 	changeContent,
-	image
+	image,
+	isUploadImage
 }: IButtonProps) => {
 	return (
 		<button
 			className={clsx(styles.button, {
 				[styles.create_post]: type === 'create-post',
-				[styles.modal]: type === 'modal',
+				[styles.modal]: type === 'upload' || type === 'create post',
 				[styles.add_content]: type === 'add content',
 				[styles.login]: type === 'login'
 			})}
@@ -33,7 +35,13 @@ const Button = ({
 			disabled={
 				isLoading ||
 				(!(changeContent?.heading || changeContent?.mainText || image) &&
-					type === 'add')
+					type === 'add') ||
+				(isUploadImage && type === 'upload') ||
+				(!isUploadImage && type === 'create post') ||
+				(!isUploadImage && type === 'upload content') ||
+				(isUploadImage &&
+					type === 'add' &&
+					!(changeContent?.heading || changeContent?.mainText))
 					? true
 					: false
 			}

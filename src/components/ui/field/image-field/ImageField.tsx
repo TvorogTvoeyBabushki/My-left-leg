@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import { BsPatchPlus } from 'react-icons/bs'
 
@@ -16,6 +17,7 @@ interface IImageFieldProps {
 	previewImage: string
 	setPreviewImage: (previewImage: string) => void
 	isUrlLoading: boolean
+	setIsUploadImage: (isUploadImage: boolean) => void
 }
 
 const ImageField = ({
@@ -25,16 +27,23 @@ const ImageField = ({
 	setImage,
 	previewImage,
 	setPreviewImage,
-	isUrlLoading
+	isUrlLoading,
+	setIsUploadImage
 }: IImageFieldProps) => {
 	const { closeIcon, getImage, showIcon, isToggleIcon, isToggleImage } =
 		useImageFieldLocal({
 			setImage,
-			setPreviewImage
+			setPreviewImage,
+			setIsUploadImage,
+			type
 		})
 
 	return (
-		<div className={styles.frame} onMouseOver={showIcon} onMouseOut={closeIcon}>
+		<div
+			className={clsx(styles.frame, type === 'content' && styles.content)}
+			onMouseOver={showIcon}
+			onMouseOut={closeIcon}
+		>
 			{isToggleImage && (
 				<img src={previewImage} alt='image-post' draggable={false} />
 			)}

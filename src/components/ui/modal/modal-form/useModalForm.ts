@@ -28,6 +28,7 @@ export const useModalForm = ({
 	const [image, setImage] = useState<File | null>(null)
 	const [url, setUrl] = useState('')
 	const [isUrlLoading, setIsUrlLoading] = useState(false)
+	const [isUploadImage, setIsUploadImage] = useState(false)
 
 	const {
 		handleSubmit,
@@ -67,13 +68,25 @@ export const useModalForm = ({
 			targetValue.trim() ? setTextareaValue(targetValue) : setTextareaValue('')
 	}
 
-	useEffect(() => {
-		image && useUploadImage({ image, setUrl, setIsUrlLoading })
+	// useEffect(() => {
+	// 	image &&
+	// 		useUploadImage({ image, setUrl, setIsUrlLoading, nameFolder: fieldValue })
 
-		return () => {
-			setUrl('')
-		}
-	}, [image])
+	// 	return () => {
+	// 		setUrl('')
+	// 	}
+	// }, [image])
+
+	const handleUploadImage = () => {
+		image &&
+			useUploadImage({
+				image,
+				setUrl,
+				setIsUrlLoading,
+				nameFolder: fieldValue,
+				setIsUploadImage
+			})
+	}
 
 	useEffect(() => {
 		if (post && isChangePost) {
@@ -94,6 +107,7 @@ export const useModalForm = ({
 			setCategorys(categorys)
 			setIsChangePost(false)
 			setIsToggleImage(true)
+			setIsUploadImage(true)
 		}
 
 		return () => {
@@ -145,7 +159,10 @@ export const useModalForm = ({
 			fieldValue,
 			categorys,
 			isChangePost,
-			textareaValue
+			textareaValue,
+			handleUploadImage,
+			isUploadImage,
+			setIsUploadImage
 		}),
 		[
 			previewImage,
@@ -155,7 +172,8 @@ export const useModalForm = ({
 			fieldValue,
 			categorys,
 			isChangePost,
-			textareaValue
+			textareaValue,
+			isUploadImage
 		]
 	)
 }

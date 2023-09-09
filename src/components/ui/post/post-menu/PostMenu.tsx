@@ -19,9 +19,9 @@ const PostMenu = ({ post }: IPostMenuProps) => {
 	const [isToggleStyle, setIsToggleStyle] = useState(false)
 	const navigate = useNavigate()
 	const { setIsToggleIcon } = useImageField()
-	const { setIsInteractionPost, setPost, setCategory } = usePost()
+	const { setIsInteractionPost, setPost, setCategory, setPostHashtag } =
+		usePost()
 	const { showModal } = useModal()
-	const { setSearchPost } = useSearchDataPost()
 
 	const handleClick = (e: React.MouseEvent, liElement: string = '') => {
 		e.preventDefault()
@@ -41,6 +41,7 @@ const PostMenu = ({ post }: IPostMenuProps) => {
 			setIsInteractionPost(true)
 			PostService.delete(post.id!)
 			setCategory('')
+			setPostHashtag('')
 		}
 	}
 

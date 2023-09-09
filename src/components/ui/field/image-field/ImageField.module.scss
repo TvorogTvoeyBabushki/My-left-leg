@@ -9,7 +9,6 @@
 	width: 100%;
 	max-width: 700px;
 	min-width: 400px;
-	height: 500px;
 
 	border-radius: 1.4rem;
 	box-shadow: 3px 3px 10px $bg-modal;
@@ -19,7 +18,7 @@
 
 	> img {
 		max-width: 700px;
-		height: 500px;
+		height: 100%;
 		object-fit: fill;
 		border-radius: 1.4rem;
 
@@ -72,5 +71,13 @@
 			cursor: pointer;
 			transition: fill 0.3s ease-in-out;
 		}
+	}
+}
+
+.content {
+	height: 500px;
+
+	> img {
+		height: 500px;
 	}
 }
