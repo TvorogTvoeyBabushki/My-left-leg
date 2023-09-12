@@ -25,7 +25,9 @@ export const useImageFieldLocal = ({
 		if (fileRef) {
 			setImage(fileRef)
 			setIsToggleImage(true)
-			type === 'content' ? setIsUploadImage(true) : setIsUploadImage(false)
+			type === 'content' || type === 'content-change'
+				? setIsUploadImage(true)
+				: setIsUploadImage(false)
 
 			const reader = new FileReader()
 

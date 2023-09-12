@@ -24,7 +24,7 @@ export interface IContentPost {
 	) => void
 	previewImage: string
 	setPreviewImage: (previewImage: string) => void
-	setImage: (image: File) => void
+	setImage: (image: File | null) => void
 	isUrlLoading: boolean
 	image: File | null
 	handlerCancelClick: () => void
@@ -50,4 +50,5 @@ export interface IContentPost {
 	) => void
 	isUploadImage: boolean
 	setIsUploadImage: (isUploadImage: boolean) => void
+	setUrl?: (url: string) => void
 }

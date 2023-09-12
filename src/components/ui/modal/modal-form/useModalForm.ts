@@ -68,14 +68,11 @@ export const useModalForm = ({
 			targetValue.trim() ? setTextareaValue(targetValue) : setTextareaValue('')
 	}
 
-	// useEffect(() => {
-	// 	image &&
-	// 		useUploadImage({ image, setUrl, setIsUrlLoading, nameFolder: fieldValue })
-
-	// 	return () => {
-	// 		setUrl('')
-	// 	}
-	// }, [image])
+	useEffect(() => {
+		return () => {
+			setUrl('')
+		}
+	}, [image])
 
 	const handleUploadImage = () => {
 		image &&

@@ -38,12 +38,13 @@ const ContentPostForm = ({ typeButton, ...contentProps }: IContentPost) => {
 
 			<ImageField
 				register={contentProps.register}
-				type='content'
+				type={typeButton === 'change' ? 'content-change' : 'content'}
 				previewImage={contentProps.previewImage}
 				setPreviewImage={contentProps.setPreviewImage}
 				setImage={contentProps.setImage}
 				isUrlLoading={contentProps.isUrlLoading}
 				setIsUploadImage={contentProps.setIsUploadImage}
+				setUrl={contentProps.setUrl}
 			/>
 
 			<div>

@@ -35,7 +35,7 @@ const Button = ({
 			disabled={
 				isLoading ||
 				(!(changeContent?.heading || changeContent?.mainText || image) &&
-					type === 'add') ||
+					(type === 'add' || type === 'change')) ||
 				(isUploadImage && type === 'upload') ||
 				(!isUploadImage && type === 'create post') ||
 				(!isUploadImage && type === 'upload content') ||

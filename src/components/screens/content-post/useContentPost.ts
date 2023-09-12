@@ -110,7 +110,8 @@ export const useContentPost = () => {
 			  setUrl(''),
 			  reset(),
 			  setChangeContent({ heading: '', mainText: '', img: '' }),
-			  setIsUploadImage(false))
+			  setIsUploadImage(false),
+			  setImage(null))
 			: setIsToggleForm(false)
 	}
 
@@ -153,7 +154,9 @@ export const useContentPost = () => {
 		e.preventDefault()
 
 		item === 'редактировать' &&
-			(setIndexContent(indexContent), setIsToggleForm(false))
+			(setIndexContent(indexContent),
+			setIsToggleForm(false),
+			setIsUploadImage(false))
 
 		if (item === 'удалить') {
 			post?.postContent?.forEach((content, index) => {
@@ -193,17 +196,8 @@ export const useContentPost = () => {
 	}
 
 	// useEffect(() => {
-	// 	image &&
-	// 		useUploadImage({
-	// 			image,
-	// 			setUrl,
-	// 			setIsUrlLoading,
-	// 			nameFolder: post?.title!
-	// 		})
-
-	// 	return () => {
-	// 		setUrl('')
-	// 	}
+	// 	console.log(image)
+	// 	!image && setUrl('')
 	// }, [image])
 
 	const handleUploadImage = (
@@ -250,7 +244,8 @@ export const useContentPost = () => {
 			isMutateLoading,
 			handleUploadImage,
 			isUploadImage,
-			setIsUploadImage
+			setIsUploadImage,
+			setUrl
 		}),
 		[
 			isNotFound,

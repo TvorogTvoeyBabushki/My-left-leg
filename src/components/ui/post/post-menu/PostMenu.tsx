@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { useImageField } from '@/hooks/useImageField'
 import { useModal } from '@/hooks/useModal'
 import { usePost } from '@/hooks/usePost'
-import { useSearchDataPost } from '@/hooks/useSearchDataPost'
 
 import styles from './PostMenu.module.scss'
 import PostService, { IDataService } from '@/services/post/post.service'
